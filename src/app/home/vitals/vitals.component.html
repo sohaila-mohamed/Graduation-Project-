@@ -1,0 +1,185 @@
+<ion-content  [scrollEvents]="true">
+
+
+    <ion-grid class="background">
+      <ion-row>
+        <ion-col  >
+           <div class="center" >
+            <img class ="icon" src="assets/Component4.png" >
+           </div>
+           <div class="middle-text user-name">
+              My Vitals
+           </div>
+  
+                
+        </ion-col>
+  
+      </ion-row>
+    </ion-grid>
+
+
+
+    
+    <ion-row class="main-card">
+      <ion-grid>
+          <ion-row class="mini-card">
+            
+              <ion-col col-2  >
+                
+                    
+                    <div >
+                        <img class="small-icon" src="assets/trainer.jpg">
+    
+                    </div>
+                    
+                    
+                
+              </ion-col>
+              <ion-col col-10>
+                <div class="input">
+
+                    <ion-label class="start-text" stacked>Add Blood Type</ion-label>
+                    <ion-input  [(ngModel)]="vitals.blood_type" type="text" placeholder="Blood type Input" ></ion-input>
+                    
+                  </div>
+                
+              </ion-col>
+  
+        </ion-row>
+        <ion-row class="mini-card">
+            
+            <ion-col col-2  >
+              
+                  
+                  <div >
+                      <img class="small-icon" src="assets/trainer.jpg">
+  
+                  </div>
+                  
+                  
+              
+            </ion-col>
+            <ion-col col-10>
+              <div class="input">
+
+                  <ion-label class="start-text" stacked>Blood Pressure</ion-label>
+                  <ion-input [(ngModel)]="vitals.blood_presure" type="number" placeholder="Blood pressure Input"></ion-input>
+                </div>
+              
+            </ion-col>
+
+      </ion-row>
+      <ion-row class="mini-card">
+            
+          <ion-col col-2  >
+            
+                
+                <div >
+                    <img class="small-icon" src="assets/trainer.jpg">
+
+                </div>
+                
+                
+            
+          </ion-col>
+          <ion-col col-10>
+            <div class="input">
+
+                <ion-label class="start-text" stacked>Add Weight</ion-label>
+                <ion-input [(ngModel)]="vitals.weight" type="number" placeholder="Weight Input"></ion-input>
+              </div>
+            
+          </ion-col>
+
+    </ion-row>
+    <ion-row class="mini-card">
+            
+        <ion-col col-2  >
+          
+              
+              <div >
+                  <img class="small-icon" src="assets/trainer.jpg">
+
+              </div>
+              
+              
+          
+        </ion-col>
+        <ion-col col-10>
+          <div class="input">
+
+              <ion-label class="start-text" stacked>Add Height</ion-label>
+              <ion-input [(ngModel)]="vitals.height" type="number" placeholder="Height Input"></ion-input>
+            </div>
+          
+        </ion-col>
+
+  </ion-row>
+  <ion-row class="mini-card">
+            
+      <ion-col col-2  >
+        
+            
+            <div >
+                <img class="small-icon" src="assets/trainer.jpg">
+
+            </div>
+            
+            
+        
+      </ion-col>
+      <ion-col col-10>
+        <div class="input">
+
+            <ion-label class="start-text" stacked>Add BMI</ion-label>
+            <ion-input [(ngModel)]="vitals.BMI" type="number" placeholder="BMI Input"></ion-input>
+          </div>
+        
+      </ion-col>
+
+</ion-row>
+<ion-row class="mini-card">
+            
+    <ion-col col-2  >
+      
+          
+          <div >
+              <img class="small-icon" src="assets/trainer.jpg" (click)="printvitals()">
+
+          </div>
+          
+          
+      
+    </ion-col>
+    <ion-col col-10>
+      <div class="input">
+
+          <ion-label class="start-text" stacked>Add Waist Circumference</ion-label>
+          <ion-input [(ngModel)]="vitals.waist_circumference" type="number" placeholder="Weight Waist Circumference"></ion-input>
+        </div>
+      
+    </ion-col>
+
+</ion-row>
+<ion-row>
+  <ion-col col-10></ion-col>
+  <ion-col col-2><ion-button (click)="submit()">submit</ion-button></ion-col>
+</ion-row>
+   
+
+
+
+      </ion-grid>
+      
+    
+    </ion-row>
+
+  </ion-content>
+  
+  
+  
+    
+  
+  
+  
+  

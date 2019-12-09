@@ -1,0 +1,59 @@
+.cover {
+    background-image: url(/assets/path-6.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100%;
+          }
+    
+   
+     .clover {
+    
+      background-image: url(/assets/clover.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    }
+    .space{
+      display: block;
+
+        
+    }
+    .fat-free {
+      justify-content: center;
+      text-align: center;
+      font-family: "Times New Roman", Times, serif;
+      font-weight: bold;
+      color: #0b0c0b;
+      font-size:450;
+      display: block;
+    }
+    
+  .marginTop{
+  
+          margin-top: 7%;
+          
+      
+    }
+    
+    .button{
+      margin: 2% 0%;
+      display: block;
+      width: 65%;
+      font-weight: 12%;
+     
+    }
+  
+    .centric{
+      display: flex;
+      justify-content: center;
+      border-radius: 50%;
+    }
+
+ion-input {
+  margin: 0px 50px;
+  display: block;
+  font-weight: 12%;
+  border:  1px solid white;
+}
+
+

@@ -1,0 +1,88 @@
+<ion-content>
+  <ion-grid >
+    <ion-row>
+      <ion-col>
+          <div class="centric">
+  
+               <div><ion-button class="button"  color="light" (click)="back()" ><nav><a>Back</a></nav></ion-button></div>
+                              
+            </div>
+
+      </ion-col>
+
+        <ion-col >
+            <img src="/assets/path-6.png"/>
+
+        </ion-col>
+
+    </ion-row>
+    <ion-row >
+          <ion-col>
+          </ion-col>
+
+          <ion-col > 
+                <img class = "space" src="/assets/logo02.png"/>
+                <h1 class="fat-free">Create Account</h1>
+                
+          </ion-col>
+          <ion-col>
+          </ion-col>
+    </ion-row>
+  
+  </ion-grid>
+
+        <div class="marginTop">
+          <div class="centric">
+            <ion-card>
+              <ion-item>
+                  <ion-input required placeholder="Enter your First Name" type="text" #FirstNameInput ></ion-input>
+                </ion-item>
+              </ion-card>
+          </div>
+
+
+          <div class="centric">
+            <ion-card>
+              <ion-item>
+                  <ion-input required  placeholder="Enter your Last Name" type="text" #LastNameInput></ion-input>
+                </ion-item>
+              </ion-card>
+        
+          </div>
+          <div class="centric">
+              <ion-card>
+                <ion-item>
+                    <ion-input required placeholder="Enter Email" type="email" #EmailInput></ion-input>
+                  </ion-item>
+                </ion-card>
+           
+            </div>
+          <div class="centric">
+            <ion-card>
+              <ion-item>
+ 
+                  <ion-input required placeholder="Enter Password" type="password" #PasswordInput></ion-input>
+                </ion-item>
+              </ion-card>
+          </div>
+          <div class="centric">
+              <ion-card>
+                <ion-item>
+                    <ion-input required placeholder="Enter Age" type="number" #ageInput ></ion-input>
+                  </ion-item>
+                </ion-card>
+            </div>
+          
+            <div class="centric">
+                <ion-card>
+                  <ion-item>
+                      <ion-input required placeholder="Enter Address" type="text" #addressInput  ></ion-input>
+                    </ion-item>
+                  </ion-card>
+              </div>
+              
+        </div>
+         
+
+   <div class="marginTop centric"> <ion-button style="height: 40px; "class="marginTop button"  shape="round" (click)="signup()" color="light" >Sign Up</ion-button></div>      
+</ion-content>
