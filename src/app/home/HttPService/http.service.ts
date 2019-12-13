@@ -8,7 +8,8 @@ import { Observable } from 'rxjs';
 })
 export class HttpService {
   
-  Java_Host_Port = "http://907185e5.ngrok.io";
+  // <application android:usesCleartextTraffic="true" />
+  Java_Host_Port = "https://14a0617c.ngrok.io";
 
   localhost ="http://localhost:3000/";
   constructor(private http:HttpClient) { }

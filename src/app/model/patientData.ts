@@ -1,5 +1,6 @@
 
 export class MyPatient{
+
   patient_id: number;
   user_id: number;
   name: String;
@@ -10,5 +11,6 @@ export class MyPatient{
   username: String;
   age: number;
   address: String;
+
   
 }  

@@ -1,16 +1,31 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import { Navigation } from 'selenium-webdriver';
 import { NavigationService } from './NavService/navigation.service';
+import { DatastreamingService } from '../services/datastream/datastreaming.service';
+import { MyPatient } from '../model/patientData';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit {
 
-  constructor(private navigation:NavigationService) {}
+  patientName: String;
+  
+  constructor(
+    private navigation:NavigationService,
+    private datastream: DatastreamingService,
+    ) { }
+
+    ngOnInit()
+    {
+     console.log("patinet home page");
+       this.patientName =  this.datastream.getPatientName();
+       console.log("PatientName: " + this.patientName);  
+     }
+ 
+
   GoToVitals(){
     this.navigation.navigateTo('home/vitals');
     console.log("navigate to vitals function");

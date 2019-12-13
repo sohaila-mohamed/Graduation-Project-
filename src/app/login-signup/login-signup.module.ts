@@ -43,7 +43,7 @@ import { HttpService } from '../home/HttPService/http.service';
   providers: [
     NavigationService,
     HttpClient,
-    HttpService
+    HttpService,
    
     
   ],

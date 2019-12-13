@@ -5,10 +5,10 @@ import { RouteReuseStrategy } from '@angular/router';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpService } from './home/HttPService/http.service';
+import { DatastreamingService } from './services/datastream/datastreaming.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,8 +18,7 @@ import { HttpService } from './home/HttPService/http.service';
     StatusBar,
     SplashScreen,
     HttpService,
-    HttpClientModule,
-    
+    DatastreamingService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

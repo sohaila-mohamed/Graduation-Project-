@@ -29,7 +29,7 @@ import { HttpClientModule } from '@angular/common/http';
   ],
   providers: [
     NavigationService,
-    HttpService
+    HttpService, 
   ],
   declarations: [HomePage,VitalsComponent]
 })

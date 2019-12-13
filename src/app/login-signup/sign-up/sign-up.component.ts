@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NavigationService } from 'src/app/home/NavService/navigation.service';
 import { createPatient } from 'src/app/model/createPatient';
 import { HttpService } from 'src/app/home/HttPService/http.service';
+import { DatastreamingService } from 'src/app/services/datastream/datastreaming.service';
+import { MyPatient } from 'src/app/model/patientData';
 
 
 @Component({
@@ -11,8 +13,12 @@ import { HttpService } from 'src/app/home/HttPService/http.service';
 })
 export class SignUpComponent implements OnInit {
 
-  constructor(private nav :NavigationService, 
-    private http: HttpService) { }
+  constructor(
+    private nav :NavigationService, 
+    private http: HttpService,
+    private datastream: DatastreamingService,
+    
+    ) { }
 
   ngOnInit() {}
   // signup(){
@@ -20,6 +26,9 @@ export class SignUpComponent implements OnInit {
   //   console.log("navigate to home module");
 
   // }
+
+  private patient : MyPatient;
+
   async signup(first, last,email,password,age,address)
   {
      var newPatient = new createPatient;
@@ -30,10 +39,22 @@ export class SignUpComponent implements OnInit {
      newPatient.address = address;
 
      await this.http.createPatient(newPatient).subscribe(data=>{
-       console.log(data)
-     })
+
+      this.patient.patient_id = data.patient_id;
+      this.patient.name = data.user.name;
+      this.patient.user_id = data.user.user_id;
+      this.patient.email = data.user.email;
+      this.patient.password = data.user.password,
+      this.patient.type = data.user.type;
+      this.patient.timestamp = data.user.timestamp;
+      this.patient.age = data.age;
+      this.patient.address=data.address;       
+      // this.datastream.setMyPatient(this.patient);
+      // console.log("patient: "+data);
+
+     });
+    
      this.nav.navigateTo('home');
-     
   }
 
   // back()
