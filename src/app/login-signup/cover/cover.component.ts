@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationService } from 'src/app/home/NavService/navigation.service';
+import { DatastorageService } from 'src/app/services/datastorage/datastorage.service';
 
 @Component({
   selector: 'app-cover',
@@ -8,7 +9,10 @@ import { NavigationService } from 'src/app/home/NavService/navigation.service';
 })
 export class CoverComponent implements OnInit {
 
-  constructor(private nav:NavigationService) { }
+  constructor(
+    private nav:NavigationService,
+  ){
+  }
 
   ngOnInit() {}
   

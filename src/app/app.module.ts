@@ -9,16 +9,20 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpService } from './home/HttPService/http.service';
 import { DatastreamingService } from './services/datastream/datastreaming.service';
-
+import { DatastorageService } from './services/datastorage/datastorage.service';
+import { IonicStorageModule } from '@ionic/storage';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
+  imports: [BrowserModule, IonicModule.forRoot(), 
+    IonicStorageModule.forRoot(),
+    AppRoutingModule],
   providers: [
     StatusBar,
     SplashScreen,
     HttpService,
     DatastreamingService,
+    DatastorageService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

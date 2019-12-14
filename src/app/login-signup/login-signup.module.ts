@@ -40,12 +40,10 @@ import { HttpService } from '../home/HttPService/http.service';
       }
     ])
   ],
+
   providers: [
     NavigationService,
-    HttpClient,
     HttpService,
-   
-    
   ],
   declarations: [CoverComponent,LoginComponent,SignUpComponent]
 })

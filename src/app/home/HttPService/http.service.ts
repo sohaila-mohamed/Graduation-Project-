@@ -8,8 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class HttpService {
   
-  // <application android:usesCleartextTraffic="true" />
-  Java_Host_Port = "https://14a0617c.ngrok.io";
+  Java_Host_Port = "http://ff56c33e.ngrok.io";
 
   localhost ="http://localhost:3000/";
   constructor(private http:HttpClient) { }
@@ -32,7 +31,7 @@ export class HttpService {
 
   createPatient(newPatient):Observable<any>
  {
-  console.log("da5lr")
+  console.log("da5lt")
 
   const url =this.Java_Host_Port+"/patient/api/createPatient";
 return this.http.post<any>(url,newPatient,this.httpOptions);
