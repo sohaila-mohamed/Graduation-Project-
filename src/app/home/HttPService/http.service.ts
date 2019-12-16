@@ -7,20 +7,100 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class HttpService {
+  
+  Java_Host_Port = "http://4cbe7928.ngrok.io";
 
   localhost ="http://localhost:3000/";
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient) { 
+    
+  }
 
+ 
   httpOptions = {
     headers: new HttpHeaders({
-      'Access-Control-Allow-Origin':"*",
-      'Content-Type':  'application/json'
-
+      'Content-Type':  'application/json',
+      'Access-Control-Allow-Origin' :'*'
+ 
     })
   };
   PostVitals(vital:any): Observable<any>{
     const Url ="http://localhost:3000/api/users/vitals/12";
     return this.http.put<any>(Url, vital, this.httpOptions);
   }
+  //-------------------------------------------------------------------------------
+  
+
+  createPatient(newPatient):Observable<any>
+ {
+  console.log("da5lt")
+
+  const url =this.Java_Host_Port+"/patient/api/createPatient";
+return this.http.post<any>(url,newPatient,this.httpOptions);
+// .toPromise()
+// .then(data => {
+//   console.log("da5lr")
+//   console.log(data);
+// }).catch(error => {
+//   console.log("EROOR: " +error.status);
+// });
 }
+
+
+Login(email,pass):Observable<any>
+{
+ console.log("d5lt")
+
+ const url =this.Java_Host_Port+"/signIn";
+return this.http.post<any>(url,
+  {
+    "username": email,
+    "password": pass
+  },this.httpOptions);
+
+}
+
+
+httpGetTokenOptions(accessToken) {
+
+  return new HttpHeaders({
+    'Content-Type':  'application/json',
+    'Access-Control-Allow-Origin' :'*',
+    "Authorization": "Bearer " + accessToken
+
+  })
+};
+
+
+ getPatientUsingToken(token): Observable<any>
+ {
+  const httpOption = {
+    headers: this.httpGetTokenOptions(token)
+  };
+  const url =this.Java_Host_Port+"/patient/getCurrentPatientData";
+  
+  return this.http.get<any>(url,httpOption);
+
+ }
+}
+
+
+
+
+//  httpOptions = {
+//    headers: new HttpHeaders({
+//      'Content-Type':  'application/json',
+//      'Access-Control-Allow-Origin' :'*'
+
+//    })
+//  };
+
+
+ 
+
+
+
+
+
+
+
 

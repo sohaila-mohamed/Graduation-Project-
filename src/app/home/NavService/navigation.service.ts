@@ -6,8 +6,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class NavigationService {
 
-  constructor(private _router: Router,
-    private route : ActivatedRoute,) { }
+  constructor(
+    private _router: Router,
+    private route : ActivatedRoute,
+    ) { }
     
   navigateTo(path:string)
     {

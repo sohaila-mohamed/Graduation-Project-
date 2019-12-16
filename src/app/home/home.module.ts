@@ -36,7 +36,7 @@ import { PatientProfileComponent } from './patient-profile/patient-profile.compo
   ],
   providers: [
     NavigationService,
-    HttpService
+    HttpService, 
   ],
   declarations: [HomePage,VitalsComponent,PatientProfileComponent]
 })

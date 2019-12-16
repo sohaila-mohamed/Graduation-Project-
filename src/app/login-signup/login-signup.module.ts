@@ -8,6 +8,8 @@ import { RouterModule } from '@angular/router';
 import { NavigationService } from '../home/NavService/navigation.service';
 import { LoginComponent } from './login/login.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpService } from '../home/HttPService/http.service';
 
 
 @NgModule({
@@ -15,6 +17,7 @@ import { SignUpComponent } from './sign-up/sign-up.component';
     CommonModule,
     FormsModule,
     IonicModule,
+    HttpClientModule,
     RouterModule.forChild([
     
       {
@@ -37,9 +40,10 @@ import { SignUpComponent } from './sign-up/sign-up.component';
       }
     ])
   ],
+
   providers: [
-    NavigationService
-   
+    NavigationService,
+    HttpService,
   ],
   declarations: [CoverComponent,LoginComponent,SignUpComponent]
 })
