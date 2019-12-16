@@ -20,7 +20,7 @@
     <ion-grid>
       <ion-row>
           <ion-col col-6 >
-              <div class="mini-card" (click)="GoToVitals()" >
+              <div class="mini-card" (click)="NavigateMe('home/vitals')" >
                 <div class="center" >
                     <img class="icon" src="assets/vitals2.png">
 
@@ -75,10 +75,11 @@
       </ion-row>
       <ion-row>
           <ion-col col-6 >
-              <div class="mini-card">
+              <div class="mini-card" (click)="NavigateMe('home/profile')">
                   <div class="center" >
                       <img class="icon" src="assets/list.png">
   
+                      
                   </div>
                   
                   <div class="middle-text">
@@ -87,7 +88,7 @@
               </div>
             </ion-col>
             <ion-col col-6 >
-              <div  class="mini-card">
+              <div  class="mini-card" >
                   <div class="center" >
                       <img class="icon" src="assets/list.png">
   

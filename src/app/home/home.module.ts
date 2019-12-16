@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
@@ -8,6 +8,7 @@ import { VitalsComponent } from './vitals/vitals.component';
 import { NavigationService } from './NavService/navigation.service';
 import { HttpService } from './HttPService/http.service';
 import { HttpClientModule } from '@angular/common/http';
+import { PatientProfileComponent } from './patient-profile/patient-profile.component';
 
 @NgModule({
   imports: [
@@ -22,15 +23,21 @@ import { HttpClientModule } from '@angular/common/http';
         component: VitalsComponent
       },
       {
+        path:'profile',
+        component: PatientProfileComponent
+
+      },
+      {
         path: '',
         component: HomePage
       }
+      
     ])
   ],
   providers: [
     NavigationService,
     HttpService
   ],
-  declarations: [HomePage,VitalsComponent]
+  declarations: [HomePage,VitalsComponent,PatientProfileComponent]
 })
 export class HomePageModule {}

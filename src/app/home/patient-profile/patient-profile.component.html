@@ -1,0 +1,64 @@
+<ion-content >
+  <div class="background">
+
+
+  <ion-grid >
+    <ion-row>
+      <ion-col size="12">
+        <div class="center">
+            <h1 class="middle-text">My Doctors</h1>
+        </div>
+        
+
+      </ion-col>
+    </ion-row>
+    <ion-row *ngFor="let item of doctorRow; let i=index">
+      <ion-grid >
+        <ion-row >
+          <ion-col size="1">
+
+          </ion-col>
+          <ion-col size="10" class="card" >
+            <ion-grid  >
+              <ion-row >
+                <ion-col size="4">
+                    <img  class="small-icon" [src]="item.img">
+
+                </ion-col>
+                <ion-col size="8">
+                       Dr/ {{item.name}} 
+                  </ion-col>
+
+              </ion-row>
+            </ion-grid>
+            
+
+
+
+
+
+
+
+
+
+
+      
+          </ion-col>
+          <ion-col size="1">
+       
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+
+
+
+
+
+
+
+
+    </ion-row>
+  </ion-grid>
+</div>
+</ion-content>

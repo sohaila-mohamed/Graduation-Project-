@@ -11,9 +11,9 @@ import { NavigationService } from './NavService/navigation.service';
 export class HomePage {
 
   constructor(private navigation:NavigationService) {}
-  GoToVitals(){
-    this.navigation.navigateTo('home/vitals');
-    console.log("navigate to vitals function");
+  NavigateMe(path:string){
+    this.navigation.navigateTo(path);
+    console.log("navigate to ", path);
 
   }
 

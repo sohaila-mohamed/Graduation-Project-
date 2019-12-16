@@ -18,9 +18,9 @@ export class HttpService {
 
     })
   };
-  PostVitals(vitals:any): Observable<any>{
-    const Url ='https://452ebf1b.ngrok.io/api/users/vitals/12';
-    return this.http.post<any>(Url, vitals, this.httpOptions);
+  PostVitals(vital:any): Observable<any>{
+    const Url ="http://localhost:3000/api/users/vitals/12";
+    return this.http.put<any>(Url, vital, this.httpOptions);
   }
 }
 
