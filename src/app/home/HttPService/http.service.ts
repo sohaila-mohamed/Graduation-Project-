@@ -8,9 +8,10 @@ import { Observable } from 'rxjs';
 })
 export class HttpService {
   
-  Java_Host_Port = "http://4cbe7928.ngrok.io";
+  Java_Host_Port = "https://e14a7df8.ngrok.io";
+ 
 
-  localhost ="http://localhost:3000/";
+  Node_host ="https://18d87a45.ngrok.io/";
   constructor(private http:HttpClient) { 
     
   }
@@ -23,9 +24,11 @@ export class HttpService {
  
     })
   };
-  PostVitals(vital:any): Observable<any>{
-    const Url ="http://localhost:3000/api/users/vitals/12";
-    return this.http.put<any>(Url, vital, this.httpOptions);
+  PostVitals(vital:any,id:number): Observable<any>{
+    const Url =this.Node_host+"api/users/vitals/"+id;
+    
+    console.log("URL",Url);
+    return this.http.post<any>(Url, vital, this.httpOptions);
   }
   //-------------------------------------------------------------------------------
   

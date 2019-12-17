@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../HttPService/http.service';
 import { IVital, UpVitals } from '../DataModels';
+import { DatastorageService } from 'src/app/services/datastorage/datastorage.service';
+import { DatastreamingService } from 'src/app/services/datastream/datastreaming.service';
 
 @Component({
   selector: 'app-vitals',
@@ -8,8 +10,10 @@ import { IVital, UpVitals } from '../DataModels';
   styleUrls: ['./vitals.component.scss'],
 })
 export class VitalsComponent implements OnInit {
-
-  constructor(private http:HttpService) { }
+ patientId:number;
+  constructor(private http:HttpService , private patient:DatastreamingService ) {
+        this.patientId=patient.getPatientId();
+   }
   vitalrow:IVital[]=[{
     vital_name:"vitals.weight",
     label:"Weight",
@@ -44,6 +48,7 @@ export class VitalsComponent implements OnInit {
             icon:"assets/Iconawesome-heartbeat.png",name:"blood_type"}
           
   ];
+
   
   vital=new UpVitals;
   
@@ -63,24 +68,22 @@ export class VitalsComponent implements OnInit {
   
 }
 submit(){
-  this.http.PostVitals(this.vitals).subscribe((res)=>{
+  this.http.PostVitals(this.vitals,this.patientId).subscribe((res)=>{
     console.log(res);
   });
 }
 Update(item:any){
  item.isDisabled=false;
-
-
-  
+ 
 }
 Save(item:any,value:any){
   item.isDisabled=true;
-  this.vital.vital_Name=item.name;
-  this.vital.New_Value=value;
+  this.vital.name=item.name;
+  this.vital.value=value;
   console.log(this.vital);
   let updateData=JSON.stringify(this.vital);
   console.log(updateData);
-  this.http.PostVitals(updateData).subscribe((res)=>{
+  this.http.PostVitals(updateData,this.patientId).subscribe((res)=>{
     console.log("res",res);
 
   });

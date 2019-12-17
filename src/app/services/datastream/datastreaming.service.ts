@@ -52,6 +52,9 @@ export class DatastreamingService {
  {
   return this.patient.name;
  }
+ getPatientId(){
+  return this.patient.patient_id;
+}
  
  clearData(){
 this.dataStore.clear();

@@ -5,10 +5,11 @@ export interface IVital{
     isDisabled:boolean,
     icon:string;
     name:string;
+    
 }
 export class UpVitals{
-    vital_Name:string
-    New_Value:number
+    name:string
+    value:any
 }
 
 export interface IDoctor{

@@ -13,6 +13,9 @@ export class PatientProfileComponent implements OnInit {
     {name:'Mahmoud Ismail',img:'assets/doctor1.jpeg'},
     {name:'Mahmoud Ismail',img:'assets/doctor1.jpeg'},
     {name:'Mahmoud Ismail',img:'assets/doctor1.jpeg'}
+
+
+
   
 
   
