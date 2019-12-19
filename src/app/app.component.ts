@@ -23,6 +23,24 @@ export class AppComponent {
   ) {
     this.initializeApp();
   }
+  navigate =
+  [
+    {
+      title : "Home",
+      url   : "home",
+      icon  : "home"
+    },
+    {
+      title : "Chat",
+      url   : "home/profile",
+      icon  : "chatboxes"
+    },
+    {
+      title : "Contacts",
+      url   : "/contacts",
+      icon  : "contacts"
+    },
+  ]
 
   initializeApp() {
     this.platform.ready().then( () => {
@@ -48,5 +66,25 @@ export class AppComponent {
     
 
     });
+  }
+  vitalClick(){
+    this.nav.navigateTo('home/vitals');
+
+  }
+  homeClick(){
+    this.nav.navigateTo('home');
+
+  }
+  dlistClick(){
+    this.nav.navigateTo('home/patient');
+
+  }
+  tlistClick(){
+    this.nav.navigateTo('home/patient');
+    console.log("trainer list")
+  }
+  outClick(){
+    this.nav.navigateTo('cover');
+
   }
 }

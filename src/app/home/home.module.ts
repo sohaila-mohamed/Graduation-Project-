@@ -9,6 +9,9 @@ import { NavigationService } from './NavService/navigation.service';
 import { HttpService } from './HttPService/http.service';
 import { HttpClientModule } from '@angular/common/http';
 import { PatientProfileComponent } from './patient-profile/patient-profile.component';
+import { TabComponent } from './tab/tab.component';
+import { FabComponent } from './fab/fab.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   imports: [
@@ -26,11 +29,16 @@ import { PatientProfileComponent } from './patient-profile/patient-profile.compo
         path:'profile',
         component: PatientProfileComponent
 
-      },
+      }, 
+      {
+        path:'Myprofile',
+        component:ProfileComponent
+      } ,   
       {
         path: '',
         component: HomePage
       }
+
       
     ])
   ],
@@ -38,6 +46,6 @@ import { PatientProfileComponent } from './patient-profile/patient-profile.compo
     NavigationService,
     HttpService, 
   ],
-  declarations: [HomePage,VitalsComponent,PatientProfileComponent]
+  declarations: [HomePage,VitalsComponent,PatientProfileComponent,TabComponent,FabComponent,ProfileComponent]
 })
 export class HomePageModule {}

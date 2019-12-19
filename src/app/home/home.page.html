@@ -3,16 +3,21 @@
 
   <ion-grid class="background">
     <ion-row>
-      <ion-col  >
-         <div class="center" >
-          <img class ="icon"src="assets/talin.png" >
-         </div>
-         <div class="middle-text user-name">
-           {{patientName}}
-         </div>
-<button (click)="clear()">
-  Logout
-</button>
+      <ion-col >
+          <ion-button  (click)= "clear()" class="grad">
+              <ion-icon name="arrow-round-back"></ion-icon>
+              logout
+            </ion-button>
+            <!-- <img class ="icon"src="assets/talin.png" > -->
+  
+            <div class="center">
+
+              <ion-avatar class="avat" >
+                  <img src="assets/talin.png" (click)="NavigateMe('home/Myprofile')">
+             </ion-avatar>
+            </div>
+            <h1 class="middle-text user-name">{{patientName}}</h1>
+  
               
       </ion-col>
 
@@ -104,9 +109,24 @@
 
       </ion-row>
     </ion-grid>
-    
-  
   </ion-row>
+<ion-row>
+    <div ><app-fab></app-fab></div>
+</ion-row>
+
+
 </ion-content>
+<!-- <ion-content>
+  <ion-grid>
+    <ion-row>
+          
+              <app-tab>
+          
+              </app-tab>
+            
+     
+    </ion-row>
+  </ion-grid>
+</ion-content> -->
 
 

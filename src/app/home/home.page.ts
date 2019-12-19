@@ -20,13 +20,14 @@ export class HomePage implements OnInit {
 
     ngOnInit()
     {
+      this.patientName="sohaila";
       console.log("homepage");
-      this.patientName =this.datastream.getPatientName();
-      if(this.patientName==undefined )
-      {
-        console.log("this.datastream.getPatientName()==undefined ");
-        this.navigation.navigateTo('cover');
-      } 
+      // this.patientName =this.datastream.getPatientName();
+      // if(this.patientName==undefined )
+      // {
+      //   console.log("this.datastream.getPatientName()==undefined ");
+      //   this.navigation.navigateTo('cover');
+      // } 
     }
 
 

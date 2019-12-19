@@ -55,6 +55,29 @@ ion-row{
   color: white;
   font: 1em Open-sans;
 }
+.grad  {
+  margin-left: 10px;
+  padding-left: 10px;
+  margin-top: 10px;
+  --background: linear-gradient(
+  to bottom,
+  #0a5279 0%,
+  #80d3cb 100%)
+ 
+}
+
+.space{
+  //   margin-top: 200px;
+  //   margin-left: 200;
+ padding-bottom: 25px;
+  padding-left:300px;
+}
+.avat{
+  width:100% !important;  
+  height : 100% !important;  
+  max-width: 200px !important;  //any size
+  max-height: 200px !important; //any size 
+}
 // //   ion-col{
 // //       background: blue;
 

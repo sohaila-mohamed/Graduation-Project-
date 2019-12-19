@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class HttpService {
   
-  Java_Host_Port = "https://e14a7df8.ngrok.io";
+  Java_Host_Port = "https://f90ec56c.ngrok.io";
  
 
   Node_host ="https://18d87a45.ngrok.io/";

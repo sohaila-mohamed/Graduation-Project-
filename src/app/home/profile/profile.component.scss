@@ -1,0 +1,66 @@
+// .opp{
+//     opacity: 0.8;
+// }
+
+.container {
+    position: relative;
+    text-align: center;
+    color: white;
+    height: 100%;
+    width: 100%;
+    margin: 0px;
+    padding: 0%;
+  }
+  .centered {
+    position: absolute;
+    top: 30%;
+    left: 40%;
+    transform: translate(-30%, -40%);
+    color: white;
+  }
+  .avat{
+    width:100% !important;  
+    height : 100% !important;  
+    max-width: 150px !important;  //any size
+    max-height: 150px !important; //any size 
+  }
+  .hero-image {
+     margin: 0px;
+     padding: 0px;
+    background-image: url(/assets/path4.png); 
+  }
+  .space{
+    
+    padding-top: 138px;
+    padding-left: 20px;
+  }
+  .it{
+      max-width: 300px;
+  }
+  .men{
+    padding-left: 0px;
+    margin-left: 0px;
+  }
+  .grad  {
+    --background: linear-gradient(
+    to bottom,
+    #0a5279 0%,
+    #80d3cb 100%)
+    
+}
+.but-pad{
+    padding-top:50px;
+   
+}
+
+ .car-size{
+    display: flex;
+    flex-direction: column;
+    width: 100% !important;
+    margin: 0 !important;
+  }
+  .outer {
+    margin-bottom: 40px;
+    color:  #0bb8cc
+    
+  }
