@@ -2,23 +2,27 @@ import { Component, OnInit } from '@angular/core';
 import { NavigationService } from 'src/app/home/NavService/navigation.service';
 import { HttpService } from 'src/app/home/HttPService/http.service';
 import { DatastreamingService } from 'src/app/services/datastream/datastreaming.service';
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
   constructor(
     private nav:NavigationService,
      private http: HttpService,
      private datastream : DatastreamingService,
+     private men:MenuController,
      
     ) { }
  
 
-
+    ngOnInit() {
+      this.men.enable(false);
+    }
   login(email,password)
   {
     var that = this;

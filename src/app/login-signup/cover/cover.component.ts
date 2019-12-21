@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationService } from 'src/app/home/NavService/navigation.service';
 import { DatastorageService } from 'src/app/services/datastorage/datastorage.service';
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-cover',
@@ -10,11 +11,15 @@ import { DatastorageService } from 'src/app/services/datastorage/datastorage.ser
 export class CoverComponent implements OnInit {
 
   constructor(
+    private men:MenuController,
     private nav:NavigationService,
+
   ){
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.men.enable(false);
+  }
   
   signup()
   {

@@ -4,6 +4,7 @@ import { createPatient } from 'src/app/model/createPatient';
 import { HttpService } from 'src/app/home/HttPService/http.service';
 import { DatastreamingService } from 'src/app/services/datastream/datastreaming.service';
 import { MyPatient } from 'src/app/model/patientData';
+import { MenuController } from '@ionic/angular';
 
 
 @Component({
@@ -11,13 +12,18 @@ import { MyPatient } from 'src/app/model/patientData';
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss'],
 })
-export class SignUpComponent {
+export class SignUpComponent  implements OnInit{
 
   constructor(
+    private men:MenuController,
     private nav :NavigationService, 
     private http: HttpService,
     private datastream: DatastreamingService,
     ) { }
+    
+    ngOnInit() {
+      this.men.enable(false);
+    }
 
 
   signup(first, last,email,password,age,address)
