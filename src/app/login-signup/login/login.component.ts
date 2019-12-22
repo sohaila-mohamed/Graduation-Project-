@@ -25,6 +25,8 @@ export class LoginComponent implements OnInit {
     }
   login(email,password)
   {
+    // email ="beebz@mail.com";
+    // password = "beebz1997";
     var that = this;
     console.log(email,password);
     

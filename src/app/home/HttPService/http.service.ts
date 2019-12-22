@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class HttpService {
   
-  Java_Host_Port = "https://f90ec56c.ngrok.io";
+  Java_Host_Port = "https://d16bd106.ngrok.io";
  
 
   Node_host ="https://18d87a45.ngrok.io/";
@@ -31,8 +31,25 @@ export class HttpService {
     return this.http.post<any>(Url, vital, this.httpOptions);
   }
   //-------------------------------------------------------------------------------
-  
+  addDoctor(code, patientId,token):Observable<any>
+  {
+    console.log("post request called");
+    console.log(code+" || " + patientId+ " || "+ token);
+    const httpOption = {
+      headers: this.httpGetTokenOptions(token)
+    };  
 
+    const url =this.Java_Host_Port+"/DoctorPatient/addDoctor";
+    return this.http.post<any>(
+      url,
+      {
+      "code":code, 
+      "patientId":patientId
+      }
+    ,httpOption);
+
+  } 
+  
   createPatient(newPatient):Observable<any>
  {
   console.log("da5lt")
@@ -84,10 +101,19 @@ httpGetTokenOptions(accessToken) {
   return this.http.get<any>(url,httpOption);
 
  }
+
+  getDoctorList(token,patientId): Observable<any>
+  {
+  const httpOption = {
+    headers: this.httpGetTokenOptions(token)
+  };
+  const url =this.Java_Host_Port+"/DoctorPatient/getPatientDoctors/"+patientId;
+  return this.http.get<any>(url,httpOption);
+
+  }
+  
+
 }
-
-
-
 
 //  httpOptions = {
 //    headers: new HttpHeaders({

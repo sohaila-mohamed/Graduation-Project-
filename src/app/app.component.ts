@@ -55,6 +55,9 @@ export class AppComponent {
             await this.datastore.getMyPatientData().then((patient)=>{
                  that.datastream.SetPatientforLogin(patient);
             })
+            await this.datastore.getPatientToken().then((token)=>{
+              that.datastream.setToken(token);
+         })
             this.nav.navigateTo('home');
             
           }
