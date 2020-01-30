@@ -18,46 +18,27 @@ export class HomePage implements OnInit {
     private navigation:NavigationService, 
     private datastream: DatastreamingService, 
     private http: HttpService,
-    private add : AlertController
+    private addController : AlertController
     ) {
     }
 
 
     ngOnInit()
     {
-      console.log("homepage");
       this.patientName =this.datastream.getPatientName();
       if(this.patientName==undefined )
       {
+        this.presentAlert('HTTP DataStream Error: ', "My Patient Name is Null");
         console.log("this.datastream.getPatientName()==undefined ");
         this.navigation.navigateTo('cover');
       }  
-      console.log("getDocList");
-
       this.getDocList();
     }
 
 getDocList()
 {
-  console.log("get Doctor List");
   const token = this.datastream.getToken();
   console.log("Token to get doctor list in home page: ",token);
-      this.http.getDoctorList(token,this.datastream.getPatientId())
-      .subscribe(
-        response=>{
-          response.forEach(element => {
-            this.datastream.addToDoctorList(element);
-          });
-        }, 
-        err =>
-        {
-          console.log('HTTP Error: ', err.error.message);
-        },
-        () => 
-        {
-          console.log('HTTP request completed.');
-        }
-      );
 }
     
   clear()
@@ -73,13 +54,23 @@ getDocList()
 
   }
 
+  async presentAlert(subtitleString:string,messageString:string) {
+    const alert = await this.addController.create({
+      header: 'ERROR',
+      subHeader: subtitleString,
+      message: messageString,
+      buttons: ['OK']
+    });
+
+    await alert.present();
+  }
 
   
 
 
   async addDoctor(){
   
-    const alert =this.add.create({
+    const alert =this.addController.create({
       header: 'Add your Doctor',
       animated :true,
       message: 'Enter code you got from your doctor.',
@@ -97,21 +88,44 @@ getDocList()
         text:'Add',
         
         handler: async data => {
-         console.log("code: " + data.val);
-         await this.http.addDoctor(data.val,this.datastream.getPatientId(),this.datastream.getToken())
+        var token = this.datastream.getToken();
+        console.log("code: " + data.val);
+        await this.http.addDoctor(data.val,token)
         .subscribe(
           response=>{
-            // this.NavigateMe('home/profile')
+
+
             console.log("http request to add doctor responce: "+ JSON.stringify(response));
 
           }, 
           err =>
           {
-            console.log('HTTP Error', err.error.message);
+            this.presentAlert('HTTP Add Doctor Error: ', err.error.message);
           },
-          () => 
+          async () => 
           {
             console.log('HTTP request completed.');
+            //Get Doctor List
+            await  this.http.getDoctorList(token)
+                  .subscribe(
+                    async response=>{
+                      this.datastream.clearDoctorList();
+                      await response.forEach(element => {
+                        this.datastream.addToDoctorList(element);
+                      });                  
+                    }, 
+                    err =>
+                    {
+                      console.log('HTTP Doctor List Error: ', err.error.message);
+                      this.presentAlert('HTTP Doctor List Error: ', err.error.message);
+                    },
+                    () => 
+                    {
+                      this.datastream.saveDoctorListToDataStore();
+                      console.log('HTTP request completed.');
+                    }
+                  );
+  
           }
         );
          

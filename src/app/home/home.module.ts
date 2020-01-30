@@ -8,10 +8,10 @@ import { VitalsComponent } from './vitals/vitals.component';
 import { NavigationService } from './NavService/navigation.service';
 import { HttpService } from './HttPService/http.service';
 import { HttpClientModule } from '@angular/common/http';
-import { PatientProfileComponent } from './patient-profile/patient-profile.component';
 import { TabComponent } from './tab/tab.component';
 import { FabComponent } from './fab/fab.component';
 import { ProfileComponent } from './profile/profile.component';
+import { DoctorListComponent } from './doctorList/doctor-list.component';
 
 @NgModule({
   imports: [
@@ -27,7 +27,7 @@ import { ProfileComponent } from './profile/profile.component';
       },
       {
         path:'profile',
-        component: PatientProfileComponent
+        component: DoctorListComponent
 
       }, 
       {
@@ -46,6 +46,6 @@ import { ProfileComponent } from './profile/profile.component';
     NavigationService,
     HttpService, 
   ],
-  declarations: [HomePage,VitalsComponent,PatientProfileComponent,TabComponent,FabComponent,ProfileComponent]
+  declarations: [HomePage,VitalsComponent,DoctorListComponent,TabComponent,FabComponent,ProfileComponent]
 })
 export class HomePageModule {}

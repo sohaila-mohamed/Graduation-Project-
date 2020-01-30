@@ -14,6 +14,10 @@ export class DatastreamingService {
    constructor(
      private dataStore: DatastorageService,){}
 
+  clearDoctorList()
+  {
+    this.doctorList=[];
+  }
   addToDoctorList(doc)
   {
     const doctor = new doctorData;
@@ -23,6 +27,16 @@ export class DatastreamingService {
     doctor.years_experience = doc.years_experience;
     this.doctorList.push(doctor);
     console.log(this.doctorList);
+  }
+  saveDoctorListToDataStore()
+  {
+    this.dataStore.saveDoctorList(this.doctorList);
+  }
+  async restoreStreamDatalist(doctorList)
+  {
+    (await doctorList).forEach(element => {
+      this.doctorList.push(element);
+    });;
   }
    getDoctorList()
    {

@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NavigationService } from 'src/app/home/NavService/navigation.service';
 import { createPatient } from 'src/app/model/createPatient';
 import { HttpService } from 'src/app/home/HttPService/http.service';
-import { DatastreamingService } from 'src/app/services/datastream/datastreaming.service';
-import { MyPatient } from 'src/app/model/patientData';
 import { MenuController } from '@ionic/angular';
+import { AlertController} from '@ionic/angular';
 
 
 @Component({
@@ -18,7 +17,8 @@ export class SignUpComponent  implements OnInit{
     private men:MenuController,
     private nav :NavigationService, 
     private http: HttpService,
-    private datastream: DatastreamingService,
+    private addController : AlertController,
+
     ) { }
     
     ngOnInit() {
@@ -34,22 +34,39 @@ export class SignUpComponent  implements OnInit{
      newPatient.password = password;
      newPatient.age= age;
      newPatient.address = address;
+     this.addPatientToDatabase(newPatient);
+  }
+
+  addPatientToDatabase(newPatient)
+  {
+     
      var that = this;
      this.http.createPatient(newPatient).subscribe(
-       async patientData=>{
-
-      console.log("patient: "+JSON.stringify(patientData));
-      await that.datastream.setPatient(patientData);
-      console.log("signup Patient Name: "+ this.datastream.getPatientName());
-      that.nav.navigateTo('home');
+        async patientData=>{
+        console.log("patient: "+JSON.stringify(patientData));
+        that.nav.navigateTo('cover/login');
 
      }, 
-      err => console.log('HTTP Error', err.error.message),
+      err =>
+      {
+        this.presentAlert('HTTP create patient Error: ', err.error.message);
+
+      },
       () => console.log('HTTP request completed.')
       
      
      );
     
+  }
+  async presentAlert(subtitleString:string,messageString:string) {
+    const alert = await this.addController.create({
+      header: 'ERROR',
+      subHeader: subtitleString,
+      message: messageString,
+      buttons: ['OK']
+    });
+
+    await alert.present();
   }
 
   

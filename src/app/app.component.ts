@@ -53,11 +53,14 @@ export class AppComponent {
           {
             console.log(" app compoennt :: Token isnot expired:  "+isTokenExpired);
             await this.datastore.getMyPatientData().then((patient)=>{
-                 that.datastream.SetPatientforLogin(patient);
+               that.datastream.SetPatientforLogin(patient);
             })
             await this.datastore.getPatientToken().then((token)=>{
-              that.datastream.setToken(token);
-         })
+               that.datastream.setToken(token);
+            })
+            await this.datastore.getDoctorList().then((doctorList)=>{
+               that.datastream.restoreStreamDatalist(doctorList); 
+            })
             this.nav.navigateTo('home');
             
           }
