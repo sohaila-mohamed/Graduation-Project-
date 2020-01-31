@@ -1,4 +1,10 @@
 <ion-content>
+<div *ngIf="showSplash" class="myBackground">
+    <div>
+    <img src="/assets/giphy.gif">
+</div> 
+</div> 
+<div *ngIf="!showSplash">
   <ion-grid >
     <ion-row>
       <ion-col>
@@ -9,14 +15,18 @@
             </div>
 
       </ion-col>
-
+      <ion-col >
+        <h1 style="height: 80px;"></h1> 
+        <img class = "space" src="/assets/logo02.png"/>
+        <h1 class="fat-free">Log In</h1>
+        
+      </ion-col>
         <ion-col >
             <img src="/assets/path-6.png"/>
-
         </ion-col>
 
     </ion-row>
-    <ion-row >
+    <!-- <ion-row >
           <ion-col>
           </ion-col>
 
@@ -27,7 +37,7 @@
           </ion-col>
           <ion-col>
           </ion-col>
-    </ion-row>
+    </ion-row> -->
   
   </ion-grid>
 
@@ -57,4 +67,5 @@
          
 
    <div class="marginTop centric"> <ion-button style="height: 40px; "class="marginTop button"  shape="round" (click)="login(EmailInput.value, PasswordInput.value)" color="light">Log In</ion-button></div>      
+</div>
 </ion-content>

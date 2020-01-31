@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { MyPatient } from 'src/app/model/patientData';
-import { tokenName } from '@angular/compiler';
+import { doctorData } from 'src/app/model/doctorData';
 @Injectable({
   providedIn: 'root'
 })
@@ -11,6 +11,14 @@ export class DatastorageService {
     private storage: Storage,
     ){}
 
+    getDoctorList()
+    {
+      return this.storage.get('doctorList');
+    }
+    saveDoctorList(doctorList : Array<doctorData>)
+    {
+      this.storage.set('doctorList',doctorList);
+    }
     savePatientLocally(patient:MyPatient)
     {  
       this.storage.set('patient',patient);
@@ -61,6 +69,7 @@ export class DatastorageService {
   {
     this.storage.set('token',null);
     this.storage.set('patient',null);
+    this.storage.set('doctorList',null);
   }
 }
 

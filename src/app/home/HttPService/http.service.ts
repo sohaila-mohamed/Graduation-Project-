@@ -8,13 +8,14 @@ import { Observable } from 'rxjs';
 })
 export class HttpService {
   
-  Java_Host_Port = "https://d16bd106.ngrok.io";
  
+  Java_Host_Port = "http://ec2-3-82-157-215.compute-1.amazonaws.com:8080";
 
   Node_host ="https://18d87a45.ngrok.io/";
   constructor(private http:HttpClient) { 
     
   }
+
 
  
   httpOptions = {
@@ -31,20 +32,17 @@ export class HttpService {
     return this.http.post<any>(Url, vital, this.httpOptions);
   }
   //-------------------------------------------------------------------------------
-  addDoctor(code, patientId,token):Observable<any>
+  addDoctor(code,token):Observable<any>
   {
-    console.log("post request called");
-    console.log(code+" || " + patientId+ " || "+ token);
     const httpOption = {
       headers: this.httpGetTokenOptions(token)
     };  
 
-    const url =this.Java_Host_Port+"/DoctorPatient/addDoctor";
+    const url =this.Java_Host_Port+"/DoctorPatient/addMyDoctor";
     return this.http.post<any>(
       url,
       {
-      "code":code, 
-      "patientId":patientId
+      "code":code
       }
     ,httpOption);
 
@@ -102,12 +100,12 @@ httpGetTokenOptions(accessToken) {
 
  }
 
-  getDoctorList(token,patientId): Observable<any>
+  getDoctorList(token): Observable<any>
   {
   const httpOption = {
     headers: this.httpGetTokenOptions(token)
   };
-  const url =this.Java_Host_Port+"/DoctorPatient/getPatientDoctors/"+patientId;
+  const url =this.Java_Host_Port+"/DoctorPatient/getMyDoctorList/";
   return this.http.get<any>(url,httpOption);
 
   }
@@ -115,13 +113,7 @@ httpGetTokenOptions(accessToken) {
 
 }
 
-//  httpOptions = {
-//    headers: new HttpHeaders({
-//      'Content-Type':  'application/json',
-//      'Access-Control-Allow-Origin' :'*'
 
-//    })
-//  };
 
 
  

@@ -44,32 +44,35 @@ export class AppComponent {
   ]
 
    initializeApp() {
-  //   this.platform.ready().then( () => {
+   this.platform.ready().then( () => {
       
-  //     var that = this;
-  //      this.datastore.isTokenExpired().then(async isTokenExpired =>
-  //       {
-  //         console.log("isTokenExpired: "+ isTokenExpired);
-  //         if(!isTokenExpired)
-  //         {
-  //           console.log(" app compoennt :: Token isnot expired:  "+isTokenExpired);
-  //           await this.datastore.getMyPatientData().then((patient)=>{
-  //                that.datastream.SetPatientforLogin(patient);
-  //           })
-  //           await this.datastore.getPatientToken().then((token)=>{
-  //             that.datastream.setToken(token);
-  //        })
+      var that = this;
+       this.datastore.isTokenExpired().then(async isTokenExpired =>
+        {
+          console.log("isTokenExpired: "+ isTokenExpired);
+          if(!isTokenExpired)
+          {
+            console.log(" app compoennt :: Token isnot expired:  "+isTokenExpired);
+            await this.datastore.getMyPatientData().then((patient)=>{
+               that.datastream.SetPatientforLogin(patient);
+            })
+            await this.datastore.getPatientToken().then((token)=>{
+               that.datastream.setToken(token);
+            })
+            await this.datastore.getDoctorList().then((doctorList)=>{
+               that.datastream.restoreStreamDatalist(doctorList); 
+            })
             this.nav.navigateTo('home');
             
-  //         }
-  //       });
+          }
+       });
      
       this.statusBar.styleDefault();
       this.splashScreen.hide();
      
     
 
-  //   });
+     });
   }
   vitalClick(){
     this.nav.navigateTo('home/vitals');
