@@ -14,6 +14,8 @@ export class HomePage implements OnInit {
 
   patientName: String;
   val: string;
+  // timer
+  showSplash 
   constructor(
     private navigation:NavigationService, 
     private datastream: DatastreamingService, 
@@ -27,11 +29,11 @@ export class HomePage implements OnInit {
     {
       console.log("homepage");
       this.patientName =this.datastream.getPatientName();
-      if(this.patientName==undefined )
-      {
-        console.log("this.datastream.getPatientName()==undefined ");
-        this.navigation.navigateTo('cover');
-      }  
+      // if(this.patientName==undefined )
+      // {
+      //   console.log("this.datastream.getPatientName()==undefined ");
+      //   this.navigation.navigateTo('cover');
+      // }  
       console.log("getDocList");
 
       this.getDocList();
@@ -68,6 +70,7 @@ getDocList()
 
     
   NavigateMe(path:string){
+    
     this.navigation.navigateTo(path);
     console.log("navigate to ", path);
 
@@ -101,7 +104,7 @@ getDocList()
          await this.http.addDoctor(data.val,this.datastream.getPatientId(),this.datastream.getToken())
         .subscribe(
           response=>{
-            // this.NavigateMe('home/profile')
+            this.NavigateMe('home/profile')
             console.log("http request to add doctor responce: "+ JSON.stringify(response));
 
           }, 
@@ -112,7 +115,7 @@ getDocList()
           () => 
           {
             console.log('HTTP request completed.');
-          }
+           }
         );
          
         

@@ -23,33 +23,33 @@ export class LoginComponent implements OnInit {
     ngOnInit() {
       this.men.enable(false);
     }
-  login(email,password)
-  {
-    // email ="beebz@mail.com";
-    // password = "beebz1997";
-    var that = this;
-    console.log(email,password);
+  // login(email,password)
+  // {
+  //   // email ="beebz@mail.com";
+  //   // password = "beebz1997";
+  //   var that = this;
+  //   console.log(email,password);
     
-     this.http.Login(email, password).subscribe(
+  //    this.http.Login(email, password).subscribe(
        
-       res=>{
-       console.log("Token: "+res.token);
-       this.datastream.setToken(res.token);
-        this.http.getPatientUsingToken(res.token).subscribe(
-         async patientData =>
-         {
-             console.log("patient: "+JSON.stringify(patientData));
-             await that.datastream.setPatient(patientData);
-             console.log("login Patient Name: "+ this.datastream.getPatientName());
-             that.nav.navigateTo('home');
-         }
-       )
-      }, 
-      err => console.log('HTTP Error', err.error.message),
-      () => console.log('HTTP request completed.')
+  //      res=>{
+  //      console.log("Token: "+res.token);
+  //      this.datastream.setToken(res.token);
+  //       this.http.getPatientUsingToken(res.token).subscribe(
+  //        async patientData =>
+  //        {
+  //            console.log("patient: "+JSON.stringify(patientData));
+  //            await that.datastream.setPatient(patientData);
+  //            console.log("login Patient Name: "+ this.datastream.getPatientName());
+  //            that.nav.navigateTo('home');
+  //        }
+  //      )
+  //     }, 
+  //     err => console.log('HTTP Error', err.error.message),
+  //     () => console.log('HTTP request completed.')
       
-     );
-    }
+  //    );
+  //   }
 
  
 }

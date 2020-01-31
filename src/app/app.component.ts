@@ -13,6 +13,7 @@ import { DatastreamingService } from './services/datastream/datastreaming.servic
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
+  searching:string;
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -42,33 +43,33 @@ export class AppComponent {
     },
   ]
 
-  initializeApp() {
-    this.platform.ready().then( () => {
+   initializeApp() {
+  //   this.platform.ready().then( () => {
       
-      var that = this;
-       this.datastore.isTokenExpired().then(async isTokenExpired =>
-        {
-          console.log("isTokenExpired: "+ isTokenExpired);
-          if(!isTokenExpired)
-          {
-            console.log(" app compoennt :: Token isnot expired:  "+isTokenExpired);
-            await this.datastore.getMyPatientData().then((patient)=>{
-                 that.datastream.SetPatientforLogin(patient);
-            })
-            await this.datastore.getPatientToken().then((token)=>{
-              that.datastream.setToken(token);
-         })
+  //     var that = this;
+  //      this.datastore.isTokenExpired().then(async isTokenExpired =>
+  //       {
+  //         console.log("isTokenExpired: "+ isTokenExpired);
+  //         if(!isTokenExpired)
+  //         {
+  //           console.log(" app compoennt :: Token isnot expired:  "+isTokenExpired);
+  //           await this.datastore.getMyPatientData().then((patient)=>{
+  //                that.datastream.SetPatientforLogin(patient);
+  //           })
+  //           await this.datastore.getPatientToken().then((token)=>{
+  //             that.datastream.setToken(token);
+  //        })
             this.nav.navigateTo('home');
             
-          }
-        });
+  //         }
+  //       });
      
       this.statusBar.styleDefault();
       this.splashScreen.hide();
      
     
 
-    });
+  //   });
   }
   vitalClick(){
     this.nav.navigateTo('home/vitals');
@@ -79,7 +80,7 @@ export class AppComponent {
 
   }
   dlistClick(){
-    this.nav.navigateTo('home/patient');
+    this.nav.navigateTo('home/profile');
 
   }
   tlistClick(){
@@ -89,5 +90,8 @@ export class AppComponent {
   outClick(){
     this.nav.navigateTo('cover');
 
+  }
+  typing(){
+    console.log(this.searching)
   }
 }

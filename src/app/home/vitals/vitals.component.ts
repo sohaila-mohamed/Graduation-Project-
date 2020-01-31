@@ -3,6 +3,7 @@ import { HttpService } from '../HttPService/http.service';
 import { IVital, UpVitals } from '../DataModels';
 import { DatastorageService } from 'src/app/services/datastorage/datastorage.service';
 import { DatastreamingService } from 'src/app/services/datastream/datastreaming.service';
+import { NavigationService } from '../NavService/navigation.service';
 
 @Component({
   selector: 'app-vitals',
@@ -11,7 +12,7 @@ import { DatastreamingService } from 'src/app/services/datastream/datastreaming.
 })
 export class VitalsComponent implements OnInit {
  patientId:number;
-  constructor(private http:HttpService , private patient:DatastreamingService ) {
+  constructor(private http:HttpService , private patient:DatastreamingService, private navigation:NavigationService) {
         this.patientId=patient.getPatientId();
    }
   vitalrow:IVital[]=[{
@@ -89,6 +90,11 @@ Save(item:any,value:any){
   });
 
   
+}
+backClick(){
+  console.log("must navigate to patient list")
+  this.navigation.navigateTo('home');
+
 }
 
 }

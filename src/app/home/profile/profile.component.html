@@ -1,10 +1,15 @@
-<ion-content>
- 
+<ion-content class="cont" >
+<div *ngIf="showSplash" class="myBackground">
+    <div>
+    <img src="/assets/giphy.gif">
+</div> 
+</div> 
+  <ion-grid class="btn">
     <ion-row >
       <ion-col size="12" class="opp">
         <div class ="hero-image" >
      
-          <ion-button  (click)= "backClick()" class="grad">
+          <ion-button class="back" (click)= "backClick()"  shape="round" color="light">
               <ion-icon name="arrow-round-back"></ion-icon>
               
           </ion-button>
@@ -29,7 +34,7 @@
           <ion-item  class="it">
               <ion-icon name="contacts"></ion-icon>
              <ion-label>
-               Contacts: 0{{cont}}
+               Contacts: 0{{cont}} 
               </ion-label>
           </ion-item>
   
@@ -43,10 +48,11 @@
             <ion-item  class="it" >
                 <ion-icon name="alarm"></ion-icon>  
                 <ion-label>
-                  Coming session Date:12/12/2019
+                  Coming session Date:12/12/2019      
                 </ion-label>
-              </ion-item>
-              <ion-item  class="it">
+               <ion-icon name="construct"></ion-icon>
+                </ion-item>
+            <ion-item  class="it">
                   <ion-icon name="clock"></ion-icon>
                   <ion-label>
                     Latest session Date:12/12/2019
@@ -54,16 +60,17 @@
                 </ion-item>
   
                 <ion-item  (click)= "vitalClick()" class="it">
-                    <ion-icon name="fitness"></ion-icon>
+                    <ion-icon name="fitness" ></ion-icon>
                     <ion-label>
                         Click here to see Patient vitals
                     </ion-label>
                   </ion-item>
         </ion-col>
-    </ion-row>
+        </ion-row>
     
        
            <app-fab></app-fab>
+  </ion-grid>
   </ion-content>
   
 
