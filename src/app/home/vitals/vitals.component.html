@@ -1,48 +1,36 @@
 <ion-content  [scrollEvents]="true" >
     <ion-grid class="background">
-      <ion-row class="shape">
-        <img class="vital"src="assets/clover.png" (click)= "backClick()">
-      </ion-row>
-      <!-- <ion-row>
-        <ion-col>
-          <div class="Right" >
-              <img src="assets/Usr.png" >
-             </div>
-             <div class="middle-text user-name">
-                My Vitals
-             </div>
-            </ion-col>
+      <ion-row >
+      <ion-col size="12">
+           <img class="vital" src="assets/vitals_n.png">
+      </ion-col>   
       </ion-row>
       <ion-row>
-        <ion-col  >
-           <div class="center" >
-            <img src="assets/Vital-Header.png" >
-           </div>
-  
-                
-        </ion-col>
-  
-      </ion-row> -->
+      <ion-col size="3"></ion-col>
+      <ion-col size="7" class="title">
+           <div class="header ">
+               <p> My Vital</p>
+              </div>
+      </ion-col></ion-row>
       <ion-row class="main-card">
         <ion-col size="1"></ion-col>
         <ion-col size="10" class="vitals-from">
-          <ion-grid>
+          <ion-grid class="vital-holder">
             <ion-row class="vital-row" *ngFor="let item of vitalrow; let i=index">
               <ion-col size="3" [ngClass]="{'Floating-icon' : !item.isDisabled}">
                
                     <img  class="small-icon" [src]="item.icon">
-               
-                 
+        
               </ion-col>
               <ion-col size="5">
                   <div class="input">
                       <ion-label class="start-text" stacked>{{item.label}}</ion-label>
-                      <ion-input [(ngModel)]="item.vital_name" type="number" #input [placeholder]="item.place_holder"  disabled="{{item.isDisabled}}" ></ion-input>
+                      <ion-input [(ngModel)]=item.input  type="number" #input [placeholder]="item.place_holder"  disabled="{{item.isDisabled}}" ></ion-input>
                     </div>
               </ion-col>
               <ion-col size="4">
                 <ion-grid>
-                  <ion-row></ion-row>
+                  
                   <ion-row>
                     <ion-col size="6">
                         <img class="small-icon-us" src="assets/edit.png" (click)="Update(item)"> 
@@ -57,319 +45,19 @@
                    
               </ion-col>
             </ion-row>
-            <!-- <ion-row class="vital-row">
-                <ion-col size="3" [ngClass]="{'Floating-icon' : !isDisabled}">
-                  <div class="icon-holder">
-                      <img  class="small-icon" src="assets/Icon-awesome-heartbeat.png">
-                  </div>
-                   
-                </ion-col>
-                <ion-col size="5">
-                    <div class="input">
-                        <ion-label class="start-text" stacked>Add Weight</ion-label>
-                        <ion-input [(ngModel)]="vitals.weight" type="number" placeholder="Weight Input"  disabled="{{isDisabled}}" ></ion-input>
-                      </div>
-                </ion-col>
-                <ion-col size="4">
-                  <ion-grid>
-                    <ion-row></ion-row>
-                    <ion-row>
-                      <ion-col size="6">
-                          <img class="icon" src="assets/update.png" (click)="Update()"> 
-                      </ion-col>
-                      <ion-col size="6">
-                          <img class="icon" src="assets/save.png" (click)="Save()">
-  
-                      </ion-col>
-                    </ion-row>
-                  </ion-grid>
-                    
-                     
-                </ion-col>
-              </ion-row> -->
-              <!-- <ion-row class="vital-row">
-                  <ion-col size="3" [ngClass]="{'Floating-icon' : !isDisabled}">
-                    <div class="icon-holder">
-                        <img  class="small-icon" src="assets/Icon-awesome-heartbeat.png">
-                    </div>
-                     
-                  </ion-col>
-                  <ion-col size="5">
-                      <div class="input">
-                          <ion-label class="start-text" stacked>Add Weight</ion-label>
-                          <ion-input [(ngModel)]="vitals.weight" type="number" placeholder="Weight Input"  disabled="{{isDisabled}}" ></ion-input>
-                        </div>
-                  </ion-col>
-                  <ion-col size="4">
-                    <ion-grid>
-                      <ion-row></ion-row>
-                      <ion-row>
-                        <ion-col size="6">
-                            <img class="icon" src="assets/update.png" (click)="Update()"> 
-                        </ion-col>
-                        <ion-col size="6">
-                            <img class="icon" src="assets/save.png" (click)="Save()">
-    
-                        </ion-col>
-                      </ion-row>
-                    </ion-grid>
-                      
-                       
-                  </ion-col>
-                </ion-row> -->
-                <!-- <ion-row class="vital-row">
-                    <ion-col size="3" [ngClass]="{'Floating-icon' : !isDisabled}">
-                      <div class="icon-holder">
-                          <img  class="small-icon" src="assets/Icon-awesome-heartbeat.png">
-                      </div>
-                       
-                    </ion-col>
-                    <ion-col size="5">
-                        <div class="input">
-                            <ion-label class="start-text" stacked>Add Weight</ion-label>
-                            <ion-input [(ngModel)]="vitals.weight" type="number" placeholder="Weight Input"  disabled="{{isDisabled}}" ></ion-input>
-                          </div>
-                    </ion-col>
-                    <ion-col size="4">
-                      <ion-grid>
-                        <ion-row></ion-row>
-                        <ion-row>
-                          <ion-col size="6">
-                              <img class="icon" src="assets/update.png" (click)="Update()"> 
-                          </ion-col>
-                          <ion-col size="6">
-                              <img class="icon" src="assets/save.png" (click)="Save()">
-      
-                          </ion-col>
-                        </ion-row>
-                      </ion-grid>
-                        
-                         
-                    </ion-col>
-                  </ion-row> -->
-                  <!-- <ion-row class="vital-row">
-                      <ion-col size="3" [ngClass]="{'Floating-icon' : !isDisabled}">
-                        <div class="icon-holder">
-                            <img  class="small-icon" src="assets/Icon-awesome-heartbeat.png">
-                        </div>
-                         
-                      </ion-col>
-                      <ion-col size="5">
-                          <div class="input">
-                              <ion-label class="start-text" stacked>Add Weight</ion-label>
-                              <ion-input [(ngModel)]="vitals.weight" type="number" placeholder="Weight Input"  disabled="{{isDisabled}}" ></ion-input>
-                            </div>
-                      </ion-col>
-                      <ion-col size="4">
-                        <ion-grid>
-                          <ion-row></ion-row>
-                          <ion-row>
-                            <ion-col size="6">
-                                <img class="icon" src="assets/update.png" (click)="Update()"> 
-                            </ion-col>
-                            <ion-col size="6">
-                                <img class="icon" src="assets/save.png" (click)="Save()">
-        
-                            </ion-col>
-                          </ion-row>
-                        </ion-grid>
-                          
-                           
-                      </ion-col>
-                    </ion-row> -->
+
               
           </ion-grid>
             
-            
-
-            
-                
-                
-                
-                
-            
-         
-
-           
-         
-          
-           
-
         </ion-col>
         <ion-col size="1"></ion-col>
       </ion-row>
       <ion-row>
-        <ion-col size="12">
-          <img src="assets/vitals-header.jpg">
-        </ion-col>
+          <div ><app-fab></app-fab></div>
+
       </ion-row>
+     
     </ion-grid>
-
-
-
     
-    <!-- <ion-row class="main-card">
-      <ion-grid>
-          <ion-row  [ngClass]="{'clicked' : !isDisabled, 'mini-card': isDisabled}">
-            
-              <ion-col col-2 [ngClass]="{'Floating-icon' : !isDisabled}" >
-                
-                    
-                    <div >
-                        <img class="small-icon" src="assets/trainer.jpg">
-    
-                    </div>
-                    
-                    
-                
-              </ion-col>
-              <ion-col col-10>
-                <div class="input" >
-
-                    <ion-label class="start-text" stacked>Add Blood Type</ion-label>
-                    <ion-input  [(ngModel)]="vitals.blood_type" type="number" placeholder="Blood type Input"  disabled="{{isDisabled}}" ></ion-input>
-                    <img class="update-img" src="assets/update.png" (click)="Update()">
-                    <img class="update-img" src="assets/save.png" (click)="Save()">
-                    
-                  </div>
-                
-              </ion-col>
-  
-        </ion-row>
-        <ion-row class="mini-card">
-            
-            <ion-col col-2  >
-              
-                  
-                  <div >
-                      <img class="small-icon" src="assets/trainer.jpg">
-  
-                  </div>
-                  
-                  
-              
-            </ion-col>
-            <ion-col col-10>
-              <div class="input">
-
-                  <ion-label class="start-text" stacked>Blood Pressure</ion-label>
-                  <ion-input [(ngModel)]="vitals.blood_presure" type="number" placeholder="Blood pressure Input"></ion-input>
-                </div>
-              
-            </ion-col>
-
-      </ion-row>
-      <ion-row class="mini-card">
-            
-          <ion-col col-2  >
-            
-                
-                <div >
-                    <img class="small-icon" src="assets/trainer.jpg">
-
-                </div>
-                
-                
-            
-          </ion-col>
-          <ion-col col-10>
-            <div class="input">
-
-                <ion-label class="start-text" stacked>Add Weight</ion-label>
-                <ion-input [(ngModel)]="vitals.weight" type="number" placeholder="Weight Input"></ion-input>
-              </div>
-            
-          </ion-col>
-
-    </ion-row>
-    <ion-row class="mini-card">
-            
-        <ion-col col-2  >
-          
-              
-              <div >
-                  <img class="small-icon" src="assets/trainer.jpg">
-
-              </div>
-              
-              
-          
-        </ion-col>
-        <ion-col col-10>
-          <div class="input">
-
-              <ion-label class="start-text" stacked>Add Height</ion-label>
-              <ion-input [(ngModel)]="vitals.height" type="number" placeholder="Height Input"></ion-input>
-            </div>
-          
-        </ion-col>
-
-  </ion-row>
-  <ion-row class="mini-card">
-            
-      <ion-col col-2  >
-        
-            
-            <div >
-                <img class="small-icon" src="assets/trainer.jpg">
-
-            </div>
-            
-            
-        
-      </ion-col>
-      <ion-col col-10>
-        <div class="input">
-
-            <ion-label class="start-text" stacked>Add BMI</ion-label>
-            <ion-input [(ngModel)]="vitals.BMI" type="number" placeholder="BMI Input"></ion-input>
-          </div>
-        
-      </ion-col>
-
-</ion-row>
-<ion-row class="mini-card">
-            
-    <ion-col col-2  >
-      
-          
-          <div >
-              <img class="small-icon" src="assets/trainer.jpg" (click)="printvitals()">
-
-          </div>
-          
-          
-      
-    </ion-col>
-    <ion-col col-10>
-      <div class="input">
-
-          <ion-label class="start-text" stacked>Add Waist Circumference</ion-label>
-          <ion-input [(ngModel)]="vitals.waist_circumference" type="number" placeholder="Weight Waist Circumference"></ion-input>
-        </div>
-      
-    </ion-col>
-
-</ion-row>
-<ion-row>
-  <ion-col col-10></ion-col>
-  <ion-col col-2><ion-button (click)="submit()">submit</ion-button></ion-col>
-</ion-row>
-   
-
-
-
-      </ion-grid>
-      
-    
-    </ion-row> -->
-
   </ion-content>
-  
-  
-  
-    
-  
-  
-  
   
