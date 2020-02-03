@@ -91,14 +91,32 @@ export class DatastreamingService {
       this.token = token;
       this.dataStore.saveTokenLocally(token);
     }
- getPatientName()
- {
-  return this.patient.name;
- }
+   getPatientName()
+    {
+      return this.patient.name;
+    }
  
- clearData(){
-this.dataStore.clear();
-} 
+   clearData(){
+     this.dataStore.clear();
+    } 
+   getPatientPassword(){
+     return this.patient.password;
+   }
+   getPatientAddress(){
+    return this.patient.address;
+   }
+   getPatientAge(){
+    return this.patient.age;
+   }
+  //  changePatientData(changeData){
+  //    console.log("service"+changeData)
+  //    console.log(changeData.user.name)
+  //   // this.patient.name = changeData.user.name;
+  //   // this.patient.age = changeData.age;
+  //   // this.patient.address=changeData.address;
+  //   // this.dataStore.savePatientLocally(this.patient);
+  //  }
+
 
 
 

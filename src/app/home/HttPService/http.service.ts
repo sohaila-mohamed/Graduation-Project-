@@ -104,6 +104,7 @@ httpGetTokenOptions(accessToken) {
   return this.http.get<any>(url,httpOption);
 
   }
+
   PostVitals(vital:any,id:number): Observable<any>{
     const Url =this.Node_host+"api/users/vitals/"+id;
     vital=JSON.stringify(vital);
@@ -122,6 +123,24 @@ httpGetTokenOptions(accessToken) {
     const Url =this.Node_host+"api/users/vitals/"+id;
     console.log("URL",Url);
     return this.http.get<any>(Url, this.httpOptions);
+  }
+    
+  editPatientProfile(name,age,address,token){
+     console.log(name,age,address,token) 
+     const httpOption = {
+     headers: this.httpGetTokenOptions(token)
+    };  
+     const url =this.Java_Host_Port+"/patient/updateProfile";
+     return this.http.post<any>(
+      url,
+      {
+        "name":name, 
+        "age": age,
+        "address":address
+      } ,httpOption);
+
+      
+
   }
   
 

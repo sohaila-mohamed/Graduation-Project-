@@ -16,7 +16,7 @@ export class FabComponent implements OnInit {
 
   }
   homeClick(){
-    this.navigation.navigateTo('home');
+    this.navigation.navigateTo('home/Myprofile');
 
   }
   dlistClick(){

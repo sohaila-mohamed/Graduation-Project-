@@ -137,8 +137,11 @@ Save(item:any,value:any){
 
   
 }
-onchange(){
-  console.log("onchange");
+
+backClick(){
+  console.log("must navigate to patient list")
+  
+  this.navigation.navigateTo('home');
 }
 
 }
