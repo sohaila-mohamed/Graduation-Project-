@@ -93,6 +93,7 @@ Save(item:any,value:any){
 }
 backClick(){
   console.log("must navigate to patient list")
+  
   this.navigation.navigateTo('home');
 
 }

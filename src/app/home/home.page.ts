@@ -98,7 +98,7 @@ getDocList()
         .subscribe(
           response=>{
           
-
+            
             console.log("http request to add doctor responce: "+ JSON.stringify(response));
 
           }, 
@@ -120,18 +120,18 @@ getDocList()
                       this.datastream.clearDoctorList();
                       await response.forEach(element => {
                         this.datastream.addToDoctorList(element);
-                      });                  
+                        
+                      }); 
+                      await this.datastream.saveDoctorListToDataStore();
+                      console.log('HTTP request completed.');
+                      this.navigation.navigateTo('home/doctorList');                 
                     }, 
                     err =>
                     {
                       console.log('HTTP Doctor List Error: ', err.error.message);
                       this.presentAlert('HTTP Doctor List Error: ', err.error.message);
                     },
-                    () => 
-                    {
-                      this.datastream.saveDoctorListToDataStore();
-                      console.log('HTTP request completed.');
-                    }
+                   
                   );
   
           }

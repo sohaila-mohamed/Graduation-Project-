@@ -26,7 +26,7 @@ import { DoctorListComponent } from './doctorList/doctor-list.component';
         component: VitalsComponent
       },
       {
-        path:'profile',
+        path:'doctorList',
         component: DoctorListComponent
 
       }, 

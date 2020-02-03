@@ -79,11 +79,11 @@ export class AppComponent {
 
   }
   homeClick(){
-    this.nav.navigateTo('home');
+    this.nav.navigateTo('home/Myprofile');
 
   }
   dlistClick(){
-    this.nav.navigateTo('home/profile');
+    this.nav.navigateTo('home/doctorList');
 
   }
   tlistClick(){

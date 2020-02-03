@@ -109,6 +109,22 @@ httpGetTokenOptions(accessToken) {
   return this.http.get<any>(url,httpOption);
 
   }
+  editPatientProfile(name,age,address,token){
+     console.log(name,age,address,token) 
+     const httpOption = {
+     headers: this.httpGetTokenOptions(token)
+    };  
+     const url =this.Java_Host_Port+"/patient/updateProfile";
+     return this.http.post<any>(
+      url,
+      {
+        "name":name, 
+        "age": age,
+        "address":address
+      } ,httpOption);
+
+      
+  }
   
 
 }

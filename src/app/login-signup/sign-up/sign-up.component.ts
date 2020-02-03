@@ -69,6 +69,10 @@ export class SignUpComponent  implements OnInit{
     await alert.present();
   }
 
-  
+  backClick(){
+    console.log("must navigate to patient list")
+    this.nav.navigateTo('cover');
+
+  }
 
 }
