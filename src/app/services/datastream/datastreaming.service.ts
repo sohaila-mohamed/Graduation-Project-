@@ -53,8 +53,11 @@ export class DatastreamingService {
 
    SetPatientforLogin(patientData)
    {
+
      console.log("data stream set Patient");
      this.patient.patient_id =patientData.patient_id;
+     console.log("Sohaila");
+     console.log("paitenID Data Streaming",patientData.patient_id);
      this.patient.name = patientData.name;
      this.patient.user_id = patientData.user_id;
      this.patient.email = patientData.email;
@@ -67,10 +70,13 @@ export class DatastreamingService {
    }
     setPatient(patientData)
     {
+      
       console.log("data stream set Patient");
-      this.patient.patient_id =patientData.patient_id;
+      this.patient.patient_id =patientData.id;
+      console.log("Sohaila");
+      console.log("paitenID Data Streaming",patientData.id);
       this.patient.name = patientData.user.name;
-      this.patient.user_id = patientData.user.user_id;
+      this.patient.user_id = patientData.user.id;
       this.patient.email = patientData.user.email;
       this.patient.password = patientData.user.password,
       this.patient.type = patientData.user.type;

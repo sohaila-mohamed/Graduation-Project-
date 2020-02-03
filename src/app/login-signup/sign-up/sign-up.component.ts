@@ -12,7 +12,7 @@ import { AlertController} from '@ionic/angular';
   styleUrls: ['./sign-up.component.scss'],
 })
 export class SignUpComponent  implements OnInit{
-
+  patient_Data:any;
   constructor(
     private men:MenuController,
     private nav :NavigationService, 
@@ -35,6 +35,7 @@ export class SignUpComponent  implements OnInit{
      newPatient.age= age;
      newPatient.address = address;
      this.addPatientToDatabase(newPatient);
+     
   }
 
   addPatientToDatabase(newPatient)
@@ -43,6 +44,7 @@ export class SignUpComponent  implements OnInit{
      var that = this;
      this.http.createPatient(newPatient).subscribe(
         async patientData=>{
+          this.patient_Data=patientData;
         console.log("patient: "+JSON.stringify(patientData));
         that.nav.navigateTo('cover/login');
 
@@ -52,10 +54,23 @@ export class SignUpComponent  implements OnInit{
         this.presentAlert('HTTP create patient Error: ', err.error.message);
 
       },
-      () => console.log('HTTP request completed.')
+      () => {console.log('HTTP request completed.');
+      let vital={weight:"0.00",height:"0.00",BMI:"0.00",body_fats_ratio: "00.0",
+      body_water_ratio: "00.0",
+      stomic_area_fats: "00.0",
+      bone_desity: "00.0",
+      muscle_desity: "00.0" };
+      console.log(vital);
+      this.http.PostVitals(vital,this.patient_Data.id).subscribe(
+        postedvitals=>{
+          console.log(postedvitals);
+        }
+
+      );}
       
-     
      );
+  
+
     
   }
   async presentAlert(subtitleString:string,messageString:string) {
