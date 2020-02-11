@@ -3,19 +3,21 @@ import { HttpService } from '../HttPService/http.service';
 import { IVital, UpVitals, Ivitals } from '../DataModels';
 import { DatastorageService } from 'src/app/services/datastorage/datastorage.service';
 import { DatastreamingService } from 'src/app/services/datastream/datastreaming.service';
+import { NavigationService } from '../NavService/navigation.service';
 
 @Component({
   selector: 'app-vitals',
   templateUrl: './vitals.component.html',
   styleUrls: ['./vitals.component.scss'],
 })
+
 export class VitalsComponent implements OnInit {
  patientId:number;
  vital=new UpVitals;
  vitals=new Ivitals;
  vitalrow :IVital[];
 
-  constructor(private http:HttpService , private patientData:DatastreamingService ) {
+  constructor(private http:HttpService , private patientData:DatastreamingService, private navigation:NavigationService  ) {
     this.patientId=this.patientData.getPatientId();
     console.log("patientID",this.patientId);
 

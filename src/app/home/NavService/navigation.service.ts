@@ -22,8 +22,11 @@ export class NavigationService {
             console.log("error navigating to "+path +" + err");
             this.presentAlert('Navigation Error: ', err.error.message);
 
+
         });
     }
+
+    
        async presentAlert(subtitleString:string,messageString:string) {
       const alert = await this.addController.create({
         header: 'ERROR',
