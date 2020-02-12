@@ -12,6 +12,7 @@ import { DatastorageService } from './services/datastorage/datastorage.service';
 import { IonicStorageModule } from '@ionic/storage';
 import { FormsModule } from '@angular/forms';
 
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],

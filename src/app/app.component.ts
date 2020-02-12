@@ -13,7 +13,8 @@ import { DatastreamingService } from './services/datastream/datastreaming.servic
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
-  searching:string;
+  myName: String;
+  
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -44,7 +45,7 @@ export class AppComponent {
   ]
 
    initializeApp() {
-   this.platform.ready().then( () => {
+    this.platform.ready().then( () => {
       
       var that = this;
        this.datastore.isTokenExpired().then(async isTokenExpired =>
@@ -55,6 +56,8 @@ export class AppComponent {
             console.log(" app compoennt :: Token isnot expired:  "+isTokenExpired);
             await this.datastore.getMyPatientData().then((patient)=>{
                that.datastream.SetPatientforLogin(patient);
+               this.myName =this.datastream.getPatientName();
+               console.log("menu name",this.myName)
             })
             await this.datastore.getPatientToken().then((token)=>{
                that.datastream.setToken(token);
@@ -86,15 +89,13 @@ export class AppComponent {
     this.nav.navigateTo('home/doctorList');
 
   }
-  tlistClick(){
-    this.nav.navigateTo('home/patient');
+  homClick(){
+    this.nav.navigateTo('home');
     console.log("trainer list")
   }
   outClick(){
     this.nav.navigateTo('cover');
 
   }
-  typing(){
-    console.log(this.searching)
-  }
+  
 }

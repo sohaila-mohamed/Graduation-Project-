@@ -12,6 +12,8 @@ import { TabComponent } from './tab/tab.component';
 import { FabComponent } from './fab/fab.component';
 import { ProfileComponent } from './profile/profile.component';
 import { DoctorListComponent } from './doctorList/doctor-list.component';
+import { MessageComponent } from './message/message.component';
+
 
 @NgModule({
   imports: [
@@ -37,6 +39,10 @@ import { DoctorListComponent } from './doctorList/doctor-list.component';
       {
         path: '',
         component: HomePage
+      },
+      {
+        path: 'message',
+        component: MessageComponent
       }
 
       
@@ -46,6 +52,6 @@ import { DoctorListComponent } from './doctorList/doctor-list.component';
     NavigationService,
     HttpService, 
   ],
-  declarations: [HomePage,VitalsComponent,DoctorListComponent,TabComponent,FabComponent,ProfileComponent]
+  declarations: [HomePage,VitalsComponent,DoctorListComponent,TabComponent,FabComponent,ProfileComponent,MessageComponent]
 })
 export class HomePageModule {}

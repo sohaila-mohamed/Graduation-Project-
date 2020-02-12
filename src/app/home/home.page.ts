@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 
 import { NavigationService } from './NavService/navigation.service';
 import { DatastreamingService } from '../services/datastream/datastreaming.service';
-import { AlertController} from '@ionic/angular';
+import { AlertController, ActionSheetController} from '@ionic/angular';
 import { HttpService } from './HttPService/http.service';
 import { timer } from 'rxjs';
+
 
 @Component({
   selector: 'app-home',
@@ -21,7 +22,8 @@ export class HomePage implements OnInit {
     private navigation:NavigationService, 
     private datastream: DatastreamingService, 
     private http: HttpService,
-    private addController : AlertController
+    private addController : AlertController,
+    private docList:ActionSheetController
     ) {
     }
 
@@ -152,5 +154,35 @@ getDocList()
   
      (await alert).present();
     }
+    async newMessage() {
+      const actionSheet = await this.docList.create({
+        header: 'Message Type',
+        buttons: [{
+          text: 'Text',
+          // role: 'destructive',
+           icon: 'chatbubbles',
+          handler: () => {
+            console.log('Delete clicked');
+            this.navigation.navigateTo("home/message");
+          }
+        }, {
+          text: 'Voice Call',
+          icon: 'call',
+          handler: () => {
+            console.log('Share clicked');
+          }
+        }, {
+          text: 'Video Call',
+          icon: 'camera',
+          handler: () => {
+            console.log('Play clicked');
+          }
+        }
+        ]
+      });
+      await actionSheet.present();
+    }
+  
+  
 
 }
