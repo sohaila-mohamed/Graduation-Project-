@@ -1,7 +1,0 @@
-{
-  "name": "FatFree",
-  "integrations": {
-    "cordova": {}
-  },
-  "type": "angular"
-}
