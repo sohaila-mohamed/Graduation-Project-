@@ -8,8 +8,9 @@ import { RouterModule } from '@angular/router';
 import { NavigationService } from '../home/NavService/navigation.service';
 import { LoginComponent } from './login/login.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { HttpService } from '../home/HttPService/http.service';
+import { FCM } from '@ionic-native/fcm/ngx';
 
 
 @NgModule({
@@ -44,6 +45,7 @@ import { HttpService } from '../home/HttPService/http.service';
   providers: [
     NavigationService,
     HttpService,
+    FCM,
   ],
   declarations: [CoverComponent,LoginComponent,SignUpComponent]
 })

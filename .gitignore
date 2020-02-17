@@ -12,11 +12,12 @@
 Thumbs.db
 UserInterfaceState.xcuserstate
 $RECYCLE.BIN/
+*.google-services.json
 
 *.log
 log.txt
 npm-debug.log*
-
+/.google-services.json
 /.idea
 /.ionic
 /.sass-cache

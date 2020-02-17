@@ -6,6 +6,8 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { DatastorageService } from './services/datastorage/datastorage.service';
 import { NavigationService } from './home/NavService/navigation.service';
 import { DatastreamingService } from './services/datastream/datastreaming.service';
+import { FCM } from '@ionic-native/fcm/ngx';
+import { HttpService } from './home/HttPService/http.service';
 
 @Component({
   selector: 'app-root',
@@ -22,6 +24,9 @@ export class AppComponent {
     private datastore: DatastorageService,
     private nav : NavigationService,
     private datastream : DatastreamingService,
+    public fcm : FCM,
+    private editPatientService: HttpService,
+
   ) {
     this.initializeApp();
   }
@@ -47,7 +52,7 @@ export class AppComponent {
    initializeApp() {
     this.platform.ready().then( () => {
       
-      var that = this;
+      let that = this;
        this.datastore.isTokenExpired().then(async isTokenExpired =>
         {
           console.log("isTokenExpired: "+ isTokenExpired);
@@ -68,10 +73,58 @@ export class AppComponent {
             this.nav.navigateTo('home');
             
           }
+
        });
      
-      this.statusBar.styleDefault();
-      this.splashScreen.hide();
+       this.statusBar.styleLightContent();
+       this.splashScreen.hide();
+
+      //recieveing Token
+      this.fcm.getToken().then((token)=>{
+        console.log("fcmToken: "+ token);
+        localStorage.setItem("fcmtoken",token);
+        this.editPatientService.editFCMToken(token, this.datastream.getToken()).subscribe(
+          response=>{
+         console.log("http request to Change patient Data: "+ JSON.stringify(response));         
+       }, 
+       err =>
+       {
+         alert("HTTP Edit profile Error:"+ err.error.message);
+         console.log('HTTP Edit profile Error: ', err.error.message);
+       });
+      },
+      (err)=>{
+        alert("ERROR: "+JSON.stringify(err));
+      });
+
+      //recieveing notification
+      this.fcm.onNotification().subscribe((data)=>
+      {
+        if(data.wasTapped)
+        {
+
+        }
+        else
+        {
+          alert("Data Message:"+ data.body);
+          console.log(JSON.stringify(data));
+        }
+      });
+
+      // //updating token if updated
+      // this.fcm.onTokenRefresh().subscribe((token)=>
+      // {
+      //   localStorage.setItem("fcmtoken",token);
+      //   this.editPatientService.editFCMToken(token, this.datastream.getToken()).subscribe(
+      //     response=>{
+      //    console.log("http request to Change patient Data: "+ JSON.stringify(response));         
+      //  }, 
+      //  err =>
+      //  {
+      //    alert("HTTP Edit profile Error:"+ err.error.message);
+      //    console.log('HTTP Edit profile Error: ', err.error.message);
+      //  });
+      // });
      
     
 

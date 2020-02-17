@@ -10,6 +10,7 @@ export class DatastreamingService {
    patient = new MyPatient;
    token: string;
    doctorList = new Array<doctorData>();
+  // fcmToken : String;
 
    constructor(
      private dataStore: DatastorageService,){}
@@ -53,11 +54,8 @@ export class DatastreamingService {
 
    SetPatientforLogin(patientData)
    {
-
-     console.log("data stream set Patient");
      this.patient.patient_id =patientData.patient_id;
-     console.log("Sohaila");
-     console.log("paitenID Data Streaming",patientData.patient_id);
+     this.patient.mobile = patientData.mobile;
      this.patient.name = patientData.name;
      this.patient.user_id = patientData.user_id;
      this.patient.email = patientData.email;
@@ -71,11 +69,9 @@ export class DatastreamingService {
     setPatient(patientData)
     {
       
-      console.log("data stream set Patient");
       this.patient.patient_id =patientData.id;
-      console.log("Sohaila");
-      console.log("paitenID Data Streaming",patientData.id);
       this.patient.name = patientData.user.name;
+      this.patient.mobile = patientData.user.mobile;
       this.patient.user_id = patientData.user.id;
       this.patient.email = patientData.user.email;
       this.patient.password = patientData.user.password,
@@ -108,16 +104,10 @@ export class DatastreamingService {
    getPatientAge(){
     return this.patient.age;
    }
-  //  changePatientData(changeData){
-  //    console.log("service"+changeData)
-  //    console.log(changeData.user.name)
-  //   // this.patient.name = changeData.user.name;
-  //   // this.patient.age = changeData.age;
-  //   // this.patient.address=changeData.address;
-  //   // this.dataStore.savePatientLocally(this.patient);
-  //  }
-
-
+   getPatientMobile(){
+    return this.patient.mobile;
+   }
+   
 
 
 

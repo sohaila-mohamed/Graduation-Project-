@@ -94,7 +94,7 @@ getDocList()
         text:'Add',
         
         handler: async data => {
-        var token = this.datastream.getToken();
+        let token = this.datastream.getToken();
         console.log("code: " + data.val);
         await this.http.addDoctor(data.val,token)
         .subscribe(

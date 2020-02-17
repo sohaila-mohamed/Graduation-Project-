@@ -13,7 +13,7 @@ import { AlertController } from '@ionic/angular';
 })
 export class ProfileComponent implements OnInit {
   private myAge:number;
-  private mobile:number;
+  private mobile:String;
   private myName:String;
   private patientAge:number;
   private patientName:String;
@@ -37,8 +37,9 @@ export class ProfileComponent implements OnInit {
     this.patientName =this.datastream.getPatientName();
     this.patientAge =this.datastream.getPatientAge();
     this.patientAddress=this.datastream.getPatientAddress();
+    this.mobile = this.datastream.getPatientMobile();
     this.code="patient1";
-    this.mobile=100000;
+  
     console.log("name  "+this.patientName)
     console.log("myAge "+ this.patientAge);
     console.log("myName "+ this.myName);
