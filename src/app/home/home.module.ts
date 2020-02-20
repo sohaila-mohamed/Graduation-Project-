@@ -15,7 +15,7 @@ import { DoctorListComponent } from './doctorList/doctor-list.component';
 import { MessageComponent } from './message/message.component';
 import { ChatComponent } from './chat/chat.component';
 import { ConversationsComponent } from './conversations/conversations.component';
-
+import { ConvListComponent } from './conv-list/conv-list.component';
 
 @NgModule({
   imports: [
@@ -55,6 +55,11 @@ import { ConversationsComponent } from './conversations/conversations.component'
         path: 'conversation',
         component: ConversationsComponent
       }
+      ,
+      {
+        path: 'convList',
+        component: ConvListComponent
+      }
 
       
     ])
@@ -71,6 +76,8 @@ import { ConversationsComponent } from './conversations/conversations.component'
     ProfileComponent,
     MessageComponent,
     ChatComponent,
-    ConversationsComponent]
+    ConversationsComponent,
+    ConvListComponent
+  ]
 })
 export class HomePageModule {}
