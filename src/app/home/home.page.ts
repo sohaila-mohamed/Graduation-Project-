@@ -119,6 +119,10 @@ getDocList()
                      this.showSplash = true;
                      // timer
                     timer(10000).subscribe(()=> this.showSplash = false);
+                    
+                      // this.datastream.getPatientAge();
+                      // this.datastream.getPatientAddress();
+                      // this.datastream.getPatientName();
                       this.datastream.clearDoctorList();
                       await response.forEach(element => {
                         this.datastream.addToDoctorList(element);
@@ -156,26 +160,30 @@ getDocList()
     }
     async newMessage() {
       const actionSheet = await this.docList.create({
-        header: 'Message Type',
+        header: 'Send Message To:',
         buttons: [{
-          text: 'Text',
+          text: 'Dr.Mahmoud',//get doctor list
           // role: 'destructive',
-           icon: 'chatbubbles',
+          icon: 'chatbubbles',
           handler: () => {
             console.log('Delete clicked');
             this.navigation.navigateTo("home/message");
           }
         }, {
-          text: 'Voice Call',
-          icon: 'call',
+          text: 'Dr.Mohamed',
+          icon: 'chatbubbles',
+          // icon: 'call',
           handler: () => {
             console.log('Share clicked');
+            this.navigation.navigateTo("home/message");
           }
         }, {
-          text: 'Video Call',
-          icon: 'camera',
+          text: 'Dr.Medhat',
+          icon: 'chatbubbles',
+          // icon: 'camera',
           handler: () => {
             console.log('Play clicked');
+            this.navigation.navigateTo("home/message");
           }
         }
         ]
