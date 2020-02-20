@@ -24,19 +24,6 @@
         </ion-col>
 
     </ion-row>
-    <!-- <ion-row >
-          <ion-col>
-          </ion-col>
-
-          <ion-col > 
-                <img class = "space" src="/assets/logo02.png"/>
-                <h1 class="fat-free">Create Account</h1>
-                
-          </ion-col>
-          <ion-col>
-          </ion-col>
-    </ion-row>
-   -->
   </ion-grid>
 
         <div class="marginTop">
@@ -58,6 +45,14 @@
         
           </div>
           <div class="centric">
+            <ion-card>
+              <ion-item>
+                  <ion-input required placeholder="Enter Your Mobile Number" type="number" #MobileInput></ion-input>
+                </ion-item>
+              </ion-card>
+         
+          </div>
+          <div class="centric">
               <ion-card>
                 <ion-item>
                     <ion-input required placeholder="Enter Email" type="email" #EmailInput></ion-input>
@@ -70,6 +65,14 @@
               <ion-item>
  
                   <ion-input required placeholder="Enter Password" type="password" #PasswordInput></ion-input>
+                </ion-item>
+              </ion-card>
+          </div>
+          <div class="centric">
+            <ion-card>
+              <ion-item>
+ 
+                  <ion-input required placeholder="Enter Password Again" type="password" #Password2Input></ion-input>
                 </ion-item>
               </ion-card>
           </div>
@@ -88,15 +91,24 @@
                     </ion-item>
                   </ion-card>
               </div>
+              <div *ngIf="visibleError" class="centric">
+                <ion-card>
+                  <ion-item>
+                    <span>{{error}}</span>
+                  </ion-item>
+                  </ion-card>
+              </div>
               
         </div>
-         
+        
 
    <div class="marginTop centric"> <ion-button style="height: 40px; "class="marginTop button"  shape="round" (click)="signup(
     FirstNameInput.value,
     LastNameInput.value,
+    MobileInput.value,
     EmailInput.value,
     PasswordInput.value, 
+    Password2Input.value,
     ageInput.value, 
     addressInput.value
    )" color="light" >Sign Up</ion-button></div>      

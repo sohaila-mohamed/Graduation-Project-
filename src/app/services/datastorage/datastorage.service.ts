@@ -39,14 +39,14 @@ export class DatastorageService {
     }
     async isTokenExpired()
     {
-      var bool = true;
+      let bool = true;
       console.log("is token expired");
-      var that = this;
+      let that = this;
       await this.getPatientToken().then(token=>
         {
           if(token!=null)
             {
-                var obj = that.parseJwt(token);
+                let obj = that.parseJwt(token);
                 if(obj.exp > Date.now()/1000)
                 {
                   bool= false;
@@ -59,11 +59,12 @@ export class DatastorageService {
       return bool;
     }
     parseJwt (token) {
-      var base64Url = token.split('.')[1];
-      var base64 = base64Url.replace('-', '+').replace('_', '/');
+      let base64Url = token.split('.')[1];
+      let base64 = base64Url.replace('-', '+').replace('_', '/');
       return JSON.parse(window.atob(base64));
   }
 
+ 
 
   clear()
   {
