@@ -49,18 +49,19 @@ import { ConvListComponent } from './conv-list/conv-list.component';
       {
         path: 'chat',
         component: ChatComponent
-      }
+      } 
       ,
       {
         path: 'conversation',
-        component: ConversationsComponent
+        component: ConversationsComponent,
+        children:[
+          {
+            path: 'conversation/convList',
+            component: ConvListComponent
+          }
+         ]  
       }
-      ,
-      {
-        path: 'convList',
-        component: ConvListComponent
-      }
-
+      
       
     ])
   ],

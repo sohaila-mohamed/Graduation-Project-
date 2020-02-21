@@ -18,6 +18,8 @@ export class ChatComponent implements OnInit {
         console.log(massage);
         this.Messages.push(massage[0]);
         console.log(this.Messages);
+        console.log(this.Messages[0]);
+
     
         } 
     );
