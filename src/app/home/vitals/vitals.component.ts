@@ -91,9 +91,7 @@ export class VitalsComponent implements OnInit {
                       isDisabled:true,
                       icon:"assets/Iconawesome-heartbeat.png",
                       name:"muscle_desity",
-                      input:this.vitals.muscle_desity}
-    
-              
+                      input:this.vitals.muscle_desity}          
       ];
 
 

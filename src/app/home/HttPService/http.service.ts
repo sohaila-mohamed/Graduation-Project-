@@ -10,9 +10,9 @@ import { UpVitals } from '../DataModels';
 export class HttpService {
   
  
-  Java_Host_Port = "http://ec2-3-82-157-215.compute-1.amazonaws.com:8080";
+  Java_Host_Port = "http://ec2-18-204-209-87.compute-1.amazonaws.com:8080";
 
-  Node_host ="http://ec2-3-15-156-222.us-east-2.compute.amazonaws.com:3000/";
+  Node_host ="http://ec2-18-224-19-137.us-east-2.compute.amazonaws.com:3000/";
   constructor(private http:HttpClient) { 
     
   }

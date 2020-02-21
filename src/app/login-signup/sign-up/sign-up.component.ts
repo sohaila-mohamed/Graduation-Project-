@@ -54,6 +54,7 @@ export class SignUpComponent  implements OnInit{
         this.presentAlert('HTTP create patient Error: ', err.error.message);
 
       },
+      
       () => {console.log('HTTP request completed.');
       let vital={weight:"0.00",height:"0.00",BMI:"0.00",body_fats_ratio: "00.0",
       body_water_ratio: "00.0",
