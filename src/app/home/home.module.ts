@@ -12,6 +12,10 @@ import { TabComponent } from './tab/tab.component';
 import { FabComponent } from './fab/fab.component';
 import { ProfileComponent } from './profile/profile.component';
 import { DoctorListComponent } from './doctorList/doctor-list.component';
+import { MessageComponent } from './message/message.component';
+import { ChatComponent } from './chat/chat.component';
+import { ConversationsComponent } from './conversations/conversations.component';
+import { ConvListComponent } from './conv-list/conv-list.component';
 
 @NgModule({
   imports: [
@@ -37,8 +41,27 @@ import { DoctorListComponent } from './doctorList/doctor-list.component';
       {
         path: '',
         component: HomePage
+      },
+      {
+        path: 'message',
+        component: MessageComponent
+      },
+      {
+        path: 'chat',
+        component: ChatComponent
+      } 
+      ,
+      {
+        path: 'conversation',
+        component: ConversationsComponent,
+        children:[
+          {
+            path: 'conversation/convList',
+            component: ConvListComponent
+          }
+         ]  
       }
-
+      
       
     ])
   ],
@@ -46,6 +69,16 @@ import { DoctorListComponent } from './doctorList/doctor-list.component';
     NavigationService,
     HttpService, 
   ],
-  declarations: [HomePage,VitalsComponent,DoctorListComponent,TabComponent,FabComponent,ProfileComponent]
+  declarations: [HomePage,
+    VitalsComponent,
+    DoctorListComponent,
+    TabComponent,
+    FabComponent,
+    ProfileComponent,
+    MessageComponent,
+    ChatComponent,
+    ConversationsComponent,
+    ConvListComponent
+  ]
 })
 export class HomePageModule {}

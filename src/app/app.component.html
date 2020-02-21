@@ -2,24 +2,9 @@
   <ion-router-outlet id="menu-content"></ion-router-outlet>
 </ion-app> -->
 <ion-app>
-  <ion-menu side="start" menuId="first" contentId="content1" type="overlay" >
+  <ion-menu color="sub.severityLevel" side="start" menuId="first" contentId="content1" type="overlay" >
    <ion-header >
           <ion-toolbar> 
-            <ion-searchbar 
-            shape="round"
-            showCancelButton="always"
-            animated
-            autocomplete="on"
-            autocorrect="on"
-            inputmode="search"
-            spellcheck
-            [(ngModel)]="searching" 
-            (ionChange)="typing()"
-            ></ion-searchbar>
-          </ion-toolbar>
-        </ion-header>
-        <ion-content  >
-          <ion-list >
             <ion-menu-toggle auto-hide="false" >
               
                 <ion-item >
@@ -27,20 +12,22 @@
                   <ion-avatar slot="start">
                     <img src="assets/images.jpg">
                   </ion-avatar>
-                  <ion-label>  My name</ion-label>
-
-                  
-      
-             </ion-item > 
-              </ion-menu-toggle >
-            <br>
+                  <ion-label>  {{myName}} </ion-label>
+                 </ion-item > 
+             </ion-menu-toggle >
+          </ion-toolbar>
+        </ion-header>
+        <ion-content  >
+          <ion-list >
+           
+            
             <ion-menu-toggle auto-hide="false" >
               
                 <ion-item >
                      
-                   <ion-label shape="round" (click)= "vitalClick()" expand="full" class = "grad" >
+                   <ion-label shape="round" (click)= "vitalClick()" expand="full" >
                     <ion-icon name="fitness"></ion-icon>
-                     My vitals
+                        Vitals
                    </ion-label>
                   
       
@@ -51,9 +38,9 @@
               
               <ion-item>
                    
-                 <ion-label shape="round" (click)= "homeClick()" expand="full" class = "grad" >
+                 <ion-label shape="round" (click)= "homeClick()" expand="full"  >
                  <ion-icon name="person"></ion-icon>
-                  Homepage
+                  Profile
                  </ion-label>
                 
     
@@ -64,7 +51,7 @@
               
                 <ion-item>
                      
-                   <ion-label shape="round" (click)= "dlistClick()" expand="full" class = "grad">
+                   <ion-label shape="round" (click)= "dlistClick()" expand="full" >
                     <ion-icon name="medkit"></ion-icon>
                     My doctors
                    </ion-label>
@@ -77,9 +64,9 @@
                 <ion-item>
                  
                      
-                   <ion-label shape="round" (click)= "tlistClick()" expand="full" class = "grad">
+                   <ion-label shape="round" (click)= "homClick()" expand="full" >
                    <ion-icon name="body"></ion-icon>
-                    My tainers
+                    Homepage
                    </ion-label>
                  
       

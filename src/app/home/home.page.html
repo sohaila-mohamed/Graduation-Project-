@@ -25,7 +25,7 @@
       </ion-col>
 
     </ion-row>
-  </ion-grid>
+  </ion-grid >
   <ion-row class="main-card">
     <ion-grid>
       <ion-row>
@@ -58,64 +58,37 @@
       </ion-row>
       <ion-row>
           <ion-col col-6 >
-              <div class="mini-card" (click)="addDoctor()">
+              <div class="mini-card" (click)="conv()">
                   <div class="center" >
                       <img class="icon" src="assets/addDoc.jpeg">
   
                   </div>
                   
                   <div class="middle-text">
-                     Add Doctor
+                     Conversations
                   </div>
               </div>
             </ion-col>
             <ion-col col-6 >
-              <div  class="mini-card">
+              <div  class="mini-card" (click)="newMessage()" >
                   <div class="center" >
-                      <img class="icon" src="assets/trainer.jpg">
+                      <img class="icon" src="assets/message.png">
   
                   </div>
                   
                   <div class="middle-text">
-                     Add trainer
+                     New Message
                   </div>
               </div>
             </ion-col>
 
       </ion-row>
-      <ion-row>
-          <ion-col col-6 >
-              <div class="mini-card" (click)="NavigateMe('home/profile')">
-                  <div class="center" >
-                      <img class="icon" src="assets/list.png">
-  
-                      
-                  </div>
-                  
-                  <div class="middle-text">
-                     Doctors List
-                  </div>
-              </div>
-            </ion-col>
-            <ion-col col-6 >
-              <div  class="mini-card" >
-                  <div class="center" >
-                      <img class="icon" src="assets/list.png">
-  
-                  </div>
-                  
-                  <div class="middle-text">
-                     Trainers List
-                  </div>
-              </div>
-            </ion-col>
-
-      </ion-row>
+      
     </ion-grid>
   </ion-row>
-<ion-row>
-    <div ><app-fab></app-fab></div>
-</ion-row>
+
+   <app-fab></app-fab>
+
 
 
 </ion-content>

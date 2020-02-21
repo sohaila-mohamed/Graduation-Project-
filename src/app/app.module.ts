@@ -11,12 +11,16 @@ import { DatastreamingService } from './services/datastream/datastreaming.servic
 import { DatastorageService } from './services/datastorage/datastorage.service';
 import { IonicStorageModule } from '@ionic/storage';
 import { FormsModule } from '@angular/forms';
+import { FCM } from '@ionic-native/fcm/ngx';
+import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(), 
     IonicStorageModule.forRoot(),
+    HttpClientModule,
     AppRoutingModule,FormsModule],
   providers: [
     StatusBar,
@@ -24,6 +28,8 @@ import { FormsModule } from '@angular/forms';
     HttpService,
     DatastreamingService,
     DatastorageService,
+    FCM,
+    HttpService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

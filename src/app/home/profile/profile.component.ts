@@ -3,6 +3,10 @@ import { NavigationService } from '../NavService/navigation.service';
 import { timer } from 'rxjs';
 import { DatastreamingService } from 'src/app/services/datastream/datastreaming.service';
 import { HttpService } from '../HttPService/http.service';
+import { AlertController } from '@ionic/angular';
+import { async } from '@angular/core/testing';
+import { __await } from 'tslib';
+
 
 @Component({
   selector: 'app-profile',
@@ -11,6 +15,7 @@ import { HttpService } from '../HttPService/http.service';
 })
 export class ProfileComponent implements OnInit {
   private myAge:number;
+  private mobile:String;
   private myName:String;
   private patientAge:number;
   private patientName:String;
@@ -22,21 +27,40 @@ export class ProfileComponent implements OnInit {
 
   constructor(private navigation:NavigationService,
     private datastream: DatastreamingService,
-    private editPatientService: HttpService
+    private editPatientService: HttpService,
+    private savedata:AlertController
     ) { }
 
   ngOnInit() {
-    this.notEnable=true;
-    this.showSplash = true;
-    timer(3000).subscribe(()=> this.showSplash = false);
+    // async () => 
+    //       {
+    //         console.log('get data');
+    //         await  this.datastream.getPatientName()
+                  
+    //              async response=>{
+    //                   this.patientName =this.datastream.getPatientName();
+    //                   this.patientAge =this.datastream.getPatientAge();
+    //                  this.patientAddress=this.datastream.getPatientAddress();
+
+    //                 };
+    // }
+   console.log('get data');
+   this.notEnable=true;
+    // this.showSplash = true;
+    // timer(3000).subscribe(()=> this.showSplash = false);
+    // this.patientName =this.datastream.getPatientName();
     this.patientName =this.datastream.getPatientName();
     this.patientAge =this.datastream.getPatientAge();
     this.patientAddress=this.datastream.getPatientAddress();
+    this.mobile = this.datastream.getPatientMobile();
     this.code="patient1";
+  
     console.log("name  "+this.patientName)
     console.log("myAge "+ this.patientAge);
     console.log("myName "+ this.myName);
-
+   
+                  
+    
   }
   backClick(){
     console.log("must navigate to patient list")
@@ -60,14 +84,39 @@ export class ProfileComponent implements OnInit {
 
  }
  
- save(name,age,address,token){
-  this.notEnable=true;
-  token = this.datastream.getToken();
-  console.log("myAge "+ age);
-  console.log("myName "+ name);
-  console.log("myAddress "+ address);
-  this.editPatientService.editPatientProfile(name,age,address,token).subscribe(
-    response=>{
+async save(name: String,age: number, address:String, token: String){
+  
+  const alert =this.savedata.create({
+    header: 'Are you sure you want to save edits?',
+    animated :true,
+  
+    buttons:
+    
+     [ {text:'Cancel',
+    
+     handler: async => {
+        this.patientName="";
+        this.patientAge=null;
+        this.patientAddress="";
+        this.myName = this.datastream.getPatientName();
+        this.myAge = this.datastream.getPatientAge();
+        this.myAddress=this.datastream.getPatientAddress();
+        this.notEnable=true;
+ 
+     }
+      },
+       {
+      text:'Save',
+      
+      handler: async => {
+         
+        this.notEnable=true;
+        token = this.datastream.getToken();
+        console.log("myAge "+ age);
+        console.log("myName "+ name);
+        console.log("myAddress "+ address);
+         this.editPatientService.editPatientProfile(name,age,address,token).subscribe(
+       response=>{
       // this.datastream.setToken(response.token);
       console.log("http request to Change patient Data: "+ JSON.stringify(response));
       // this.datastream.changePatientData(response);
@@ -80,29 +129,32 @@ export class ProfileComponent implements OnInit {
     });
 
   }
-
-
- cancel(){
-  this.patientName="";
-  this.patientAge=null;
-  this.patientAddress="";
-  this.myName = this.datastream.getPatientName();
-  this.myAge = this.datastream.getPatientAge();
-  this.myAddress=this.datastream.getPatientAddress();
-  this.notEnable=true;
-
+      
    
- }
+  }
+    
+   
+  ]
+  });
+
+   (await alert).present();
+  }
+
  changeName(){
   this.patientName="";
+  // this.myName="";
   
  }
  changeAge(){
   this.patientAge=null;
+  // this.myAge=null;
+
   
  }
  changeAddress(){
   this.patientAddress="";
+  // this.myAddress="";
+
 
   
  }
