@@ -24,7 +24,7 @@ export class DatastreamingService {
     const doctor = new doctorData;
     doctor.doctorId = doc.doctorId;
     doctor.name = doc.name;
-    doctor.email= doc.email;
+    // doctor.email= doc.email;
     doctor.years_experience = doc.years_experience;
     this.doctorList.push(doctor);
     console.log(this.doctorList);
@@ -58,7 +58,6 @@ export class DatastreamingService {
      this.patient.mobile = patientData.mobile;
      this.patient.name = patientData.name;
      this.patient.user_id = patientData.user_id;
-     this.patient.email = patientData.email;
      this.patient.password = patientData.password,
      this.patient.type = patientData.type;
      this.patient.timestamp = patientData.timestamp;
@@ -73,7 +72,6 @@ export class DatastreamingService {
       this.patient.name = patientData.user.name;
       this.patient.mobile = patientData.user.mobile;
       this.patient.user_id = patientData.user.id;
-      this.patient.email = patientData.user.email;
       this.patient.password = patientData.user.password,
       this.patient.type = patientData.user.type;
       this.patient.timestamp = patientData.user.timestamp;

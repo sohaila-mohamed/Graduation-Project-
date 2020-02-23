@@ -59,23 +59,32 @@ export class SignUpComponent  implements OnInit{
       
       }
   
-  async signup(first, last, mobile,email,password, password2,age,address)
+  async signup(first, last, mobile,password, password2,age,address)
   {
     
-    let fcmtoken = localStorage.getItem("fcmToken");
+      var fcmtoken;
+      //recieveing Token For Development Only FOR NOW
+      this.fcm.getToken().then((token)=>{
+        fcmtoken = token;
+
+      },
+      (err)=>{
+        alert("ERROR in getting FCM token: "+JSON.stringify(err));
+      });
+    console.log("fcmtoken signup: "+ fcmtoken)
     // console.log("fcmtoken in SIGN Up: "+ fcmtoken)
     if(this.checkCredentials(password,password2,age))
     {
-      let newPatient = this.createNewPatient(first, last, mobile,email,password,age,address, fcmtoken);
+      let newPatient = this.createNewPatient(first, last, mobile,password,age,address, fcmtoken);
       this.addPatientToDatabase(newPatient);
     }     
   }
-  createNewPatient(first, last, mobile,email,password,age,address, fcmtoken)
+  createNewPatient(first, last, mobile,password,age,address, fcmtoken)
   {
     mobile = mobile.toString();
     mobile = mobile.replace(/^0+/, '');
     mobile= "+20"+mobile;
-    return new createPatient(first+" " +last, mobile,email,password,age,address, fcmtoken);
+    return new createPatient(first+" " +last, mobile,password,age,address, fcmtoken);
   }
 
   addPatientToDatabase(newPatient)
