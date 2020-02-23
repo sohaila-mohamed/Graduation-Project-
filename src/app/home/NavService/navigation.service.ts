@@ -19,8 +19,7 @@ export class NavigationService {
         .then(() => console.log("navigated to " + path))
         .catch(err => 
           {
-            console.log("error navigating to "+path +" + err");
-            this.presentAlert('Navigation Error: ', err.error.message);
+            console.log("error navigating to "+path +" + err: "+ err);
 
 
         });

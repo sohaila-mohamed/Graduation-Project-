@@ -19,7 +19,7 @@
 
           <div >
               <h1 class="centered">
-                <ion-input clearInput #Name disabled={{notEnable}} (ionChange)="changeName()" #Name [(ngModel)]="myName" floating>
+                <ion-input clearInput #Name disabled={{notEnable}} (ionFocus)="changeName()"  [(ngModel)]="myName" >
                      {{patientName}}
                  </ion-input>
                </h1>
@@ -39,14 +39,14 @@
          <ion-item class = "it" color="sub.severityLevel">
               <ion-icon name="contacts" class="pad"></ion-icon>
              
-              <ion-input  (ionChange)="changeAge()" type="tel" clearInput readonly=false [(ngModel)]="myAge" #Age maxlength="2"   disabled={{notEnable}}>
+              <ion-input  (ionFocus)="changeAge()" type="tel" clearInput readonly=false [(ngModel)]="myAge" #Age maxlength="2"   disabled={{notEnable}}>
                  Age: {{patientAge}} 
               </ion-input>
           </ion-item >
           <ion-item color="sub.severityLevel" >
             <ion-icon name="business" class="pad"></ion-icon>
              
-              <ion-input  clearInput  [(ngModel)]="myAddress" (ionChange)="changeAddress()" #Address  disabled={{notEnable}}  floating>
+              <ion-input  clearInput  [(ngModel)]="myAddress" (ionFocus)="changeAddress()" #Address  disabled={{notEnable}}  >
                  Adress: {{patientAddress}} 
               </ion-input>
               
@@ -86,7 +86,7 @@
       </ion-row>
       <ion-row class="edit">
         <ion-col size="4">
-        <ion-button shape="round" (click)="edit()" color="sub.severityLevel" style="color:black"> Edit </ion-button>
+        <ion-button shape="round"  (click)="edit()" color="sub.severityLevel" style="color:black"> Edit </ion-button>
         </ion-col>
          <ion-col size="4" class="cancel">
         <ion-button  shape="round" (click)="save(Name.value,Age.value,Address.value)" color="sub.severityLevel" style="color:black"> Save </ion-button>

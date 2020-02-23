@@ -5,6 +5,7 @@ import { DatastreamingService } from '../services/datastream/datastreaming.servi
 import { AlertController, ActionSheetController} from '@ionic/angular';
 import { HttpService } from './HttPService/http.service';
 import { timer } from 'rxjs';
+import { ConversationsComponent } from './conversations/conversations.component';
 
 
 @Component({
@@ -31,12 +32,12 @@ export class HomePage implements OnInit {
     ngOnInit()
     {
       this.patientName =this.datastream.getPatientName();
-      if(this.patientName==undefined )
-      {
-        this.presentAlert('HTTP DataStream Error: ', "My Patient Name is Null");
-        console.log("this.datastream.getPatientName()==undefined ");
-        this.navigation.navigateTo('cover');
-      }  
+      // if(this.patientName==undefined )
+      // {
+      //   this.presentAlert('HTTP DataStream Error: ', "My Patient Name is Null");
+      //   console.log("this.datastream.getPatientName()==undefined ");
+      //   this.navigation.navigateTo('cover');
+      // }  
       this.getDocList();
     }
 
@@ -74,108 +75,118 @@ getDocList()
   
 
 
-  async addDoctor(){
+  // async addDoctor(){
   
-    const alert =this.addController.create({
-      header: 'Add your Doctor',
-      animated :true,
-      message: 'Enter code you got from your doctor.',
-      inputs:[{
-      type: "text",
-      name:'val',
-      value :""
+  //   const alert =this.addController.create({
+  //     header: 'Add your Doctor',
+  //     animated :true,
+  //     message: 'Enter code you got from your doctor.',
+  //     inputs:[{
+  //     type: "text",
+  //     name:'val',
+  //     value :""
       
       
-      }],
-      cssClass: "Dark",
-      buttons:
+  //     }],
+  //     cssClass: "Dark",
+  //     buttons:
       
-       [{
-        text:'Add',
+  //      [{
+  //       text:'Add',
         
-        handler: async data => {
-        let token = this.datastream.getToken();
-        console.log("code: " + data.val);
-        await this.http.addDoctor(data.val,token)
-        .subscribe(
-          response=>{
+  //       handler: async data => {
+  //       let token = this.datastream.getToken();
+  //       console.log("code: " + data.val);
+  //       await this.http.addDoctor(data.val,token)
+  //       .subscribe(
+  //         response=>{
           
             
-            console.log("http request to add doctor responce: "+ JSON.stringify(response));
+  //           console.log("http request to add doctor responce: "+ JSON.stringify(response));
 
-          }, 
-          err =>
-          {
-            this.presentAlert('HTTP Add Doctor Error: ', err.error.message);
-          },
-          async () => 
-          {
-            console.log('HTTP request completed.');
-            //Get Doctor List
-            await  this.http.getDoctorList(token)
-                  .subscribe(
-                    async response=>{
-                     // timer
-                     this.showSplash = true;
-                     // timer
-                    timer(10000).subscribe(()=> this.showSplash = false);
-                      this.datastream.clearDoctorList();
-                      await response.forEach(element => {
-                        this.datastream.addToDoctorList(element);
+  //         }, 
+  //         err =>
+  //         {
+  //           this.presentAlert('HTTP Add Doctor Error: ', err.error.message);
+  //         },
+  //         async () => 
+  //         {
+  //           console.log('HTTP request completed.');
+  //           //Get Doctor List
+  //           await  this.http.getDoctorList(token)
+  //                 .subscribe(
+  //                   async response=>{
+  //                    // timer
+  //                    this.showSplash = true;
+  //                    // timer
+  //                   timer(10000).subscribe(()=> this.showSplash = false);
+                    
+  //                     // this.datastream.getPatientAge();
+  //                     // this.datastream.getPatientAddress();
+  //                     // this.datastream.getPatientName();
+  //                     this.datastream.clearDoctorList();
+  //                     await response.forEach(element => {
+  //                       this.datastream.addToDoctorList(element);
                         
-                      }); 
-                      await this.datastream.saveDoctorListToDataStore();
-                      console.log('HTTP request completed.');
-                      this.navigation.navigateTo('home/doctorList');                 
-                    }, 
-                    err =>
-                    {
-                      console.log('HTTP Doctor List Error: ', err.error.message);
-                      this.presentAlert('HTTP Doctor List Error: ', err.error.message);
-                    },
+  //                     }); 
+  //                     await this.datastream.saveDoctorListToDataStore();
+  //                     console.log('HTTP request completed.');
+  //                     this.navigation.navigateTo('home/doctorList');                 
+  //                   }, 
+  //                   err =>
+  //                   {
+  //                     console.log('HTTP Doctor List Error: ', err.error.message);
+  //                     this.presentAlert('HTTP Doctor List Error: ', err.error.message);
+  //                   },
                    
-                  );
+  //                 );
   
-          }
-        );
+  //         }
+  //       );
          
         
           
           
   
-        }
-    },
+  //       }
+  //   },
       
-      {text:'Cancel',
-      role: 'cancel'
-       }
-    ]
-    });
+  //     {text:'Cancel',
+  //     role: 'cancel'
+  //      }
+  //   ]
+  //   });
   
-     (await alert).present();
-    }
+  //    (await alert).present();
+  //   }
+
+
     async newMessage() {
       const actionSheet = await this.docList.create({
-        header: 'Message Type',
+        header: 'Send Message To:',
         buttons: [{
-          text: 'Text',
+          text: 'Dr.Mahmoud',//get doctor list
           // role: 'destructive',
-           icon: 'chatbubbles',
+          icon: 'chatbubbles',
           handler: () => {
             console.log('Delete clicked');
             this.navigation.navigateTo("home/message");
           }
         }, {
-          text: 'Voice Call',
-          icon: 'call',
+          text: 'Dr.Mohamed',
+          icon: 'chatbubbles',
+          // icon: 'call',
           handler: () => {
             console.log('Share clicked');
+            this.navigation.navigateTo("home/message");
           }
         }, {
-          text: 'Video Call',
-          icon: 'camera',
+          text: 'Dr.Medhat',
+          icon: 'chatbubbles',
+          // icon: 'camera',
           handler: () => {
             console.log('Play clicked');
+            this.navigation.navigateTo("home/message");
           }
         }
         ]
@@ -183,6 +194,10 @@ getDocList()
       await actionSheet.present();
     }
   
-  
+    conv(){
+      this.navigation.navigateTo("home/conversation");
+
+    }
 
 }
+ 
