@@ -10,9 +10,8 @@ import { UpVitals } from '../DataModels';
 export class HttpService {
   
  
-  // Java_Host_Port = "http://ec2-18-204-209-87.compute-1.amazonaws.com:8080";
+  Java_Host_Port = "https://7c3f5e62.ngrok.io";
 
-  Java_Host_Port="https://fbddaec2.ngrok.io"
   Node_host ="http://ec2-3-15-156-222.us-east-2.compute.amazonaws.com:3000/";
   constructor(private http:HttpClient) { 
     
@@ -148,7 +147,8 @@ httpGetTokenOptions(accessToken) {
     const httpOption = {
     headers: this.httpGetTokenOptions(token)
    };  
-    const url =this.Java_Host_Port+"/patient/updateProfile";
+
+    const url =this.Java_Host_Port+"/patient/updateToken";
     return this.http.post<any>(
      url,
      {

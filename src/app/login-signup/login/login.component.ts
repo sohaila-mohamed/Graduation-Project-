@@ -5,6 +5,7 @@ import { DatastreamingService } from 'src/app/services/datastream/datastreaming.
 import { MenuController } from '@ionic/angular';
 import { AlertController} from '@ionic/angular';
 import { timer } from 'rxjs';
+import { FCM } from '@ionic-native/fcm/ngx';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,7 @@ export class LoginComponent implements OnInit {
      private datastream : DatastreamingService,
      private men:MenuController,
      private addController : AlertController,
-     
+     private fcm: FCM,
     ) { }
  
 
@@ -33,7 +34,8 @@ export class LoginComponent implements OnInit {
     // password = "beebz1997";
     let that = this;
     console.log(email,password);
-    
+    let  mobile = email.val.replace(/^0+/, '');
+    mobile= "+20"+mobile;
     // Loggining In
     this.http.Login(email, password).subscribe( 
        
@@ -46,6 +48,24 @@ export class LoginComponent implements OnInit {
         console.log("Token: "+res.token);
         this.datastream.setToken(res.token);
         
+        
+        //recieveing Token For Development Only FOR NOW
+        this.fcm.getToken().then((fcmtoken)=>{
+          this.http.editFCMToken(fcmtoken, res.token).subscribe((data)=>
+          {
+            console.log(JSON.stringify(data));
+          }, 
+          err=>{
+            alert("ERROR in updating FCM token: "+JSON.stringify(err));
+
+          });
+
+        },
+        (err)=>{
+          alert("ERROR in getting FCM token: "+JSON.stringify(err));
+        });
+
+
         this.http.getPatientUsingToken(res.token).subscribe(
             async patientData =>
             {

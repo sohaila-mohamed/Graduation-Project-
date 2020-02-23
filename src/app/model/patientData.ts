@@ -5,7 +5,6 @@ export class MyPatient{
   user_id: number;
   name: String;
   mobile: String;
-  email: String;
   password: String;
   type:String;
   timestamp: String;
