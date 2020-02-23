@@ -56,7 +56,7 @@ import { ConvListComponent } from './conv-list/conv-list.component';
         component: ConversationsComponent,
         children:[
           {
-            path: 'conversation/convList',
+            path: 'convList',
             component: ConvListComponent
           }
          ]  

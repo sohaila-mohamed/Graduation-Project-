@@ -14,12 +14,12 @@ export class ConversationsComponent implements OnInit {
  inbox(){
   console.log("inbox");
 
-  this.navigation.navigateTo('home/convList');
+  this.navigation.navigateTo('home/conversation/convList');
 
  }
  sent(){
    console.log("sent");
-  this.navigation.navigateTo('conversation/convList');
+  this.navigation.navigateTo('home/conversation/convList');
 
 }
   // <ion-col size="4">

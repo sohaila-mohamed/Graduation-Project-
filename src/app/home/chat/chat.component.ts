@@ -8,7 +8,7 @@ import { newMessage } from 'src/app/model/newMessage';
   styleUrls: ['./chat.component.scss'],
 })
 export class ChatComponent implements OnInit {
-  private Msg = new  newMessage;
+  private Msg :  newMessage;
   private Messages :  newMessage[]=[];
   constructor(private _intComp: InteractionService ) { }
 

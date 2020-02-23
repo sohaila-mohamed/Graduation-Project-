@@ -9,13 +9,13 @@ import { newMessage } from 'src/app/model/newMessage';
   styleUrls: ['./message.component.scss'],
 })
 export class MessageComponent implements OnInit {
-  private subject:string;
-  private content:string;
-  private Msg = new  newMessage;
-  private Messages :  newMessage[]=[];
+
 
   constructor(private navigation:NavigationService, private _intComp: InteractionService) { }
-
+  private Subject:string;
+  private content:string;
+  private Msg :newMessage;
+  private Messages :  newMessage[]=[];
   ngOnInit() {
     // this.Messages=[{
     //   sender:"Shrouk",
@@ -29,8 +29,8 @@ export class MessageComponent implements OnInit {
     this.Messages.push({
       sender:"Shrouk",
       reciever:"anyone",
-      Content:this.content,
-      subject:this.subject,
+      content:this.content,
+      subject:this.Subject,
       sentAt:123
     });
   console.log(this.content);

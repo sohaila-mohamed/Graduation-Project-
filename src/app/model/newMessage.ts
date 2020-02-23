@@ -1,9 +1,9 @@
 
-export class newMessage{
+export interface newMessage{
 
     sender:String;
     reciever:String;
-    Content:String;
+    content:String;
     subject:String;
     sentAt:number;
   
