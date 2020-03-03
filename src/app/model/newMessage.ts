@@ -6,6 +6,4 @@ export interface newMessage{
     content:String;
     subject:String;
     sentAt:number;
-  
-    
   }  

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationService } from '../NavService/navigation.service';
+import { HttpService } from '../HttPService/http.service';
+import { InteractionService } from 'src/app/services/datacommunication/interaction.service';
 
 @Component({
   selector: 'app-conversations',
@@ -8,14 +10,14 @@ import { NavigationService } from '../NavService/navigation.service';
 })
 export class ConversationsComponent implements OnInit {
 
-  constructor(private navigation: NavigationService) { }
+  constructor(private navigation: NavigationService, private httpService:HttpService ,private dataInteraction:InteractionService) { }
 
   ngOnInit() {}
  inbox(){
   console.log("inbox");
-
+  this.dataInteraction.sendConversationState(0);
   this.navigation.navigateTo('home/conversation/convList');
-
+ 
  }
  sent(){
    console.log("sent");

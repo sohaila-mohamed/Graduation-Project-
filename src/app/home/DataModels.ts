@@ -7,6 +7,7 @@ export interface IVital{
     input:number;
     
 }
+
 export class UpVitals{
     vital_Name:string
     new_value:any
@@ -26,4 +27,13 @@ export class Ivitals{
       bone_desity:    number
       muscle_desity:  number
 
+}
+export interface Iconvs{
+    created_date: string
+    is_readed: number
+    ​​msg_subject: string
+    ​​name: string
+    reciever_id: number
+    thread_id:number
+    sender_id:number
 }

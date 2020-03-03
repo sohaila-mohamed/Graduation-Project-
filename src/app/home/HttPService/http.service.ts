@@ -12,7 +12,7 @@ export class HttpService {
  
   Java_Host_Port = "https://7c3f5e62.ngrok.io";
 
-  Node_host ="http://ec2-3-15-156-222.us-east-2.compute.amazonaws.com:3000/";
+  Node_host ="http://localhost:3000/";
   constructor(private http:HttpClient) { 
     
   }
@@ -158,6 +158,18 @@ httpGetTokenOptions(accessToken) {
      
 
  }
+ getInbox(user_id,offset){
+  const Url =this.Node_host+"api/users/threads/inbox/"+user_id+"/"+offset;
+  console.log("URL",Url);
+  return this.http.get<any>(Url, this.httpOptions);
+
+ }
+ getSent(user_id,offset){
+  const Url =this.Node_host+"api/users/threads/sent/"+user_id+"/"+offset;
+  console.log("URL",Url);
+  return this.http.get<any>(Url, this.httpOptions);
+ }
+ 
  
 
 }
