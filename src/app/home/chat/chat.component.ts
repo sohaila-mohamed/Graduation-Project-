@@ -47,8 +47,8 @@ export class ChatComponent implements OnInit {
     console.log("type myMsgs is "+typeof(this.myMsgs));
 
     console.log("myMsgs",this.myMsgs);
-    this.currentUser=this.myMsgs.sender;
-    this.currentUser2=this.myMsgs.reciever;
+    this.currentUser=this.myMsgs.sender_name;
+    this.currentUser2=this.myMsgs.sender_name;
     
 
   }
@@ -64,11 +64,15 @@ export class ChatComponent implements OnInit {
     //reciever
     //sender
     this.Messages.push({
-      sender:this.myMsgs.sender,
-      reciever:this.myMsgs.reciever,
-      content:this.msgContent,
-      subject:this.myMsgs.sender,
-      sentAt:this.myMsgs.sentAt
+      reciever_id :29,
+      msg_subject :this.myMsgs.msg_subject,
+      created_date:Date.now().toString(),
+      is_readed:0,
+      reciever_name:this.myMsgs.reciever_name,
+      sender_name:this.myMsgs.sender_name,
+      msg_body:this.msgContent
+
+     
     })
     console.log(this.Messages)
       this.bigContent.scrollToBottom(200);

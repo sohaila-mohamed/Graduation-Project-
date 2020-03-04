@@ -55,11 +55,14 @@ export class MessageComponent implements OnInit {
     }
     else{
     this.Messages.push({
-      sender:"Shrouk",
-      reciever:this.Reciever,
-      content:this.Content,
-      subject:this.Subject,
-      sentAt:Date.now()
+        reciever_id :29,
+        msg_subject :this.Subject,
+        created_date:Date.now().toString(),
+        is_readed:0,
+        reciever_name:this.Reciever,
+        sender_name:"Shrouk",//patient name
+        msg_body:this.Content
+
     });
   console.log(this.Content);
   console.log(this.Messages[0]);

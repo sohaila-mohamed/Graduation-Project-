@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { UpVitals } from '../DataModels';
+import { newMessage } from 'src/app/model/newMessage';
 
 @Injectable({
   providedIn: 'root'
@@ -168,6 +169,15 @@ httpGetTokenOptions(accessToken) {
   const Url =this.Node_host+"api/users/threads/sent/"+user_id+"/"+offset;
   console.log("URL",Url);
   return this.http.get<any>(Url, this.httpOptions);
+ }
+
+ postThread(data:newMessage,id:number){
+  const Url =this.Node_host+"api/users/threads/msg/"+id;
+  let thread=JSON.stringify(data);
+  console.log("JSON Thread_data",thread);
+  console.log("URL",Url);
+  return this.http.post<any>(Url, thread, this.httpOptions);
+
  }
  
  

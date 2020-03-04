@@ -1,8 +1,43 @@
-  
-<p>Accounts:</p>
-<ul>
-  <li *ngFor="let account of convList">
-    {{ account.created_date}}
-  </li>
-</ul>
  
+
+ 
+<ion-grid>
+<ion-row>
+<ion-col size="12">
+<ion-grid>
+<ion-row *ngFor="let account of convList" class="img-holder">
+<ion-col size="3">
+<div>
+<img  class="small-icon" src="assets/doctor1.jpeg">
+
+</div>
+
+</ion-col>
+<ion-col size="8">
+<ion-grid >
+<ion-row>
+<h3>{{ account.sender_name}}</h3>
+</ion-row>
+<ion-row>
+<ion-col size="8">
+<p> {{account.msg_body}} </p>
+</ion-col>
+<ion-col size="4">
+<p>   {{account.created_date}}</p>
+</ion-col>
+
+</ion-row>
+</ion-grid>
+
+
+</ion-col>
+
+
+</ion-row>
+</ion-grid>
+
+</ion-col>
+
+</ion-row>
+</ion-grid>
+    

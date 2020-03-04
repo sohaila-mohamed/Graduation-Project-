@@ -2,7 +2,7 @@
  <ion-grid>
      <ion-row >
         <ion-toolbar class="tool" align-items-center> 
-             {{myMsgs.reciever}}
+             {{myMsgs.reciever_name}}
          <ion-buttons slot="start">
             <ion-back-button defaultHref="home"></ion-back-button>
          </ion-buttons>
@@ -12,22 +12,22 @@
          <ion-col offset="3" size="9" *ngIf="currentUser">
          <div  class="mySender">
            
-          <p class ="Sspace">{{myMsgs.sender}} </p>
+          <p class ="Sspace">{{myMsgs.sender_name}} </p>
           
-          <p class ="Cspace">{{myMsgs.content}}</p><br>
+          <p class ="Cspace">{{myMsgs.msg_body}}</p><br>
           <div class="time" text-right>
-            {{myMsgs.sentAt| date:'short'}}
+            {{myMsgs.created_date| date:'short'}}
           </div>
          </div>
          </ion-col>
           <ion-col  size="9" *ngIf="currentUser2">
          <div color="sub.severityLevel" class="myReciever">
            
-          <p class ="Sspace">{{myMsgs.reciever}} </p>
+          <p class ="Sspace">{{myMsgs.reciever_name}} </p>
           
-          <p class ="Cspace">{{myMsgs.content}}</p><br>
+          <p class ="Cspace">{{myMsgs.msg_body}}</p><br>
           <div class="time" text-right>
-            {{myMsgs.sentAt| date:'short'}}
+            {{myMsgs.created_date| date:'short'}}
           </div>
          </div>
          </ion-col>
