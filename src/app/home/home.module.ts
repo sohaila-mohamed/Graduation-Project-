@@ -16,6 +16,9 @@ import { MessageComponent } from './message/message.component';
 import { ChatComponent } from './chat/chat.component';
 import { ConversationsComponent } from './conversations/conversations.component';
 import { ConvListComponent } from './conv-list/conv-list.component';
+import { ScheduleComponent } from './schedule/schedule.component';
+import { AutosizeModule } from 'ngx-autosize';
+
 
 @NgModule({
   imports: [
@@ -23,6 +26,7 @@ import { ConvListComponent } from './conv-list/conv-list.component';
     FormsModule,
     IonicModule,
     HttpClientModule,
+    AutosizeModule,
     RouterModule.forChild([
     
       {
@@ -52,6 +56,11 @@ import { ConvListComponent } from './conv-list/conv-list.component';
       } 
       ,
       {
+        path: 'schedule',
+        component: ScheduleComponent
+      } 
+      ,
+      {
         path: 'conversation',
         component: ConversationsComponent,
         children:[
@@ -78,7 +87,8 @@ import { ConvListComponent } from './conv-list/conv-list.component';
     MessageComponent,
     ChatComponent,
     ConversationsComponent,
-    ConvListComponent
+    ConvListComponent,
+    ScheduleComponent
   ]
 })
 export class HomePageModule {}

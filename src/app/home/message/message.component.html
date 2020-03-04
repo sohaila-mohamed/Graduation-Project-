@@ -2,22 +2,16 @@
  <ion-grid class= "cont" >
   <ion-row>
        <ion-toolbar align-items-center> 
-       Send A New Message
+       
     <ion-buttons slot="start">
       <ion-back-button defaultHref="home"></ion-back-button>
     </ion-buttons>
-  </ion-toolbar>
-    <ion-col size ="12">
-        <div class="loader">
-           <div > 
-               <img src="assets/chat.png" >
-
-           </div>
-               
-        </div>
-     </ion-col>
+    <ion-button class ="docButton" (click)="chooseDoctor()" slot="end" color="sub.severityLevel" style="color:black">
+         choose your doctor first
+     </ion-button>
+      </ion-toolbar>
+    
    </ion-row>
-
     <ion-row > 
      <ion-col size="10">
      <ion-item>
@@ -25,12 +19,26 @@
       </ion-item>
      </ion-col>
      </ion-row>
+
+     <ion-row>
+       <ion-col size ="12">
+          
+        <div class="loader">
+           <div > 
+               <img src="assets/chat.png" >
+
+           </div>
+               
+        </div>
+    
+       </ion-col>
+     </ion-row>
      
    
    <ion-row class="spaces" align-items-center no-padding no-margin>
      <ion-col size="10">
         <ion-item>
-            <ion-textarea [(ngModel)]="content" placeholder="Type your Message here..."  cols ="15" rows="2" class="typing"></ion-textarea>
+            <ion-textarea [(ngModel)]="Content" placeholder="Type your Message here..."  cols ="8" rows="2" class="typing"></ion-textarea>
         </ion-item>
      </ion-col>
      <ion-col size="2">
