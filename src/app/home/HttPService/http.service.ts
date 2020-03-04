@@ -11,7 +11,7 @@ import { newMessage } from 'src/app/model/newMessage';
 export class HttpService {
   
  
-  Java_Host_Port = "https://7c3f5e62.ngrok.io";
+  Java_Host_Port = "https://ea2cfb09.ngrok.io";
 
   Node_host ="http://localhost:3000/";
   constructor(private http:HttpClient) { 
