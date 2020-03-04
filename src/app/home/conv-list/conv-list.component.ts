@@ -24,7 +24,7 @@ export class ConvListComponent implements OnInit {
     this.dateInteraction.currentStateConversation.subscribe(state=>{
       if(state==0){
         console.log("interaction works");
-        this.httpService.getInbox(32,0).subscribe((res)=>{
+        this.httpService.getInbox(28,0).subscribe((res)=>{
           console.log("inbox ",res);
           this.convList=res;
           console.log("list ",this.convList);
