@@ -40,11 +40,11 @@
      <ion-row  align-items-center no-padding no-margin>
        <ion-col size="10">
          <ion-item>
-            <ion-textarea #myCont [(ngModel)]="msgContent" placeholder="Type your Message here..."  cols ="8" rows="2" class="typing"></ion-textarea>
+            <ion-textarea value= "myCont" [(ngModel)]="msgContent" placeholder="Type your Message here..."  cols ="8" rows="2" class="typing"></ion-textarea>
          </ion-item>
        </ion-col>
        <ion-col size="2">
-         <ion-button class="btn" color="sub.severityLevel"  [disabled]="msgContent===''" (click)="sendCurrentMsg(myCont.value)">
+         <ion-button class="btn" color="sub.severityLevel"  [disabled]="msgContent===''" (click)="sendCurrentMsg()">
             <ion-icon name="paper-plane" ></ion-icon>
          </ion-button>
        </ion-col>

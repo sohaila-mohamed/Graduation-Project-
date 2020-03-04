@@ -20,7 +20,7 @@ export class ChatComponent implements OnInit {
     private myMsgs:any;
     private currentUser:string;
     private currentUser2:string;
-
+    private myCont:string;
     private msgContent:string;
 
    ngOnInit() {
@@ -48,7 +48,7 @@ export class ChatComponent implements OnInit {
 
     console.log("myMsgs",this.myMsgs);
     this.currentUser=this.myMsgs.sender_name;
-    this.currentUser2=this.myMsgs.sender_name;
+    this.currentUser2=this.myMsgs.reciever_name;
     
 
   }
@@ -57,9 +57,9 @@ export class ChatComponent implements OnInit {
     this.navigation.navigateTo('home');
 
   }
-  sendCurrentMsg(cont){
+  sendCurrentMsg(){
 
-    cont="";
+    this.myCont="";
     //thread id
     //reciever
     //sender
