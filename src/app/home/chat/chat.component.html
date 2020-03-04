@@ -1,7 +1,53 @@
-<p *ngFor="let msg of Messages;">
- {{msg.sender}}
- {{msg.reciever}}
- {{msg.Content}}
- {{msg.subject}}
-</p>
-<p> my message</p>
+<ion-content [scrollEvents]="true" class="cont">
+ <ion-grid>
+     <ion-row >
+        <ion-toolbar class="tool" align-items-center> 
+             {{myMsgs.reciever}}
+         <ion-buttons slot="start">
+            <ion-back-button defaultHref="home"></ion-back-button>
+         </ion-buttons>
+        </ion-toolbar>
+     </ion-row>
+     <ion-row *ngFor="let myMsgs of Messages">
+         <ion-col offset="3" size="9" *ngIf="currentUser">
+         <div  class="mySender">
+           
+          <p class ="Sspace">{{myMsgs.sender}} </p>
+          
+          <p class ="Cspace">{{myMsgs.content}}</p><br>
+          <div class="time" text-right>
+            {{myMsgs.sentAt| date:'short'}}
+          </div>
+         </div>
+         </ion-col>
+          <ion-col  size="9" *ngIf="currentUser2">
+         <div color="sub.severityLevel" class="myReciever">
+           
+          <p class ="Sspace">{{myMsgs.reciever}} </p>
+          
+          <p class ="Cspace">{{myMsgs.content}}</p><br>
+          <div class="time" text-right>
+            {{myMsgs.sentAt| date:'short'}}
+          </div>
+         </div>
+         </ion-col>
+    
+     </ion-row>
+  </ion-grid>
+</ion-content>
+<ion-footer>
+ <ion-toolbar>
+     <ion-row  align-items-center no-padding no-margin>
+       <ion-col size="10">
+         <ion-item>
+            <ion-textarea #myCont [(ngModel)]="msgContent" placeholder="Type your Message here..."  cols ="8" rows="2" class="typing"></ion-textarea>
+         </ion-item>
+       </ion-col>
+       <ion-col size="2">
+         <ion-button class="btn" color="sub.severityLevel"  [disabled]="msgContent===''" (click)="sendCurrentMsg(myCont.value)">
+            <ion-icon name="paper-plane" ></ion-icon>
+         </ion-button>
+       </ion-col>
+     </ion-row>
+ </ion-toolbar>
+</ion-footer>

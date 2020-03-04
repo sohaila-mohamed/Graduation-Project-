@@ -10,7 +10,9 @@ import { InteractionService } from 'src/app/services/datacommunication/interacti
 })
 export class ConversationsComponent implements OnInit {
 
-  constructor(private navigation: NavigationService, private httpService:HttpService ,private dataInteraction:InteractionService) { }
+  constructor(private navigation: NavigationService
+     , private httpService:HttpService
+     ,private dataInteraction:InteractionService) { }
 
   ngOnInit() {}
  inbox(){

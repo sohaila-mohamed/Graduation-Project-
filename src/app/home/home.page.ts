@@ -163,30 +163,23 @@ getDocList()
 
     async newMessage() {
       const actionSheet = await this.docList.create({
-        header: 'Send Message To:',
+        header: 'New:',
         buttons: [{
-          text: 'Dr.Mahmoud',//get doctor list
+          text: 'Consultation',//get doctor list
           // role: 'destructive',
           icon: 'chatbubbles',
           handler: () => {
             console.log('Delete clicked');
             this.navigation.navigateTo("home/message");
           }
-        }, {
-          text: 'Dr.Mohamed',
-          icon: 'chatbubbles',
-          // icon: 'call',
-          handler: () => {
-            console.log('Share clicked');
-            this.navigation.navigateTo("home/message");
-          }
-        }, {
-          text: 'Dr.Medhat',
+        },
+         {
+          text: 'Life Text Session',
           icon: 'chatbubbles',
           // icon: 'camera',
           handler: () => {
             console.log('Play clicked');
-            this.navigation.navigateTo("home/message");
+            this.navigation.navigateTo("home/schedule");
           }
         }
         ]
