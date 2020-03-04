@@ -27,11 +27,14 @@ export class MessageComponent implements OnInit {
   }
   send(){
     this.Messages.push({
-      sender:"Shrouk",
-      reciever:"anyone",
-      content:this.content,
-      subject:this.Subject,
-      sentAt:123
+        reciever_id :29,
+        msg_subject :"postman3",
+        created_date:"2020-03-04",
+        is_readed:0,
+        reciever_name:"sohaila",
+        sender_name:"ahmed",
+        msg_body:"can i ask ...."
+
     });
   console.log(this.content);
   console.log(this.Messages);

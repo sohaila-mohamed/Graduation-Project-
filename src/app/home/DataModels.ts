@@ -29,11 +29,24 @@ export class Ivitals{
 
 }
 export interface Iconvs{
+      
+    sender_id:number
+    receiver_name:string
+    thread_id:number
+    ​​msg_subject: string
     created_date: string
     is_readed: number
-    ​​msg_subject: string
-    ​​name: string
-    reciever_id: number
-    thread_id:number
-    sender_id:number
+    sender_name:string
+    receiver_name_string
+    msg_body:string
 }
+// export interface thread{
+//         reciever_id :number,
+//         msg_subject:string,
+//         created_date:string,
+//         is_readed:number
+//         reciever_name :string,
+//         sender_name:string,
+//         msg_body :string
+        
+// }
