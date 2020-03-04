@@ -63,7 +63,7 @@ export class DatastreamingService {
      this.patient.timestamp = patientData.timestamp;
      this.patient.age = patientData.age;
      this.patient.address=patientData.address;
-     this.dataStore.savePatientLocally(this.patient);
+    //  this.dataStore.savePatientLocally(this.patient);
    }
     setPatient(patientData)
     {
