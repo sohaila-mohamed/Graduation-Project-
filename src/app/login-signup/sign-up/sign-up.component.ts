@@ -62,17 +62,16 @@ export class SignUpComponent  implements OnInit{
   async signup(first, last, mobile,password, password2,age,address)
   {
     
-      var fcmtoken;
-      //recieveing Token For Development Only FOR NOW
-      this.fcm.getToken().then((token)=>{
-        fcmtoken = token;
+      var fcmtoken="abc";
+      // this.fcm.getToken().then((token)=>{
+      //   fcmtoken = "abc";
 
-      },
-      (err)=>{
-        alert("ERROR in getting FCM token: "+JSON.stringify(err));
-      });
+      // },
+      // (err)=>{
+      //   alert("ERROR in getting FCM token: "+JSON.stringify(err));
+      // });
     console.log("fcmtoken signup: "+ fcmtoken)
-    // console.log("fcmtoken in SIGN Up: "+ fcmtoken)
+    console.log("fcmtoken in SIGN Up: "+ fcmtoken)
     if(this.checkCredentials(password,password2,age))
     {
       let newPatient = this.createNewPatient(first, last, mobile,password,age,address, fcmtoken);

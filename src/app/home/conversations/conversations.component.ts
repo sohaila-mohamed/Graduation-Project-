@@ -23,6 +23,7 @@ export class ConversationsComponent implements OnInit {
  }
  sent(){
    console.log("sent");
+   this.dataInteraction.sendConversationState(1);
   this.navigation.navigateTo('home/conversation/convList');
 
 }

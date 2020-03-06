@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { UpVitals } from '../DataModels';
+import { UpVitals, Reply } from '../DataModels';
 import { newMessage } from 'src/app/model/newMessage';
 
 @Injectable({
@@ -11,9 +11,9 @@ import { newMessage } from 'src/app/model/newMessage';
 export class HttpService {
   
  
-  Java_Host_Port = "https://ea2cfb09.ngrok.io";
+  Java_Host_Port = "http://ec2-18-204-209-87.compute-1.amazonaws.com:8080";
 
-  Node_host ="http://localhost:3000/";
+  Node_host ="http://ec2-18-220-113-15.us-east-2.compute.amazonaws.com:3000/";
   constructor(private http:HttpClient) { 
     
   }
@@ -171,14 +171,23 @@ httpGetTokenOptions(accessToken) {
   return this.http.get<any>(Url, this.httpOptions);
  }
 
- postThread(data:newMessage,id:number){
-  const Url =this.Node_host+"api/users/threads/msg/"+id;
+ postThread(data:newMessage,sender_id:number){
+  const Url =this.Node_host+"api/users/threads/"+sender_id;
   let thread=JSON.stringify(data);
   console.log("JSON Thread_data",thread);
   console.log("URL",Url);
   return this.http.post<any>(Url, thread, this.httpOptions);
 
  }
+ postReply(data:Reply,id:number){
+  const Url =this.Node_host+"api/users/threads/msg/"+id;
+  let reply=JSON.stringify(data);
+  console.log("JSON Thread_data",reply);
+  console.log("URL",Url);
+  return this.http.post<any>(Url, reply, this.httpOptions);
+
+ }
+
  
  
 
