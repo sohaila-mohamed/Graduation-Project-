@@ -38,15 +38,18 @@
   white-space: pre-wrap;
 }
 .mySender{
-  border-radius: 10%;
-  background-color: rgb(69, 209, 174); 
+ 
+  background-color: white; 
+  border: thick solid rgb(60, 184, 184);
+  border-radius: 20%;
   color: black;
 
 }
 .myReciever{
-    border-radius: 10%;
-    background-color:rgb(253, 239, 214); 
-    color: black;
+  background-color: white; 
+  border: thick solid rgb(60, 184, 184);
+  border-radius: 20%;
+  color: black;
 }
 .time{
   color: black;

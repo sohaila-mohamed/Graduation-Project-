@@ -14,8 +14,12 @@ import { newMessage } from 'src/app/model/newMessage';
 export class ConvListComponent implements OnInit {
   private convList:Iconvs[];
   private patientId:number;
-  private data :newMessage;
-  constructor(private httpService:HttpService,private patientData:DatastreamingService,private dateInteraction:InteractionService) {
+  private data : newMessage;
+  private dataObject :any;
+  constructor(private httpService:HttpService,
+    private patientData:DatastreamingService,
+    private dateInteraction:InteractionService,
+    private intComp: InteractionService) {
 
    }
 
@@ -40,15 +44,19 @@ export class ConvListComponent implements OnInit {
         });
 
       }
-      // this.data={
-      //         reciever_id :29,
-      //         msg_subject :"postman3",
-      //         created_date:"2020-03-04",
-      //         is_readed:0,
-      //         reciever_name:"sohaila",
-      //         sender_name:"ahmed",
-      //         msg_body:"can i ask ...."
-      // };
+      //create object from convlis hen send it to message
+      this.dataObject= this.convList[0];
+
+      this.data={
+              reciever_id :this.dataObject.reciever_id,
+              msg_subject :this.dataObject.msg_subject,
+              created_date:this.dataObject.created_date,
+              is_readed:this.dataObject.is_readed,
+              reciever_name:this.dataObject.reciever_name,
+              sender_name:this.dataObject.sender_name,
+              msg_body:this.dataObject.msg_body
+      };
+      this.intComp.sendMSG(this.data);
       // this.httpService.postThread(this.data,28).subscribe((res)=>{
       //   console.log("posted",res);
       // });

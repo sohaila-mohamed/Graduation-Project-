@@ -2,32 +2,32 @@
  <ion-grid>
      <ion-row >
         <ion-toolbar class="tool" align-items-center> 
-             {{myMsgs.reciever_name}}
+             {{newMsgs.reciever_name}}
          <ion-buttons slot="start">
             <ion-back-button defaultHref="home"></ion-back-button>
          </ion-buttons>
         </ion-toolbar>
      </ion-row>
-     <ion-row *ngFor="let myMsgs of Messages">
+     <ion-row *ngFor="let newMsgs of newMessages">
          <ion-col offset="3" size="9" *ngIf="currentUser">
          <div  class="mySender">
            
-          <p class ="Sspace">{{myMsgs.sender_name}} </p>
+          <p class ="Sspace">{{newMsgs.sender_name}} </p>
           
-          <p class ="Cspace">{{myMsgs.msg_body}}</p><br>
+          <p class ="Cspace">{{newMsgs.msg_body}}</p><br>
           <div class="time" text-right>
-            {{myMsgs.created_date| date:'short'}}
+            {{newMsgs.created_date| date:'short'}}
           </div>
          </div>
          </ion-col>
           <ion-col  size="9" *ngIf="currentUser2">
          <div color="sub.severityLevel" class="myReciever">
            
-          <p class ="Sspace">{{myMsgs.reciever_name}} </p>
+          <p class ="Sspace">{{newMsgs.reciever_name}} </p>
           
-          <p class ="Cspace">{{myMsgs.msg_body}}</p><br>
+          <p class ="Cspace">{{newMsgs.msg_body}}</p><br>
           <div class="time" text-right>
-            {{myMsgs.created_date| date:'short'}}
+            {{newMsgs.created_date| date:'short'}}
           </div>
          </div>
          </ion-col>
@@ -40,11 +40,11 @@
      <ion-row  align-items-center no-padding no-margin>
        <ion-col size="10">
          <ion-item>
-            <ion-textarea value= "myCont" [(ngModel)]="msgContent" placeholder="Type your Message here..."  cols ="8" rows="2" class="typing"></ion-textarea>
+            <ion-textarea value= "myCont_to_clear_text_area" [(ngModel)]="replyContent" placeholder="Type your Message here..."  cols ="8" rows="2" class="typing"></ion-textarea>
          </ion-item>
        </ion-col>
        <ion-col size="2">
-         <ion-button class="btn" color="sub.severityLevel"  [disabled]="msgContent===''" (click)="sendCurrentMsg()">
+         <ion-button class="btn" color="sub.severityLevel"  [disabled]="replyContent===''" (click)="sendReply()">
             <ion-icon name="paper-plane" ></ion-icon>
          </ion-button>
        </ion-col>

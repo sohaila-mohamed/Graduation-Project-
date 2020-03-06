@@ -13,15 +13,15 @@ import { IonContent } from '@ionic/angular';
   styleUrls: ['./chat.component.scss'],
 })
 export class ChatComponent implements OnInit {
-  private Messages : newMessage[];
+  private newMessages : newMessage[];
  @ViewChild(IonContent, {static: true})   bigContent : IonContent
   constructor(private intComp: InteractionService,
     private navigation:NavigationService ) { }
-    private myMsgs:any;
+    private newMsgs:any;
     private currentUser:string;
     private currentUser2:string;
-    private myCont:string;
-    private msgContent:string;
+    private myCont_to_clear_text_area:string;
+    private replyContent:string;
 
    ngOnInit() {
     // this.isRendered=false;
@@ -29,8 +29,8 @@ export class ChatComponent implements OnInit {
     this.intComp.msg.subscribe(
     (massage)=> { 
       console.log(massage);
-      that.Messages=massage;
-      console.log("tpe msg  "+that.Messages);
+      that.newMessages=massage;
+      console.log("tpe msg  "+that.newMessages);
       // that.Messages.push(massage);
       // console.log("arra "+that.Messages);
       that.setMessege();
@@ -40,15 +40,16 @@ export class ChatComponent implements OnInit {
      
   }
   setMessege(){
-    this.myMsgs=this.Messages[0];
+    this.newMsgs=this.newMessages[0];
     // this.isRendered=true;
     // *ngIf="isRendered"
 
-    console.log("type myMsgs is "+typeof(this.myMsgs));
+    console.log("type myMsgs is "+typeof(this.newMsgs));
 
-    console.log("myMsgs",this.myMsgs);
-    this.currentUser=this.myMsgs.sender_name;
-    this.currentUser2=this.myMsgs.reciever_name;
+    console.log("myMsgs",this.newMsgs);
+    this.currentUser=this.newMsgs.sender_name;
+    // this.currentUser2=this.newMsgs.reciever_name;
+    console.log("rec ",this.newMsgs.reciever_name);
     
 
   }
@@ -57,24 +58,24 @@ export class ChatComponent implements OnInit {
     this.navigation.navigateTo('home');
 
   }
-  sendCurrentMsg(){
+   sendReply(){
 
-    this.myCont="";
+    this.myCont_to_clear_text_area="";
     //thread id
     //reciever
     //sender
-    this.Messages.push({
-      reciever_id :29,
-      msg_subject :this.myMsgs.msg_subject,
-      created_date:Date.now().toString(),
-      is_readed:0,
-      reciever_name:this.myMsgs.reciever_name,
-      sender_name:this.myMsgs.sender_name,
-      msg_body:this.msgContent
+    this.newMessages.push({
+      reciever_id :this.newMsgs.reciever_id,
+      msg_subject :this.newMsgs.msg_subject,
+      created_date:this.newMsgs.created_date,
+      is_readed:this.newMsgs.is_readed,
+      reciever_name:this.newMsgs.reciever_name,
+      sender_name:this.newMsgs.sender_name,
+      msg_body:this.replyContent
 
      
     })
-    console.log(this.Messages)
+      console.log(this.newMessages)
       this.bigContent.scrollToBottom(200);
   }
 }
