@@ -46,6 +46,7 @@ export class ConvListComponent implements OnInit {
         });
 
       }
+///////////////////////////////////////////////////////////      
 /////////// to create new thread 
      this.thread={
         reciever_id   :  29,
@@ -74,30 +75,33 @@ export class ConvListComponent implements OnInit {
         
       });
 
+////////////////////////////////////////////////////////////
 
 
 
 
     });
 
-//////// to reply on specific thread 
-  }
-  reply(thread_id){
-    console.log(thread_id);
-    // let date=new Date().toJSON().slice(0,10).split('-').reverse().join('/');
-    let date=new Date().toLocaleString();
 
-    console.log("current date ",new Date().toLocaleString());
-    this.data={
-        sender_id:31,
-        reciever_id:this.patientId,
-        msg_body:"Okay, you can change the potato with salad and some fruits you love , i wish uou happy day, thanks. you can change the potato with salad and some fruits you love , i wish uou happy day, thanks. you can change the potato with salad and some fruits you love , i wish uou happy day, thanks. you can change the potato with salad and some fruits you love , i wish uou happy day, thanks. you can change the potato with salad and some fruits you love , i wish uou happy day, thanks.",
-        created_date:date,
-
-    }
-      this.httpService.postReply(this.data,thread_id).subscribe((res)=>{
-        console.log("posted",res);
-      });
   }
+//////////////////////////////////////////////////////////////////  
+  // //////// to reply on specific thread 
+  // reply(thread_id){
+  //   console.log(thread_id);
+  //   let date=new Date().toLocaleString();
+
+  //   console.log("current date ",new Date().toLocaleString());
+  //   this.data={
+  //       sender_id:patient_id,
+  //       reciever_id:this.Doctor_id,
+  //       msg_body:"Okay, you can change the potato with salad and some fruits you love , i wish uou happy day, thanks. you can change the potato with salad and some fruits you love , i wish uou happy day, thanks. you can change the potato with salad and some fruits you love , i wish uou happy day, thanks. you can change the potato with salad and some fruits you love , i wish uou happy day, thanks. you can change the potato with salad and some fruits you love , i wish uou happy day, thanks.",
+  //       created_date:date,
+
+  //   }
+  //     this.httpService.postReply(this.data,thread_id).subscribe((res)=>{
+  //       console.log("posted",res);
+  //     });
+  // }
+  /////////////////////////////////////////////////////////////////////////
 
 }
