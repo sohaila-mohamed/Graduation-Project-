@@ -3,8 +3,10 @@ export class doctorData{
 
     doctorId: number;
     name: string;
-    // email: String;
+    fcmtoken: string;
+    mobile: string;
     years_experience: number;
-  
+    relationid: number;
+      
     
   }  
