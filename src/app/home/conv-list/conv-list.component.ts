@@ -7,6 +7,7 @@ import { typeWithParameters } from '@angular/compiler/src/render3/util';
 import { newMessage } from 'src/app/model/newMessage';
 import { IonContent } from '@ionic/angular';
 import { eventMethod } from '@ionic/core/dist/types/utils/overlays';
+import { NavigationService } from '../NavService/navigation.service';
 
 @Component({
   selector: 'app-conv-list',
@@ -24,7 +25,11 @@ export class ConvListComponent implements OnInit {
   @ViewChild(IonContent,{static:false}) ionContent: IonContent;
 
 
-  constructor(private httpService:HttpService,private patientData:DatastreamingService,private dateInteraction:InteractionService) {
+  constructor(private httpService:HttpService,
+    private communication:InteractionService,
+    private patientData:DatastreamingService,
+    private navigation:NavigationService,
+    private dateInteraction:InteractionService) {
     console.log("Constructor");
 
    }

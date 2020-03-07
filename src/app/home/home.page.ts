@@ -28,7 +28,7 @@ export class HomePage implements OnInit {
     private http: HttpService,
     private addController : AlertController,
     private docList:ActionSheetController,
-    private communication:InteractionService
+    private intComp:InteractionService
     ) {
     }
     doctorRow = new Array<doctorData>();
@@ -39,7 +39,7 @@ export class HomePage implements OnInit {
 
       console.log("oninit");
       this.doctorRow = this.datastream.getDoctorList(); 
-      console.log("doctorRow.......",this.doctorRow);
+      console.log("doc"+this.doctorRow[0]);
       this.patientName =this.datastream.getPatientName();
       // if(this.patientName==undefined )
       // {
@@ -86,30 +86,31 @@ getDocList()
       const actionSheet = await this.docList.create({
         header: 'You want to send message to:',
         buttons: [{
-            text :'Dr.Mahmoud',  
-          // text: this.doctorRow[0].name, //get doctor list
+            //  text :'Dr.Mahmoud',  
+           text: 'Dr.'+ this.doctorRow[0].name, //get doctor list
           icon: 'person',
           handler: () => {
             this.navigation.navigateTo("home/message");
-             this.Reciever="Dr.Mahmoud";
-            // this.Reciever= this.doctorRow[0].name;
+              // this.Reciever="Dr.Mahmoud";
+             this.Reciever= this.doctorRow[0].name;
+             console.log("docM"+this.Reciever);
          
-            this.communication.sendDoctorNamefromHometoMessage(this.Reciever);
+            this.intComp.sendDoctorNamefromHometoMessage(this.doctorRow);
             
 
             //must be getten from database
           }
         },
          {
-            text:'Dr.Medhat',
-          //  text: this.doctorRow[1].name,
+            // text:'Dr.Medhat',
+            text: 'Dr.'+ this.doctorRow[1].name,
            icon: 'person',
           // icon: 'camera',
           handler: () => {
             
-             this.Reciever="Dr.Medhat";
-             this.communication.sendDoctorNamefromHometoMessage(this.Reciever);
-          // this.Reciever= this.doctorRow[1].name;    
+            //  this.Reciever="Dr.Medhat";
+             this.intComp.sendDoctorNamefromHometoMessage(this.doctorRow);
+           this.Reciever= this.doctorRow[1].name;    
              this.navigation.navigateTo("home/message");
           }
         }
