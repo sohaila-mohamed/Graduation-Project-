@@ -21,7 +21,7 @@ export class DoctorListComponent implements OnInit {
   doctorRow = new Array<doctorData>();
   constructor(private datastream : DatastreamingService, private navigation : NavigationService
     ) {
-      this.doctorRow = this.datastream.getDoctorList();      
+      this.doctorRow = this.datastream.getDoctorList();     
      } 
   ngOnInit() {}
   backClick(){

@@ -6,8 +6,23 @@
   }
     
 .img-holder{
+    
     border-radius: 10px;
     box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.5);
     transform-style: preserve-3d;
     border: whitesmoke solid 2px;
+    
+}
+
+.subtitle {
+  font: medium;
+}
+.msg_holder{
+  max-height: 5%;
+}
+.msg {
+  max-height:50px;
+  overflow: hidden;
+  
+  
 }

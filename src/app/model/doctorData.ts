@@ -2,7 +2,7 @@
 export class doctorData{
 
     doctorId: number;
-    name: String;
+    name: string;
     // email: String;
     years_experience: number;
   

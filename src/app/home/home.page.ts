@@ -6,6 +6,8 @@ import { AlertController, ActionSheetController} from '@ionic/angular';
 import { HttpService } from './HttPService/http.service';
 import { timer } from 'rxjs';
 import { ConversationsComponent } from './conversations/conversations.component';
+import { InteractionService } from '../services/datacommunication/interaction.service';
+import { doctorData } from '../model/doctorData';
 
 
 @Component({
@@ -19,18 +21,23 @@ export class HomePage implements OnInit {
   val: string;
   // timer
   showSplash 
+  private Reciever:string;
   constructor(
     private navigation:NavigationService, 
     private datastream: DatastreamingService, 
     private http: HttpService,
     private addController : AlertController,
-    private docList:ActionSheetController
+    private docList:ActionSheetController,
+    private communication:InteractionService
     ) {
     }
+    doctorRow = new Array<doctorData>();
 
 
     ngOnInit()
     {
+      
+      this.doctorRow = this.datastream.getDoctorList(); 
       this.patientName =this.datastream.getPatientName();
       // if(this.patientName==undefined )
       // {
@@ -163,28 +170,39 @@ getDocList()
 
     async newMessage() {
       const actionSheet = await this.docList.create({
-        header: 'New:',
+        header: 'You want to send message to:',
         buttons: [{
-          text: 'Consultation',//get doctor list
-          // role: 'destructive',
-          icon: 'chatbubbles',
+            text :'Dr.Mahmoud',  
+          // text: this.doctorRow[0].name, //get doctor list
+          icon: 'person',
           handler: () => {
-            console.log('Delete clicked');
             this.navigation.navigateTo("home/message");
+             this.Reciever="Dr.Mahmoud";
+            // this.Reciever= this.doctorRow[0].name;
+         
+            this.communication.sendDoctorNamefromHometoMessage(this.Reciever);
+            
+
+            //must be getten from database
           }
         },
          {
-          text: 'Life Text Session',
-          icon: 'chatbubbles',
+            text:'Dr.Medhat',
+          //  text: this.doctorRow[1].name,
+           icon: 'person',
           // icon: 'camera',
           handler: () => {
-            console.log('Play clicked');
-            this.navigation.navigateTo("home/schedule");
+            
+             this.Reciever="Dr.Medhat";
+             this.communication.sendDoctorNamefromHometoMessage(this.Reciever);
+          // this.Reciever= this.doctorRow[1].name;    
+             this.navigation.navigateTo("home/message");
           }
         }
         ]
       });
       await actionSheet.present();
+    
     }
   
     conv(){

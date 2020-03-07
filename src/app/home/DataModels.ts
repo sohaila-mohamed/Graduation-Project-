@@ -40,13 +40,9 @@ export interface Iconvs{
     receiver_name_string
     msg_body:string
 }
-// export interface thread{
-//         reciever_id :number,
-//         msg_subject:string,
-//         created_date:string,
-//         is_readed:number
-//         reciever_name :string,
-//         sender_name:string,
-//         msg_body :string
-        
-// }
+export interface Reply{
+    sender_id: number,
+    reciever_id	:number,
+    msg_body:string,
+    created_date: string
+}

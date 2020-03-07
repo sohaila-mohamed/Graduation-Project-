@@ -13,14 +13,13 @@ import { IonContent } from '@ionic/angular';
   styleUrls: ['./chat.component.scss'],
 })
 export class ChatComponent implements OnInit {
-  private newMessages : newMessage[];
+  private newMessages : newMessage[]=[];
  @ViewChild(IonContent, {static: true})   bigContent : IonContent
   constructor(private intComp: InteractionService,
     private navigation:NavigationService ) { }
     private newMsgs:any;
     private currentUser:string;
     private currentUser2:string;
-    private myCont_to_clear_text_area:string;
     private replyContent:string;
 
    ngOnInit() {
@@ -60,7 +59,6 @@ export class ChatComponent implements OnInit {
   }
    sendReply(){
 
-    this.myCont_to_clear_text_area="";
     //thread id
     //reciever
     //sender
@@ -74,8 +72,9 @@ export class ChatComponent implements OnInit {
       msg_body:this.replyContent
 
      
-    })
+    });
       console.log(this.newMessages)
+      this.replyContent="";
       this.bigContent.scrollToBottom(200);
   }
 }

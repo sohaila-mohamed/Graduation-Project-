@@ -23,8 +23,12 @@ export class ConversationsComponent implements OnInit {
  }
  sent(){
    console.log("sent");
+   this.dataInteraction.sendConversationState(1);
   this.navigation.navigateTo('home/conversation/convList');
 
+}
+back(){
+  this.navigation.navigateTo('home');
 }
   // <ion-col size="4">
   //          <ion-button shape="round"  (click)="inbox()" color="sub.severityLevel" style="color:black"> inbox </ion-button>
