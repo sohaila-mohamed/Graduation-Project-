@@ -11,12 +11,13 @@ import { newMessage } from 'src/app/model/newMessage';
 export class HttpService {
   
  
-  Java_Host_Port = "http://ec2-18-204-209-87.compute-1.amazonaws.com:8080";
+  Java_Host_Port = "https://e0da7813.ngrok.io";
 
   Node_host ="http://ec2-3-20-227-97.us-east-2.compute.amazonaws.com:3000/";
   constructor(private http:HttpClient) { 
     
   }
+  
 
 
  
@@ -113,6 +114,7 @@ httpGetTokenOptions(accessToken) {
     console.log("URL",Url);
     return this.http.post<any>(Url, vital, this.httpOptions);
   }
+
 
   PutVital(vital:UpVitals,id:number): Observable<any>{
     const Url =this.Node_host+"api/users/vitals/"+id;

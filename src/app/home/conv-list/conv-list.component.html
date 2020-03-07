@@ -1,4 +1,4 @@
- 
+<ion-content [scrollEvents]="true" >
 <ion-grid >
 <ion-row>
 <ion-col size="12">
@@ -16,7 +16,7 @@
 <article>
  <h4>{{ account.sender_name}}</h4>
 
-        <h5 >{{account.msg_subject}}</h5>
+        <h5  [ngClass]="{'read' : !account.is_readed}">{{account.msg_subject}}</h5>
 
 </article>
 
@@ -45,8 +45,15 @@
 </ion-row>
 </ion-grid>
 
+
 </ion-col>
 
 </ion-row>
 </ion-grid>
-    
+            <ion-infinite-scroll  (ionInfinite)="loadData($event)">
+            <ion-infinite-scroll-content
+                                loadingSpinner="bubbles"
+                                loadingText="Loading more data...">
+              </ion-infinite-scroll-content>
+              </ion-infinite-scroll>
+<ion-content>              
