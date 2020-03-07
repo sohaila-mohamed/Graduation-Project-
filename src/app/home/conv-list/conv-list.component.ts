@@ -163,13 +163,18 @@ reply(thread_id){
         created_date:date,
 
     }
-    this.httpService.getReplies(thread_id,0).subscribe((res)=>{
-      console.log("replies",res);
-    });
-      // this.httpService.postReply(this.data,thread_id).subscribe((res)=>{
-      //   console.log("posted",res);
-      // });
+      this.httpService.postReply(this.data,thread_id).subscribe((res)=>{
+        console.log("posted",res);
+      });
   }
   /////////////////////////////////////////////////////////////////////////
+  ///get all replies by thread_id and offset for paging 
+  ///Attention Please !!!!!
+  //send offset zero until i finish the paging for chat  
+
+  // this.httpService.getReplies(thread_id,0).subscribe((res)=>{
+  //   console.log("replies",res);
+  // });
+  ///////////////////////////////////////////////////////////////
 
 }
