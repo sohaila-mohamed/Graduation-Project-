@@ -150,31 +150,30 @@ loadData(event){
 
     }
 //////////////////////////////////////////////////////////////////  
-  //////// to reply on specific thread 
-reply(thread_id){
+  // //////// to reply on specific thread 
+  reply(thread_id){
     console.log(thread_id);
-    let date=new Date().toLocaleString();
+      this.communication.getThreadIdfromMessageorConvListtoChat(thread_id);
+      this.navigation.navigateTo('home/chat');
+ 
+    // let date=new Date().toLocaleString();
 
-    console.log("current date ",new Date().toLocaleString());
-    this.data={
-        sender_id:31,
-        reciever_id:59,
-        msg_body:"Okay man .., you can change the potato with salad and some fruits you love , i wish uou happy day, thanks. you can change the potato with salad and some fruits you love , i wish uou happy day, thanks. you can change the potato with salad and some fruits you love , i wish uou happy day, thanks. you can change the potato with salad and some fruits you love , i wish uou happy day, thanks. you can change the potato with salad and some fruits you love , i wish uou happy day, thanks.",
-        created_date:date,
+    // console.log("current date ",new Date().toLocaleString());
+    // this.data={
+    //     sender_id:patient_id,
+    //     reciever_id:this.Doctor_id,
+    //     msg_body:"Okay, you can change the potato with salad and some fruits you love , i wish uou happy day, thanks. you can change the potato with salad and some fruits you love , i wish uou happy day, thanks. you can change the potato with salad and some fruits you love , i wish uou happy day, thanks. you can change the potato with salad and some fruits you love , i wish uou happy day, thanks. you can change the potato with salad and some fruits you love , i wish uou happy day, thanks.",
+    //     created_date:date,
 
-    }
-      this.httpService.postReply(this.data,thread_id).subscribe((res)=>{
-        console.log("posted",res);
-      });
+    // }
+    //   this.httpService.postReply(this.data,thread_id).subscribe((res)=>{
+    //     console.log("posted",res);
+    //   });
   }
   /////////////////////////////////////////////////////////////////////////
-  ///get all replies by thread_id and offset for paging 
-  ///Attention Please !!!!!
-  //send offset zero until i finish the paging for chat  
-
+  //get all replies with thread_id and offset 
+  //Attention please send offset =0 until i finish paging for chat 
   // this.httpService.getReplies(thread_id,0).subscribe((res)=>{
   //   console.log("replies",res);
-  // });
-  ///////////////////////////////////////////////////////////////
-
+  // }); 
 }
