@@ -17,6 +17,7 @@ export class HttpService {
   constructor(private http:HttpClient) { 
     
   }
+  
 
 
  
@@ -113,6 +114,7 @@ httpGetTokenOptions(accessToken) {
     console.log("URL",Url);
     return this.http.post<any>(Url, vital, this.httpOptions);
   }
+
 
   PutVital(vital:UpVitals,id:number): Observable<any>{
     const Url =this.Node_host+"api/users/vitals/"+id;

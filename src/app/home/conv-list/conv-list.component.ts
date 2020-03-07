@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component,ViewChild, ElementRef, OnInit } from '@angular/core';
 import { HttpService } from '../HttPService/http.service';
 import { Iconvs, Reply } from '../DataModels';
 import { DatastreamingService } from 'src/app/services/datastream/datastreaming.service';
 import { InteractionService } from 'src/app/services/datacommunication/interaction.service';
 import { typeWithParameters } from '@angular/compiler/src/render3/util';
 import { newMessage } from 'src/app/model/newMessage';
-import { Time } from '@angular/common';
-import { Timestamp } from 'rxjs';
+import { IonContent } from '@ionic/angular';
+import { eventMethod } from '@ionic/core/dist/types/utils/overlays';
 
 @Component({
   selector: 'app-conv-list',
@@ -18,19 +18,29 @@ export class ConvListComponent implements OnInit {
   private patientId:number;
   private data :Reply;
   private thread:newMessage;
-  
+  private page:number;
+  private scrollPosition:number;
+  private state:number;
+  @ViewChild(IonContent,{static:false}) ionContent: IonContent;
+
 
   constructor(private httpService:HttpService,private patientData:DatastreamingService,private dateInteraction:InteractionService) {
+    console.log("Constructor");
 
    }
 
   ngOnInit() {
+    console.log("oninit");
+    console.log("this.scrolling",this.scrollPosition);
     this.patientId=this.patientData.getPatientId();
     console.log("patient_id",this.patientId);
     this.dateInteraction.currentStateConversation.subscribe(state=>{
-      if(state==0){
+      this.page=0;
+      this.state=state;
+      if(this.state==0){
+        console.log("page",this.page);
         console.log("interaction works");
-        this.httpService.getInbox(this.patientId,0).subscribe((res)=>{
+        this.httpService.getInbox(this.patientId,this.page).subscribe((res)=>{
           console.log("inbox ",res);
           this.convList=res;
           console.log("list ",this.convList);
@@ -38,7 +48,8 @@ export class ConvListComponent implements OnInit {
         });
       }
       else{
-        this.httpService.getSent(this.patientId,0).subscribe((res)=>{
+        console.log("page",this.page);
+        this.httpService.getSent(this.patientId,this.page).subscribe((res)=>{
           console.log("sent ",res);
           this.convList=res;
           console.log("list sent",this.convList);
@@ -46,6 +57,7 @@ export class ConvListComponent implements OnInit {
         });
 
       }
+      
 ///////////////////////////////////////////////////////////      
 /////////// to create new thread 
      this.thread={
@@ -72,6 +84,7 @@ export class ConvListComponent implements OnInit {
 
       });
 
+
         
       });
 
@@ -84,6 +97,56 @@ export class ConvListComponent implements OnInit {
 
 
   }
+  
+  ngAfterViewInit(){
+    this.dateInteraction.currentStateConversation.subscribe(state=>{
+      console.log("ngviewtinit");
+      this.ionContent.scrollToTop();
+    });
+
+  }
+ 
+loadData(event){
+  console.log("scrolling NOw")
+  this.page=this.page+10;
+  console.log("event",event);
+    if(this.state==0){
+      console.log("page",this.page);
+      console.log("interaction works");
+      this.httpService.getInbox(this.patientId,this.page).subscribe((res)=>{
+        console.log("inbox ",res);
+        res.forEach(element => {
+          this.convList.push(element);
+          
+        });
+        event.target.complete();
+        return;
+  
+      });
+    }
+    else{
+      console.log("page",this.page);
+      this.httpService.getSent(this.patientId,this.page).subscribe((res)=>{
+        console.log("sent ",res);
+        res.forEach(element => {
+          this.convList.push(element);
+          
+        });
+        
+        event.target.complete();
+        console.log("New list sent",this.convList);
+        return;
+  
+      });
+      
+
+    }
+  
+  
+  
+
+
+    }
 //////////////////////////////////////////////////////////////////  
   // //////// to reply on specific thread 
   // reply(thread_id){
