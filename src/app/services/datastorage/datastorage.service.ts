@@ -10,7 +10,10 @@ export class DatastorageService {
   constructor(
     private storage: Storage,
     ){}
-
+    clearDoctorList()
+    {
+      this.storage.set('doctorList',null);
+    }
     getDoctorList()
     {
       return this.storage.get('doctorList');
