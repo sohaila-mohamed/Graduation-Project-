@@ -18,19 +18,24 @@ export class DatastreamingService {
   clearDoctorList()
   {
     this.doctorList=[];
+
   }
-  addToDoctorList(doc)
+  addToDoctorList(element)
   {
+    //ELECT us.id, us.name, us.fcmtoken, us.mobile, doc.years_experience, relation.relationid
     const doctor = new doctorData;
-    doctor.doctorId = doc.doctorId;
-    doctor.name = doc.name;
-    // doctor.email= doc.email;
-    doctor.years_experience = doc.years_experience;
+    doctor.doctorId = element[0];
+    doctor.name = element[1];
+    doctor.fcmtoken = element[2];
+    doctor.mobile= element[3];
+    doctor.years_experience = element[4];
+    doctor.relationid=element[5];
     this.doctorList.push(doctor);
-    console.log(this.doctorList);
   }
   saveDoctorListToDataStore()
   {
+    console.log("mydoctorlist");
+    console.log(this.doctorList);
     this.dataStore.saveDoctorList(this.doctorList);
   }
   async restoreStreamDatalist(doctorList)

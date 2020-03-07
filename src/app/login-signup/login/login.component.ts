@@ -72,12 +72,16 @@ export class LoginComponent implements OnInit {
                 console.log("patient: "+JSON.stringify(patientData));
                 await that.datastream.setPatient(patientData);
 
+
+                console.log('doctorlist');
                 //Get Doctor List
                 await  this.http.getDoctorList(res.token)
                 .subscribe(
                   async response=>{
+                    console.log("respponce of doctor list");
+                    console.log(JSON.stringify(response));
                     this.datastream.clearDoctorList();
-                    await response.forEach(element => {
+                    await response.forEach(element => {                    
                       this.datastream.addToDoctorList(element);
                     });                  
                   }, 
