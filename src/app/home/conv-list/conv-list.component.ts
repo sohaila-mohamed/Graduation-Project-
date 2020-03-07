@@ -8,7 +8,6 @@ import { newMessage } from 'src/app/model/newMessage';
 import { IonContent } from '@ionic/angular';
 import { eventMethod } from '@ionic/core/dist/types/utils/overlays';
 import { NavigationService } from '../NavService/navigation.service';
-
 @Component({
   selector: 'app-conv-list',
   templateUrl: './conv-list.component.html',
@@ -150,7 +149,7 @@ loadData(event){
 
     }
 //////////////////////////////////////////////////////////////////  
-  // //////// to reply on specific thread 
+  /////////// to reply on specific thread 
   reply(thread_id){
     console.log(thread_id);
       this.communication.getThreadIdfromMessageorConvListtoChat(thread_id);

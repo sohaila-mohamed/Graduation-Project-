@@ -32,6 +32,9 @@ export class ConversationsComponent implements OnInit {
 back(){
   this.navigation.navigateTo('home');
 }
-
+CreateNew(){
+        
+        this.navigation.navigateTo('home/message');
+}
 
 }
