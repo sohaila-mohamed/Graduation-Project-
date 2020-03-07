@@ -7,6 +7,7 @@ import { typeWithParameters } from '@angular/compiler/src/render3/util';
 import { newMessage } from 'src/app/model/newMessage';
 import { IonContent } from '@ionic/angular';
 import { eventMethod } from '@ionic/core/dist/types/utils/overlays';
+import { NavigationService } from '../NavService/navigation.service';
 
 @Component({
   selector: 'app-conv-list',
@@ -24,7 +25,11 @@ export class ConvListComponent implements OnInit {
   @ViewChild(IonContent,{static:false}) ionContent: IonContent;
 
 
-  constructor(private httpService:HttpService,private patientData:DatastreamingService,private dateInteraction:InteractionService) {
+  constructor(private httpService:HttpService,
+    private communication:InteractionService,
+    private patientData:DatastreamingService,
+    private navigation:NavigationService,
+    private dateInteraction:InteractionService) {
     console.log("Constructor");
 
    }
@@ -149,22 +154,25 @@ loadData(event){
     }
 //////////////////////////////////////////////////////////////////  
   // //////// to reply on specific thread 
-  // reply(thread_id){
-  //   console.log(thread_id);
-  //   let date=new Date().toLocaleString();
+  reply(thread_id){
+    console.log(thread_id);
+      this.communication.getThreadIdfromMessageorConvListtoChat(thread_id);
+      this.navigation.navigateTo('home/chat');
+ 
+    // let date=new Date().toLocaleString();
 
-  //   console.log("current date ",new Date().toLocaleString());
-  //   this.data={
-  //       sender_id:patient_id,
-  //       reciever_id:this.Doctor_id,
-  //       msg_body:"Okay, you can change the potato with salad and some fruits you love , i wish uou happy day, thanks. you can change the potato with salad and some fruits you love , i wish uou happy day, thanks. you can change the potato with salad and some fruits you love , i wish uou happy day, thanks. you can change the potato with salad and some fruits you love , i wish uou happy day, thanks. you can change the potato with salad and some fruits you love , i wish uou happy day, thanks.",
-  //       created_date:date,
+    // console.log("current date ",new Date().toLocaleString());
+    // this.data={
+    //     sender_id:patient_id,
+    //     reciever_id:this.Doctor_id,
+    //     msg_body:"Okay, you can change the potato with salad and some fruits you love , i wish uou happy day, thanks. you can change the potato with salad and some fruits you love , i wish uou happy day, thanks. you can change the potato with salad and some fruits you love , i wish uou happy day, thanks. you can change the potato with salad and some fruits you love , i wish uou happy day, thanks. you can change the potato with salad and some fruits you love , i wish uou happy day, thanks.",
+    //     created_date:date,
 
-  //   }
-  //     this.httpService.postReply(this.data,thread_id).subscribe((res)=>{
-  //       console.log("posted",res);
-  //     });
-  // }
+    // }
+    //   this.httpService.postReply(this.data,thread_id).subscribe((res)=>{
+    //     console.log("posted",res);
+    //   });
+  }
   /////////////////////////////////////////////////////////////////////////
 
 }

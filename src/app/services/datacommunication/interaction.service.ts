@@ -12,8 +12,8 @@ export class InteractionService {
  private CoversationState = new BehaviorSubject(1);
  currentStateConversation = this.CoversationState.asObservable();
 
- private communication= new BehaviorSubject<string>("");
- getDocName =this.communication.asObservable();
+ private communication= new BehaviorSubject<number>(0);
+ getId =this.communication.asObservable();
   constructor() { }
   sendMSG(message){
   this.intComp.next( message);
@@ -23,8 +23,13 @@ export class InteractionService {
     this.CoversationState.next(state);
     console.log(state);
   }
-  sendDoctorNamefromHometoMessage(name){
-    this.communication.next(name);
-    console.log(name);
+  sendDoctorNamefromHometoMessage(doctorListfromhome){
+    this.intComp.next(doctorListfromhome);
+    console.log(doctorListfromhome);
+
+  }
+  getThreadIdfromMessageorConvListtoChat(id){
+    this.communication.next(id);
+    console.log(id);
   }
 }

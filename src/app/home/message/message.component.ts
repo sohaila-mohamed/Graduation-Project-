@@ -23,7 +23,6 @@ export class MessageComponent implements OnInit {
   private communication:InteractionService,
   private httpService:HttpService,
   private patientData:DatastreamingService,
-  private datastream: DatastreamingService, 
   ) {
 
    }
@@ -33,38 +32,46 @@ export class MessageComponent implements OnInit {
   private Content_from_text_area:string;
   private Reciever_from_dr_list:string;
   private newMessages :  newMessage[]=[];
-  private newList:any;
   private data :Reply;
   private patientId:number;
   private thread:newMessage;
   private doctorRow = new Array<doctorData>();
-
+  private eachDoctorData:doctorData;
+  private patientName:string;
 
     ngOnInit()
     {
       
-    this.doctorRow = this.datastream.getDoctorList(); 
-    this.patientId=this.patientData.getPatientId();
     
-    this.communication.getDocName.subscribe(
-      (docname)=> { 
-        this.Reciever_from_dr_list=docname;
+    this.patientId=this.patientData.getPatientId();
+    this.patientName=this.patientData.getPatientName();
+
+    const that=this;
+    this.intComp.msg.subscribe(
+      (doclist)=> { 
+        that.doctorRow=doclist;
+        console.log(this.doctorRow)
+        that.setDocList();
+
       }
     );
 
     // this.Reciever_from_dr_list="Dr.Mahmoud"
-       this.Content_from_text_area="";
+    this.Content_from_text_area="";
     this.Subject_from_input="";
     // this.Reciever_from_dr_list="";
-    // this.Messages=[{
-    //   sender:"Shrouk",
-    //   reciever:"anyone",
-    //   Content:"good morning",
-    //   subject:"good",
-    //   sentAt:123
-    // }];
+    
+  }
+  setDocList(){
+    this.eachDoctorData=this.doctorRow[0];
+    console.log("type eachDoctorData is "+typeof(this.eachDoctorData));
+    console.log("name"+this.eachDoctorData.name);
+    this.Reciever_from_dr_list=this.eachDoctorData.name;
+    console.log("rec"+this.Reciever_from_dr_list);
+    
 
   }
+
   
   async presentAlert(subtitleString:string,messageString:string) {
     const alert = await this.addController.create({
@@ -81,33 +88,25 @@ export class MessageComponent implements OnInit {
         this.presentAlert('Can not send message', "Make sure you typed your Subject, Message and choose your Doctor.");
     }
     else{
-    this.newMessages.push({
-        reciever_id :29,
+      this.thread={
+        reciever_id :this.eachDoctorData.doctorId,
         msg_subject :this.Subject_from_input,
-        created_date:Date.now().toString(),
+        created_date:new Date().toLocaleString(),
         is_readed:0,
         reciever_name:this.Reciever_from_dr_list,
-        sender_name:"Shrouk",
+        sender_name:this.patientName,
         msg_body:this.Content_from_text_area
+    
+       }
+    this.newMessages.push(this.thread);
+    console.log(this.Content_from_text_area);
+    console.log(this.newMessages);
 
-    });
-   console.log(this.Content_from_text_area);
-   console.log(this.newMessages);
 
-   //send message content to chat component
-   this.intComp.sendMSG(this.newMessages);
+   
    
   //post new message in data base
-   this.thread={
-    reciever_id :29,
-    msg_subject :this.Subject_from_input,
-    created_date:new Date().toLocaleString(),
-    is_readed:0,
-    reciever_name:this.Reciever_from_dr_list,
-    sender_name:"Shrouk",
-    msg_body:this.Content_from_text_area
-
-   }
+   
    this.data={
     sender_id:this.patientId,
     reciever_id:this.thread.reciever_id,
@@ -115,9 +114,13 @@ export class MessageComponent implements OnInit {
     created_date:this.thread.created_date
    };
 
+   console.log("tthread"+this.thread.reciever_name)
+   console.log("data"+this.data.sender_id)
    this.httpService.postThread(this.thread,this.patientId).subscribe((res)=>{
     console.log("new thread data",res);
-    
+     
+     this.communication.getThreadIdfromMessageorConvListtoChat(res.insertId);
+     
    this.httpService.postReply(this.data,res.insertId).subscribe((msg)=>{
     console.log("first thread message",msg);
 
@@ -126,7 +129,8 @@ export class MessageComponent implements OnInit {
     
    });
 
-  //http service to  create new thread 
+  //send message content to chat component
+  this.intComp.sendMSG(this.newMessages);
   
    this.navigation.navigateTo('home/chat');
 

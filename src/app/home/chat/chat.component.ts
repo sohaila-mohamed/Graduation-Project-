@@ -4,6 +4,9 @@ import { newMessage } from 'src/app/model/newMessage';
 import { NavigationService } from '../NavService/navigation.service';
 import {AutosizeModule} from 'ngx-autosize';
 import { IonContent } from '@ionic/angular';
+import { Reply } from '../DataModels';
+import { HttpService } from '../HttPService/http.service';
+import { DatastreamingService } from 'src/app/services/datastream/datastreaming.service';
 
 
 
@@ -16,14 +19,30 @@ export class ChatComponent implements OnInit {
   private newMessages : newMessage[]=[];
  @ViewChild(IonContent, {static: true})   bigContent : IonContent
   constructor(private intComp: InteractionService,
-    private navigation:NavigationService ) { }
+    private navigation:NavigationService,
+    private httpService:HttpService,
+    private patientData:DatastreamingService,
+
+    
+    private communication:InteractionService,
+    ) { }
+
+    private tId:number;
     private newMsgs:any;
     private currentUser:string;
     private currentUser2:string;
     private replyContent:string;
+    private data :Reply;
+
 
    ngOnInit() {
     // this.isRendered=false;
+    this.communication.getId.subscribe(
+        (id)=>{
+          this.tId =id;
+          console.log("id "+this.tId)
+        }
+    )
     const that=this;
     this.intComp.msg.subscribe(
     (massage)=> { 
@@ -32,6 +51,7 @@ export class ChatComponent implements OnInit {
       console.log("tpe msg  "+that.newMessages);
       // that.Messages.push(massage);
       // console.log("arra "+that.Messages);
+
       that.setMessege();
      
     });
@@ -57,11 +77,10 @@ export class ChatComponent implements OnInit {
     this.navigation.navigateTo('home');
 
   }
-   sendReply(){
+   sendReply(threadId){
+     console.log("sendRep"+threadId)
 
-    //thread id
-    //reciever
-    //sender
+   
     this.newMessages.push({
       reciever_id :this.newMsgs.reciever_id,
       msg_subject :this.newMsgs.msg_subject,
@@ -74,7 +93,20 @@ export class ChatComponent implements OnInit {
      
     });
       console.log(this.newMessages)
-      this.replyContent="";
-      this.bigContent.scrollToBottom(200);
+       //////////////////////////////////
+       this.data={
+              sender_id:this.patientData.getPatientId(),
+              reciever_id:this.newMsgs.reciever_id,
+              msg_body:this.replyContent,
+              created_date:this.newMsgs.created_date,
+      
+          }
+            this.httpService.postReply(this.data,threadId).subscribe((res)=>{
+              console.log("posted",res);
+            });
+            this.replyContent="";
+            this.bigContent.scrollToBottom(200);
+
+
   }
 }
