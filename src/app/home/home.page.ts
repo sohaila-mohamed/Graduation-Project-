@@ -172,12 +172,12 @@ getDocList()
       const actionSheet = await this.docList.create({
         header: 'You want to send message to:',
         buttons: [{
-            text :'Dr.Mahmoud',  
-          // text: this.doctorRow[0].name, //get doctor list
+             text :'Dr.Mahmoud',  
+          //  text: this.doctorRow[0].name, //get doctor list
           icon: 'person',
           handler: () => {
             this.navigation.navigateTo("home/message");
-             this.Reciever="Dr.Mahmoud";
+              this.Reciever="Dr.Mahmoud";
             // this.Reciever= this.doctorRow[0].name;
          
             this.communication.sendDoctorNamefromHometoMessage(this.Reciever);

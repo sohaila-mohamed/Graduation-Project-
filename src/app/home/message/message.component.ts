@@ -6,6 +6,7 @@ import { ActionSheetController, AlertController } from '@ionic/angular';
 import { HttpService } from '../HttPService/http.service';
 import { Reply } from '../DataModels';
 import { DatastreamingService } from 'src/app/services/datastream/datastreaming.service';
+import { doctorData } from 'src/app/model/doctorData';
 
 @Component({
   selector: 'app-message',
@@ -17,11 +18,13 @@ export class MessageComponent implements OnInit {
 
   constructor(private navigation:NavigationService,
   private intComp: InteractionService,
-  private docList:ActionSheetController,
+  // private docList:ActionSheetController,
   private addController : AlertController,
   private communication:InteractionService,
   private httpService:HttpService,
-  private patientData:DatastreamingService) {
+  private patientData:DatastreamingService,
+  private datastream: DatastreamingService, 
+  ) {
 
    }
 
@@ -34,26 +37,23 @@ export class MessageComponent implements OnInit {
   private data :Reply;
   private patientId:number;
   private thread:newMessage;
+  private doctorRow = new Array<doctorData>();
 
 
-
-
-  ngOnInit() {
+    ngOnInit()
+    {
+      
+    this.doctorRow = this.datastream.getDoctorList(); 
     this.patientId=this.patientData.getPatientId();
+    
+    this.communication.getDocName.subscribe(
+      (docname)=> { 
+        this.Reciever_from_dr_list=docname;
+      }
+    );
 
     // this.Reciever_from_dr_list="Dr.Mahmoud"
-    const that=this;
-    this.intComp.msg.subscribe(
-    (dataList)=> { 
-      console.log(dataList);
-      that.newMessages=dataList;
-      console.log("tpe msg  "+that.newMessages);
-      // that.Messages.push(massage);
-      // console.log("arra "+that.Messages);
-      that.setMessege();
-     
-    });
-    this.Content_from_text_area="";
+       this.Content_from_text_area="";
     this.Subject_from_input="";
     // this.Reciever_from_dr_list="";
     // this.Messages=[{
@@ -65,25 +65,7 @@ export class MessageComponent implements OnInit {
     // }];
 
   }
-  setMessege(){
-    this.newList=this.newMessages[0];
-    console.log("list "+this.newList)
-    //go to messages
-    // // this.isRendered=true;
-    // // *ngIf="isRendered"
-
-    // console.log("type myMsgs is "+typeof(this.myMsgs));
-
-    // console.log("myMsgs",this.myMsgs);
-    // this.currentUser=this.myMsgs.sender_name;
-    // this.currentUser2=this.myMsgs.reciever_name;
-    this.communication.getDocName.subscribe(
-      (docname)=> { 
-        this.Reciever_from_dr_list=docname;
-      }
-    );
-
-  }
+  
   async presentAlert(subtitleString:string,messageString:string) {
     const alert = await this.addController.create({
       header: 'ERROR',
@@ -100,7 +82,7 @@ export class MessageComponent implements OnInit {
     }
     else{
     this.newMessages.push({
-        reciever_id :12,
+        reciever_id :29,
         msg_subject :this.Subject_from_input,
         created_date:Date.now().toString(),
         is_readed:0,
@@ -111,13 +93,15 @@ export class MessageComponent implements OnInit {
     });
    console.log(this.Content_from_text_area);
    console.log(this.newMessages);
-   this.intComp.sendMSG(this.newMessages);
 
-   //threeeeeeeeeeeeeeeeeeeeeeeeeead
+   //send message content to chat component
+   this.intComp.sendMSG(this.newMessages);
+   
+  //post new message in data base
    this.thread={
     reciever_id :29,
     msg_subject :this.Subject_from_input,
-    created_date:Date.now().toString(),
+    created_date:new Date().toLocaleString(),
     is_readed:0,
     reciever_name:this.Reciever_from_dr_list,
     sender_name:"Shrouk",
@@ -125,11 +109,10 @@ export class MessageComponent implements OnInit {
 
    }
    this.data={
-    // this.newList.sender_id
-    sender_id:24,
-    reciever_id:29,
-    msg_body:this.Content_from_text_area,
-    created_date:Date.now().toString(),
+    sender_id:this.patientId,
+    reciever_id:this.thread.reciever_id,
+    msg_body:this.thread.msg_body,
+    created_date:this.thread.created_date
    };
 
    this.httpService.postThread(this.thread,this.patientId).subscribe((res)=>{
