@@ -36,8 +36,10 @@ export class HomePage implements OnInit {
 
     ngOnInit()
     {
-      
+
+      console.log("oninit");
       this.doctorRow = this.datastream.getDoctorList(); 
+      console.log("doctorRow.......",this.doctorRow);
       this.patientName =this.datastream.getPatientName();
       // if(this.patientName==undefined )
       // {

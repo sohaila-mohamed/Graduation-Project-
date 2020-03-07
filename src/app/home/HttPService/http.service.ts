@@ -189,9 +189,12 @@ httpGetTokenOptions(accessToken) {
   return this.http.post<any>(Url, reply, this.httpOptions);
 
  }
+ getReplies(thread_id,offset){
+  const Url =this.Node_host+"api/users/threads/replies/"+thread_id+"/"+offset;
+  console.log("URL",Url);
+  return this.http.get<any>(Url, this.httpOptions);
 
- 
- 
+ }
 
 }
 
