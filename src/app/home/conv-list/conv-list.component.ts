@@ -8,7 +8,6 @@ import { newMessage } from 'src/app/model/newMessage';
 import { IonContent } from '@ionic/angular';
 import { eventMethod } from '@ionic/core/dist/types/utils/overlays';
 import { NavigationService } from '../NavService/navigation.service';
-
 @Component({
   selector: 'app-conv-list',
   templateUrl: './conv-list.component.html',
@@ -29,6 +28,7 @@ export class ConvListComponent implements OnInit {
     private communication:InteractionService,
     private patientData:DatastreamingService,
     private navigation:NavigationService,
+    private intComp: InteractionService,
     private dateInteraction:InteractionService) {
     console.log("Constructor");
 
@@ -150,10 +150,16 @@ loadData(event){
 
     }
 //////////////////////////////////////////////////////////////////  
-  // //////// to reply on specific thread 
+  /////////// to reply on specific thread 
   reply(thread_id){
     console.log(thread_id);
-      this.communication.getThreadIdfromMessageorConvListtoChat(thread_id);
+    this.communication.getThreadIdfromMessageorConvListtoChat(thread_id);
+    /////////////////////////////////////////////////////////////////////////reply/////////////////////////////////// 
+    this.httpService.getReplies(thread_id,0).subscribe((res)=>{
+           this.intComp.sendMSG(res);
+           console.log("replies",res);
+
+    }); 
       this.navigation.navigateTo('home/chat');
  
     // let date=new Date().toLocaleString();

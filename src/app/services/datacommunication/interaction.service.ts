@@ -23,7 +23,7 @@ export class InteractionService {
     this.CoversationState.next(state);
     console.log(state);
   }
-  sendDoctorNamefromHometoMessage(doctorListfromhome){
+  sendDoctorNamefromconvtoMessage(doctorListfromhome){
     this.intComp.next(doctorListfromhome);
     console.log(doctorListfromhome);
 

@@ -2,9 +2,9 @@
  <ion-grid>
      <ion-row >
         <ion-toolbar class="tool" align-items-center> 
-             {{newMsgs.reciever_name}}
+            Dr. {{recievername}}
          <ion-buttons slot="start">
-            <ion-back-button defaultHref="home"></ion-back-button>
+            <ion-back-button defaultHref="home" (click)="goConv()"></ion-back-button>
          </ion-buttons>
         </ion-toolbar>
      </ion-row>
@@ -12,7 +12,6 @@
          <ion-col offset="3" size="9" *ngIf="currentUser">
          <div  class="mySender">
            
-          <p class ="Sspace">{{newMsgs.sender_name}} </p>
           
           <p class ="Cspace">{{newMsgs.msg_body}}</p><br>
           <div class="time" text-right>
@@ -23,7 +22,6 @@
           <ion-col  size="9" *ngIf="currentUser2">
          <div color="sub.severityLevel" class="myReciever">
            
-          <p class ="Sspace">{{newMsgs.reciever_name}} </p>
           
           <p class ="Cspace">{{newMsgs.msg_body}}</p><br>
           <div class="time" text-right>

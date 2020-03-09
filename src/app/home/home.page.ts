@@ -83,40 +83,42 @@ getDocList()
 
 
     async newMessage() {
-      const actionSheet = await this.docList.create({
-        header: 'You want to send message to:',
-        buttons: [{
-            //  text :'Dr.Mahmoud',  
-           text: 'Dr.'+ this.doctorRow[0].name, //get doctor list
-          icon: 'person',
-          handler: () => {
-            this.navigation.navigateTo("home/message");
-              // this.Reciever="Dr.Mahmoud";
-             this.Reciever= this.doctorRow[0].name;
-             console.log("docM"+this.Reciever);
+      // const actionSheet = await this.docList.create({
+      //   header: 'You want to send message to:',
+      //   buttons: [{
+      //       //  text :'Dr.Mahmoud',  
+      //      text: 'Dr.'+ this.doctorRow[0].name, //get doctor list
+      //     icon: 'person',
+      //     handler: () => {
+      //       this.navigation.navigateTo("home/message");
+      //         // this.Reciever="Dr.Mahmoud";
+      //        this.Reciever= this.doctorRow[0].name;
+      //        console.log("docM"+this.Reciever);
          
-            this.intComp.sendDoctorNamefromHometoMessage(this.doctorRow);
+      //       this.intComp.sendDoctorNamefromconvtoMessage(this.doctorRow);
             
 
-            //must be getten from database
-          }
-        },
-         {
-            // text:'Dr.Medhat',
-            text: 'Dr.'+ this.doctorRow[1].name,
-           icon: 'person',
-          // icon: 'camera',
-          handler: () => {
+      //       //must be getten from database
+      //     }
+      //   },
+      //    {
+      //       // text:'Dr.Medhat',
+      //       text: 'Dr.'+ this.doctorRow[1].name,
+      //      icon: 'person',
+      //     // icon: 'camera',
+      //     handler: () => {
             
-            //  this.Reciever="Dr.Medhat";
-             this.intComp.sendDoctorNamefromHometoMessage(this.doctorRow);
-           this.Reciever= this.doctorRow[1].name;    
-             this.navigation.navigateTo("home/message");
-          }
-        }
-        ]
-      });
-      await actionSheet.present();
+      //       //  this.Reciever="Dr.Medhat";
+      //        this.intComp.sendDoctorNamefromconvtoMessage(this.doctorRow);
+      //      this.Reciever= this.doctorRow[1].name;    
+      //        this.navigation.navigateTo("home/message");
+      //     }
+      //   }
+      //   ]
+      // });
+      // await actionSheet.present();
+      this.navigation.navigateTo("home/doctorList");
+
     
     }
   
