@@ -31,8 +31,8 @@ export class ChatComponent implements OnInit {
 
     private tId:number;
     private newMsgs:any;
-    private currentUser:string;
-    private currentUser2:number;
+    private currentUser:number;
+    // private currentUser2:number;
     private replyContent:string;
     private data :Reply;
     private newReply:newMessage;
@@ -100,12 +100,13 @@ export class ChatComponent implements OnInit {
     for(let dRow of this.docRow){
       if(this.newMsgs.reciever_id==dRow.doctorId){
         this.recievername=dRow.name;
+        // this.currentUser2=dRow.doctorId;
       }
     }
-    this.currentUser=this.datastream.getPatientId.toString();
-    //  this.currentUser2=this.newMsgs.reciever_id.toString();
+    this.currentUser=this.newMsgs.sender_id;
+     
     console.log("rec ",this.currentUser);
-    console.log("sender",this.newMsgs.sender_name);
+    console.log("sender",this.newMsgs.sender_id);
 
     // {{newMsgs.reciever_name}}
     // <p class ="Sspace">{{newMsgs.sender_name}} </p>
@@ -129,13 +130,11 @@ export class ChatComponent implements OnInit {
       reciever_name:this.newMsgs.reciever_name,
       sender_name:this.newMsgs.sender_name,
       msg_body:this.replyContent
-
-     
     });
       console.log(this.newMessages)
        //////////////////////////////////
        this.data={
-              sender_id:this.patientData.getPatientId(),
+              sender_id:this.newMsgs.sender_id,
               reciever_id:this.newMsgs.reciever_id,
               msg_body:this.replyContent,
               created_date:this.newMsgs.created_date,
