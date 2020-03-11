@@ -41,12 +41,12 @@ export class HomePage implements OnInit {
       this.doctorRow = this.datastream.getDoctorList(); 
       console.log("doc"+this.doctorRow[0]);
       this.patientName =this.datastream.getPatientName();
-      // if(this.patientName==undefined )
-      // {
-      //   this.presentAlert('HTTP DataStream Error: ', "My Patient Name is Null");
-      //   console.log("this.datastream.getPatientName()==undefined ");
-      //   this.navigation.navigateTo('cover');
-      // }  
+      if(this.patientName==undefined )
+      {
+        this.presentAlert('HTTP DataStream Error: ', "My Patient Name is Null");
+        console.log("this.datastream.getPatientName()==undefined ");
+        this.navigation.navigateTo('cover');
+      }  
       this.getDocList();
     }
 

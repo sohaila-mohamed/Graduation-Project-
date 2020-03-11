@@ -35,7 +35,7 @@ export class ChatComponent implements OnInit {
     // private currentUser2:number;
     private replyContent:string;
     private data :Reply;
-    private newReply:newMessage;
+    // private newReply:newMessage;
     private docRow = new Array<doctorData>();
     private recievername:string;
 
@@ -105,7 +105,7 @@ export class ChatComponent implements OnInit {
     }
     this.currentUser=this.newMsgs.sender_id;
      
-    console.log("rec ",this.currentUser);
+    console.log("curr ",this.currentUser);
     console.log("sender",this.newMsgs.sender_id);
 
     // {{newMsgs.reciever_name}}
@@ -122,15 +122,17 @@ export class ChatComponent implements OnInit {
   }
    sendReply(threadId){
      console.log("sendRep"+threadId)
-     this.newMessages.push({
-      reciever_id :this.newMsgs.reciever_id,
-      msg_subject :this.newMsgs.msg_subject,
-      created_date:this.newMsgs.created_date,
-      is_readed:this.newMsgs.is_readed,
-      reciever_name:this.newMsgs.reciever_name,
-      sender_name:this.newMsgs.sender_name,
-      msg_body:this.replyContent
-    });
+    //  this.newMessages.push({
+    //   reciever_id :this.newMsgs.reciever_id,
+    //   msg_subject :this.newMsgs.msg_subject,
+    //   created_date:this.newMsgs.created_date,
+    //   is_readed:this.newMsgs.is_readed,
+    //   reciever_name:this.newMsgs.reciever_name,
+    //   sender_name:this.newMsgs.sender_name,
+    //   msg_body:this.replyContent
+    // });
+    
+
       console.log(this.newMessages)
        //////////////////////////////////
        this.data={
@@ -144,6 +146,14 @@ export class ChatComponent implements OnInit {
               console.log("posted",res);
             });
             this.replyContent="";
+             this.httpService.getReplies(threadId,0).subscribe((res)=>{
+              this.intComp.sendMSG(res);
+              console.log("replies",res);
+              this.newMessages=res;  
+              this.newMsgs=this.newMessages[0];
+              this.currentUser=this.newMsgs.sender_id;
+              console.log("from repl ",this.currentUser);     
+             }); 
             this.bigContent.scrollToBottom(200);
             ////////////////////////////////////////////////////////////////////////////////////
            
