@@ -6,6 +6,7 @@ import { HttpService } from '../HttPService/http.service';
 import { AlertController } from '@ionic/angular';
 import { async } from '@angular/core/testing';
 import { __await } from 'tslib';
+import { InteractionService } from 'src/app/services/datacommunication/interaction.service';
 
 
 @Component({
@@ -28,7 +29,8 @@ export class ProfileComponent implements OnInit {
   constructor(private navigation:NavigationService,
     private datastream: DatastreamingService,
     private editPatientService: HttpService,
-    private savedata:AlertController
+    private savedata:AlertController,
+    private commuincation:InteractionService
     ) { }
 
   ngOnInit() {
@@ -83,6 +85,10 @@ export class ProfileComponent implements OnInit {
   console.log("myName "+ this.myName);
 
  }
+ editName(name){
+   this.commuincation.UpdateName(name);
+
+ }
  
 async save(name: String,age: number, address:String, token: String){
   
@@ -118,8 +124,9 @@ async save(name: String,age: number, address:String, token: String){
          this.editPatientService.editPatientProfile(name,age,address,token).subscribe(
        response=>{
       // this.datastream.setToken(response.token);
+
       console.log("http request to Change patient Data: "+ JSON.stringify(response));
-      // this.datastream.changePatientData(response);
+      this.datastream.changePatientData(name,age,address);
       
 
     }, 
