@@ -10,7 +10,7 @@
      </ion-row>
      <ion-row *ngFor="let newMsgs of newMessages">
          <ion-col offset="3" size="9" *ngIf="currentUser === newMsgs.sender_id ">
-         <div  class="mySender">
+         <div  class="speech-bubble">
            
           
           <p class ="Cspace">{{newMsgs.msg_body}}</p><br>
@@ -20,7 +20,7 @@
          </div>
          </ion-col>
           <ion-col  size="9" *ngIf="currentUser !== newMsgs.sender_id">
-         <div color="sub.severityLevel" class="myReciever">
+         <div color="sub.severityLevel" class="speech-bubbleR">
            
           
           <p class ="Cspace">{{newMsgs.msg_body}}</p><br>
