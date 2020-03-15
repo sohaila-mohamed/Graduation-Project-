@@ -65,31 +65,31 @@ export class ConvListComponent implements OnInit {
       
 ///////////////////////////////////////////////////////////      
 /////////// to create new thread 
-     this.thread={
-        reciever_id   :  29,
-        msg_subject   :  "postman4",
-        created_date  :  "2020-02-02",
-        is_readed     :  0,
-        reciever_name :  "sohaila",
-        sender_name   :  "ahmed",
-        msg_body      :  "Hello Doctor i want...."
+    //  this.thread={
+    //     reciever_id   :  29,
+    //     msg_subject   :  "postman4",
+    //     created_date  :  "2020-02-02",
+    //     is_readed     :  0,
+    //     reciever_name :  "sohaila",
+    //     sender_name   :  "ahmed",
+    //     msg_body      :  "Hello Doctor i want...."
 
-      }
-      this.data={
-        sender_id:this.patientId,
-        reciever_id:this.thread.reciever_id,
-        msg_body:this.thread.msg_body,
-        created_date:this.thread.created_date,
-      };
-      this.httpService.postThread(this.thread,this.patientId).subscribe((res)=>{
-        console.log("new thread data",res);
+    //   }
+    //   this.data={
+    //     sender_id:this.patientId,
+    //     reciever_id:this.thread.reciever_id,
+    //     msg_body:this.thread.msg_body,
+    //     created_date:this.thread.created_date,
+    //   };
+    //   this.httpService.postThread(this.thread,this.patientId).subscribe((res)=>{
+    //     console.log("new thread data",res);
         
-      this.httpService.postReply(this.data,res.insertId).subscribe((msg)=>{
-        console.log("first thread message",msg);
+    //   this.httpService.postReply(this.data,res.insertId).subscribe((msg)=>{
+    //     console.log("first thread message",msg);
 
-      });
+    //   });
 
-      });
+    //   });
 
 ////////////////////////////////////////////////////////////
 

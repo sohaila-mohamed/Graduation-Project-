@@ -71,6 +71,18 @@ export class LoginComponent implements OnInit {
             {
                 console.log("patient: "+JSON.stringify(patientData));
                 await that.datastream.setPatient(patientData);
+                let vital={weight:"0.00",height:"0.00",BMI:"0.00",body_fats_ratio: "00.0",
+                body_water_ratio: "00.0",
+                stomic_area_fats: "00.0",
+                bone_desity: "00.0",
+                muscle_desity: "00.0" };
+                console.log(vital);
+                this.http.PostVitals(vital,patientData.id).subscribe(
+                  postedvitals=>{
+                    console.log(postedvitals);
+                  }
+          
+                );
 
 
                 console.log('doctorlist');

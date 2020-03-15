@@ -7,7 +7,7 @@ import { doctorData } from 'src/app/model/doctorData';
   providedIn: 'root'
 })
 export class DatastreamingService {
-   patient = new MyPatient;
+   public patient = new MyPatient;
    token: string;
    doctorList = new Array<doctorData>();
   // fcmToken : String;
@@ -31,6 +31,12 @@ export class DatastreamingService {
     doctor.years_experience = element[4];
     doctor.relationid=element[5];
     this.doctorList.push(doctor);
+  }
+  changePatientData(name,age,address)
+  {
+    this.patient.address = address;
+    this.patient.age=age;
+    this.patient.name = name;
   }
   saveDoctorListToDataStore()
   {
@@ -92,6 +98,7 @@ export class DatastreamingService {
     }
    getPatientName()
     {
+      console.log(this.patient.name);
       return this.patient.name;
     }
  

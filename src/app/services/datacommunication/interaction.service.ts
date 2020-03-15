@@ -14,7 +14,17 @@ export class InteractionService {
 
  private communication= new BehaviorSubject<number>(0);
  getId =this.communication.asObservable();
+
+ private Edit= new BehaviorSubject<number>(0);
+ getName =this.Edit.asObservable();
+
+
   constructor() { }
+  
+  UpdateName(name){
+    this.Edit.next(name);
+    console.log(name);
+  }
   sendMSG(message){
   this.intComp.next( message);
   console.log(message);
