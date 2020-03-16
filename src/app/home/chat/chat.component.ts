@@ -139,7 +139,7 @@ export class ChatComponent implements OnInit {
               sender_id:this.newMsgs.sender_id,
               reciever_id:this.newMsgs.reciever_id,
               msg_body:this.replyContent,
-              created_date:this.newMsgs.created_date,
+              created_date:new Date().toLocaleString(),
       
           }
             this.httpService.postReply(this.data,threadId).subscribe((res)=>{
