@@ -123,7 +123,8 @@ export class MessageComponent implements OnInit {
   //  console.log("data"+this.data.sender_id)
    this.httpService.postThread(this.thread,this.patientId).subscribe((res)=>{
     console.log("new thread data",res);
-     
+    console.log("new thread id",res.insertId);
+
      this.communication.getThreadIdfromMessageorConvListtoChat(res.insertId);
      
   //  this.httpService.postReply(this.data,res.insertId).subscribe((msg)=>{

@@ -5,7 +5,6 @@ import { DatastreamingService } from 'src/app/services/datastream/datastreaming.
 import { HttpService } from '../HttPService/http.service';
 import { AlertController } from '@ionic/angular';
 import { async } from '@angular/core/testing';
-import { __await } from 'tslib';
 import { InteractionService } from 'src/app/services/datacommunication/interaction.service';
 
 

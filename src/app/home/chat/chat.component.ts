@@ -8,6 +8,7 @@ import { Reply } from '../DataModels';
 import { HttpService } from '../HttPService/http.service';
 import { DatastreamingService } from 'src/app/services/datastream/datastreaming.service';
 import { doctorData } from 'src/app/model/doctorData';
+import { timer } from 'rxjs';
 
 
 
@@ -38,6 +39,7 @@ export class ChatComponent implements OnInit {
     // private newReply:newMessage;
     private docRow = new Array<doctorData>();
     private recievername:string;
+    repliesAreHere: boolean;
 
 
    ngOnInit() {
@@ -64,19 +66,25 @@ export class ChatComponent implements OnInit {
      
    }
   ngAfterViewInit(){
+    this.repliesAreHere=true;
     this.communication.getId.subscribe(
       (id)=>{
         this.tId =id;
         console.log("id "+this.tId)
-      }
+         }
   );
+  
+
   this.docRow = this.datastream.getDoctorList(); 
   console.log(this.docRow);
   const that=this;
   this.intComp.msg.subscribe(
   (massage)=> { 
     console.log(massage);
+    // this.repliesAreHere=false;
     that.newMessages=massage;
+    timer(3000).subscribe(()=> this.repliesAreHere = false);
+    
     console.log("tpe msg  "+that.newMessages);
     // that.Messages.push(massage);
     // console.log("arra "+that.Messages);
@@ -147,7 +155,7 @@ export class ChatComponent implements OnInit {
             });
             this.replyContent="";
              this.httpService.getReplies(threadId,0).subscribe((res)=>{
-              this.intComp.sendMSG(res);
+              // this.intComp.sendMSG(res);
               console.log("replies",res);
               this.newMessages=res;  
               this.newMsgs=this.newMessages[0];
