@@ -153,24 +153,38 @@ loadData(event){
 //////////////////////////////////////////////////////////////////  
   /////////// to reply on specific thread 
   async reply(thread_id){
-    console.log(thread_id);
-    this.httpService.getReplies(thread_id,0).subscribe((res)=>{
-      this.intComp.sendMSG(res);
-      console.log("replies",res);
-
-      }); 
+      console.log(thread_id);
+      
     for(const conv of this.convList)
 
     if(conv.sender_id==this.patientData.getPatientId()){
-          this.dataInteraction.sendConversationState(1);
+      this.dateInteraction.currentStateConversation.subscribe(state=>{
+             this.dataInteraction.sendStateToChat(state);
+      });
+      this.httpService.getReplies(thread_id,0).subscribe((res)=>{
+        this.intComp.sendMSG(res);
+        console.log("replies",res);
+  
+        }); 
+          this.communication.getThreadIdfromMessageorConvListtoChat(thread_id).then(()=>{
+          this.navigation.navigateTo('home/chat');
+          });
         }
     else{
-          this.dataInteraction.sendConversationState(0);
+      this.dateInteraction.currentStateConversation.subscribe(state=>{
+        this.dataInteraction.sendStateToChat(state);
+       });
+       this.httpService.getReplies(thread_id,0).subscribe((res)=>{
+        this.intComp.sendMSG(res);
+        console.log("replies",res);
+  
+        }); 
+          this.communication.getThreadIdfromMessageorConvListtoChat(thread_id).then(()=>{
+          this.navigation.navigateTo('home/chat');
+          });
         }
     
-    this.communication.getThreadIdfromMessageorConvListtoChat(thread_id).then(()=>{
-      this.navigation.navigateTo('home/chat');
-    });
+      
     /////////////////////////////////////////////////////////////////////////reply/////////////////////////////////// 
     
       // this.navigation.navigateTo('home/chat');

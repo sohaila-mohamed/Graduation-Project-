@@ -48,7 +48,7 @@ export class ChatComponent implements OnInit {
     ionViewWillEnter() {
     this.repliesAreHere=true;
     this.pId =this.datastream.getPatientId();
-    this.dateInteraction.currentStateConversation.subscribe(state=>{
+    this.dateInteraction.getState.subscribe(state=>{
           this.currentState=state;
           console.log("scurrentState"+this.currentState);
      });
@@ -59,7 +59,7 @@ export class ChatComponent implements OnInit {
         console.log("id "+this.tId)
      });
   
-  this.docRow = this.datastream.getDoctorList(); 
+  
   console.log(this.docRow);
 
   const that=this;
@@ -71,8 +71,7 @@ export class ChatComponent implements OnInit {
     
     
     console.log("tpe msg  "+that.newMessages);
-    // that.Messages.push(massage);
-    // console.log("arra "+that.Messages);
+    
 
     that.setMessege();
         
@@ -93,7 +92,7 @@ export class ChatComponent implements OnInit {
       for(let dRow of this.docRow){
         if(this.newMsgs.reciever_id==dRow.doctorId){
           this.userToRecieve=this.newMsgs.reciever_id;
-          console.log("userToRecieve"+this.userToRecieve);
+          // console.log("userToRecieve"+this.userToRecieve);
           this.docname=this.newMsgs.reciever_name;
         }
       }
@@ -110,7 +109,7 @@ export class ChatComponent implements OnInit {
       for(let dRow of this.docRow){
         if(this.newMsgs.reciever_id==dRow.doctorId){
           this.userToRecieve=dRow.doctorId;
-          console.log("userToRecieve"+this.userToRecieve);
+          // console.log("userToRecieve"+this.userToRecieve);
           this.docname=dRow.name;
         }
       }
