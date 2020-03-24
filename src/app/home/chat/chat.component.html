@@ -3,13 +3,13 @@
  <ion-grid>
      <ion-row >
         <ion-toolbar class="tool" align-items-center> 
-            Dr. {{recievername}}
+            Dr. {{docname}}
          <ion-buttons slot="start">
             <ion-back-button defaultHref="home" (click)="goConv()"></ion-back-button>
          </ion-buttons>
         </ion-toolbar>
       <ion-row *ngIf="repliesAreHere">
-        <ion-col size="12">
+        
            
                 <div class="skeleton">
                     <ion-skeleton-text animated style="width: 5000%" slot="end"></ion-skeleton-text>
@@ -19,12 +19,12 @@
                     <ion-skeleton-text animated style="width: 5000%" slot="end"></ion-skeleton-text>
                 </div>
             
-        </ion-col>
+       
       </ion-row>
      </ion-row>
     <div *ngIf="!repliesAreHere">
      <ion-row *ngFor="let newMsgs of newMessages">
-         <ion-col offset="3" size="9" *ngIf="currentUser === newMsgs.sender_id ">
+         <ion-col offset="3" size="9" *ngIf="currentUser === pId">
          <div  class="speech-bubble">
            
           
@@ -34,7 +34,7 @@
           </div>
          </div>
          </ion-col>
-          <ion-col  size="9" *ngIf="currentUser !== newMsgs.sender_id">
+          <ion-col  size="9" *ngIf="currentUser !== pId">
          <div color="sub.severityLevel" class="speech-bubbleR">
            
           

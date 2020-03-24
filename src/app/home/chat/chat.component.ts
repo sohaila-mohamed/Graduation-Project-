@@ -18,72 +18,57 @@ import { timer } from 'rxjs';
   styleUrls: ['./chat.component.scss'],
 })
 export class ChatComponent implements OnInit {
-  private newMessages : newMessage[]=[];
  @ViewChild(IonContent, {static: false})   bigContent : IonContent
   constructor(private intComp: InteractionService,
     private navigation:NavigationService,
     private httpService:HttpService,
-    private patientData:DatastreamingService,
-
     private datastream: DatastreamingService, 
-
     private communication:InteractionService,
+    private dateInteraction:InteractionService
     ) { }
-
+   
+    private newMessages : any[]=[];
     private tId:number;
     private newMsgs:any;
     private currentUser:number;
-    // private currentUser2:number;
     private replyContent:string;
     private data :Reply;
-    // private newReply:newMessage;
     private docRow = new Array<doctorData>();
-    private recievername:string;
-    repliesAreHere: boolean;
+    private docname:string;
+    private repliesAreHere: boolean;
+    private currentState:number;
+    // private userToSend:number;
+    private userToRecieve:number;
+    private pId:number;
 
 
-   ngOnInit() {
-    // this.isRendered=false;
-    // this.communication.getId.subscribe(
-    //     (id)=>{
-    //       this.tId =id;
-    //       console.log("id "+this.tId)
-    //     }
-    // )
-    // const that=this;
-    // this.intComp.msg.subscribe(
-    // (massage)=> { 
-    //   console.log(massage);
-    //   that.newMessages=massage;
-    //   console.log("tpe msg  "+that.newMessages);
-    //   // that.Messages.push(massage);
-    //   // console.log("arra "+that.Messages);
 
-    //   that.setMessege();
-          
-    // });
-    
-     
-   }
-  ngAfterViewInit(){
+    ngOnInit(){}
+
+    ionViewWillEnter() {
     this.repliesAreHere=true;
+    this.pId =this.datastream.getPatientId();
+    this.dateInteraction.currentStateConversation.subscribe(state=>{
+          this.currentState=state;
+          console.log("scurrentState"+this.currentState);
+     });
+
     this.communication.getId.subscribe(
       (id)=>{
         this.tId =id;
         console.log("id "+this.tId)
-         }
-  );
+     });
   
-
   this.docRow = this.datastream.getDoctorList(); 
   console.log(this.docRow);
+
   const that=this;
   this.intComp.msg.subscribe(
-  (massage)=> { 
-    console.log(massage);
+  (massagesFromMessageOrConvList)=> { 
+    console.log(massagesFromMessageOrConvList);
     // this.repliesAreHere=false;
-    that.newMessages=massage;
-    timer(3000).subscribe(()=> this.repliesAreHere = false);
+    that.newMessages=massagesFromMessageOrConvList;
+    
     
     console.log("tpe msg  "+that.newMessages);
     // that.Messages.push(massage);
@@ -94,58 +79,80 @@ export class ChatComponent implements OnInit {
   });
   
 
+   }
   
-  }
   setMessege(){
     this.newMsgs=this.newMessages[0];
-    // this.isRendered=true;
-    // *ngIf="isRendered"
-    
+    timer(3000).subscribe(()=> this.repliesAreHere = false);
 
-    console.log("type myMsgs is "+typeof(this.newMsgs));
+   if(this.currentState==2){
+     console.log("Messages from Create New");
+     console.log("type myMsgs is "+typeof(this.newMsgs));
 
-    console.log("myMsgs",this.newMsgs);
-    for(let dRow of this.docRow){
-      if(this.newMsgs.reciever_id==dRow.doctorId){
-        this.recievername=dRow.name;
-        // this.currentUser2=dRow.doctorId;
+      console.log("myMsgs",this.newMsgs);
+      for(let dRow of this.docRow){
+        if(this.newMsgs.reciever_id==dRow.doctorId){
+          this.userToRecieve=this.newMsgs.reciever_id;
+          console.log("userToRecieve"+this.userToRecieve);
+          this.docname=this.newMsgs.reciever_name;
+        }
       }
+     this.currentUser=this.pId;
+     console.log("curr ",this.currentUser);
+     console.log("sender",this.pId); 
+
     }
-    this.currentUser=this.newMsgs.sender_id;
-     
-    console.log("curr ",this.currentUser);
-    console.log("sender",this.newMsgs.sender_id);
+ else if (this.currentState==1) {
+  console.log("Messages from Sent");
+  console.log("type myMsgs is "+typeof(this.newMsgs));
 
-    // {{newMsgs.reciever_name}}
-    // <p class ="Sspace">{{newMsgs.sender_name}} </p>
-    // <p class ="Sspace">{{newMsgs.reciever_name}} </p>
+      console.log("myMsgs",this.newMsgs);
+      for(let dRow of this.docRow){
+        if(this.newMsgs.reciever_id==dRow.doctorId){
+          this.userToRecieve=dRow.doctorId;
+          console.log("userToRecieve"+this.userToRecieve);
+          this.docname=dRow.name;
+        }
+      }
+     this.currentUser=this.pId;
+     console.log("curr ",this.currentUser);
+     console.log("sender",this.pId);     
+ } 
 
+ else if(this.currentState==0){
+  console.log("Messages from Inbox");
+  console.log("type myMsgs is "+typeof(this.newMsgs));
 
-    
+      console.log("myMsgs",this.newMsgs);
+      for(let dRow of this.docRow){
+        if(this.newMsgs.sender_id==dRow.doctorId){
+          this.userToRecieve=this.newMsgs.sender_id;
+          console.log("userToRecieve"+this.userToRecieve);
+          this.docname=dRow.name;
+        }
+      }
+     this.currentUser=this.pId;
+     console.log("curr ",this.currentUser);
+     console.log("sender",this.pId);     
+
+    }
+   
   }
+
   back(){
     console.log("must navigate to patient list")
     this.navigation.navigateTo('home');
+   }
 
-  }
    sendReply(threadId){
      console.log("sendRep"+threadId)
-    //  this.newMessages.push({
-    //   reciever_id :this.newMsgs.reciever_id,
-    //   msg_subject :this.newMsgs.msg_subject,
-    //   created_date:this.newMsgs.created_date,
-    //   is_readed:this.newMsgs.is_readed,
-    //   reciever_name:this.newMsgs.reciever_name,
-    //   sender_name:this.newMsgs.sender_name,
-    //   msg_body:this.replyContent
-    // });
-    
+     console.log(this.newMessages)
+     console.log("userToRecieve"+this.userToRecieve);
 
-      console.log(this.newMessages)
        //////////////////////////////////
        this.data={
-              sender_id:this.newMsgs.sender_id,
-              reciever_id:this.newMsgs.reciever_id,
+              sender_id:this.pId,
+              reciever_id:this.userToRecieve,
               msg_body:this.replyContent,
               created_date:new Date().toLocaleString(),
       
@@ -153,25 +160,26 @@ export class ChatComponent implements OnInit {
             this.httpService.postReply(this.data,threadId).subscribe((res)=>{
               console.log("posted",res);
             });
-            this.replyContent="";
              this.httpService.getReplies(threadId,0).subscribe((res)=>{
               // this.intComp.sendMSG(res);
               console.log("replies",res);
               this.newMessages=res;  
               this.newMsgs=this.newMessages[0];
-              this.currentUser=this.newMsgs.sender_id;
+              this.currentUser=this.pId;
               console.log("from repl ",this.currentUser);     
-             }); 
+             });
+             this.replyContent="";
+ 
             this.bigContent.scrollToBottom(200);
             ////////////////////////////////////////////////////////////////////////////////////
            
 
 
   }
+
   goConv(){
 
-    // this.intComp.sendMSG(this.newMessages)
-    this.navigation.navigateTo("home/conversation/convList");
+   this.navigation.navigateTo("home/conversation/convList");
 
   }
 }

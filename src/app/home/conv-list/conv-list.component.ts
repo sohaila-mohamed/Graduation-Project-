@@ -29,6 +29,7 @@ export class ConvListComponent implements OnInit {
     private patientData:DatastreamingService,
     private navigation:NavigationService,
     private intComp: InteractionService,
+    private dataInteraction:InteractionService,
     private dateInteraction:InteractionService) {
     console.log("Constructor");
 
@@ -151,16 +152,28 @@ loadData(event){
     }
 //////////////////////////////////////////////////////////////////  
   /////////// to reply on specific thread 
-  reply(thread_id){
+  async reply(thread_id){
     console.log(thread_id);
-    this.communication.getThreadIdfromMessageorConvListtoChat(thread_id);
-    /////////////////////////////////////////////////////////////////////////reply/////////////////////////////////// 
     this.httpService.getReplies(thread_id,0).subscribe((res)=>{
-           this.intComp.sendMSG(res);
-           console.log("replies",res);
+      this.intComp.sendMSG(res);
+      console.log("replies",res);
 
-    }); 
+      }); 
+    for(const conv of this.convList)
+
+    if(conv.sender_id==this.patientData.getPatientId()){
+          this.dataInteraction.sendConversationState(1);
+        }
+    else{
+          this.dataInteraction.sendConversationState(0);
+        }
+    
+    this.communication.getThreadIdfromMessageorConvListtoChat(thread_id).then(()=>{
       this.navigation.navigateTo('home/chat');
+    });
+    /////////////////////////////////////////////////////////////////////////reply/////////////////////////////////// 
+    
+      // this.navigation.navigateTo('home/chat');
  
     // let date=new Date().toLocaleString();
 

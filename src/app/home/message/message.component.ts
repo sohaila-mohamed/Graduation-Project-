@@ -22,6 +22,7 @@ export class MessageComponent implements OnInit {
   private addController : AlertController,
   private communication:InteractionService,
   private getDocData: InteractionService,
+  private dataInteraction:InteractionService,
   private httpService:HttpService,
   private patientData:DatastreamingService,
   ) {
@@ -124,7 +125,7 @@ export class MessageComponent implements OnInit {
    this.httpService.postThread(this.thread,this.patientId).subscribe((res)=>{
     console.log("new thread data",res);
     console.log("new thread id",res.insertId);
-
+    this.dataInteraction.sendConversationState(2);
      this.communication.getThreadIdfromMessageorConvListtoChat(res.insertId);
      
   //  this.httpService.postReply(this.data,res.insertId).subscribe((msg)=>{
