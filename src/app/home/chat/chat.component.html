@@ -9,7 +9,7 @@
         </ion-toolbar>
      </ion-row>
      <ion-row *ngFor="let newMsgs of newMessages">
-         <ion-col offset="3" size="9" *ngIf="currentUser">
+         <ion-col offset="3" size="9" *ngIf="currentUser==newMessages.sender_id || currentUser==newMessages.reciever_id">
          <div  class="mySender">
            
           
@@ -19,7 +19,7 @@
           </div>
          </div>
          </ion-col>
-          <ion-col  size="9" *ngIf="currentUser2">
+          <ion-col  size="9" *ngIf="currentUser2==newMessages.sender_id || currentUser2==newMessages.reciever_id">
          <div color="sub.severityLevel" class="myReciever">
            
           

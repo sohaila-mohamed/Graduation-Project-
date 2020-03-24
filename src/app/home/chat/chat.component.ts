@@ -31,7 +31,7 @@ export class ChatComponent implements OnInit {
 
     private tId:number;
     private newMsgs:any;
-    private currentUser:string;
+    private currentUser:number;
     private currentUser2:number;
     private replyContent:string;
     private data :Reply;
@@ -100,10 +100,11 @@ export class ChatComponent implements OnInit {
     for(let dRow of this.docRow){
       if(this.newMsgs.reciever_id==dRow.doctorId){
         this.recievername=dRow.name;
+        this.currentUser2=dRow.doctorId;
       }
     }
-    this.currentUser=this.datastream.getPatientId.toString();
-    //  this.currentUser2=this.newMsgs.reciever_id.toString();
+    this.currentUser=this.datastream.getPatientId();
+     
     console.log("rec ",this.currentUser);
     console.log("sender",this.newMsgs.sender_name);
 
