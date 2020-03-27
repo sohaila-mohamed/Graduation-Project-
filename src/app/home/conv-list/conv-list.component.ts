@@ -154,7 +154,6 @@ loadData(event){
 //////////////////////////////////////////////////////////////////  
   /////////// to reply on specific thread 
   async reply(thread_id){
-<<<<<<< HEAD
     console.log("REPLIESSSS IN CONVLIST");
     console.log("Thread ID: ", thread_id);
     
@@ -171,40 +170,6 @@ loadData(event){
     
     
    
-=======
-      console.log(thread_id);
-      
-    for(const conv of this.convList)
-
-    if(conv.sender_id==this.patientData.getPatientId()){
-      this.dateInteraction.currentStateConversation.subscribe(state=>{
-             this.dataInteraction.sendStateToChat(state);
-      });
-      this.httpService.getReplies(thread_id,0).subscribe((res)=>{
-        this.intComp.sendMSG(res);
-        console.log("replies",res);
-  
-        }); 
-          this.communication.getThreadIdfromMessageorConvListtoChat(thread_id).then(()=>{
-          this.navigation.navigateTo('home/chat');
-          });
-        }
-    else{
-      this.dateInteraction.currentStateConversation.subscribe(state=>{
-        this.dataInteraction.sendStateToChat(state);
-       });
-       this.httpService.getReplies(thread_id,0).subscribe((res)=>{
-        this.intComp.sendMSG(res);
-        console.log("replies",res);
-  
-        }); 
-          this.communication.getThreadIdfromMessageorConvListtoChat(thread_id).then(()=>{
-          this.navigation.navigateTo('home/chat');
-          });
-        }
-    
-      
->>>>>>> 6b7abf4e786752f16559e30e85b537f48a379fff
     /////////////////////////////////////////////////////////////////////////reply/////////////////////////////////// 
     
       // this.navigation.navigateTo('home/chat');

@@ -20,12 +20,6 @@ export class InteractionService {
 
  private Edit= new BehaviorSubject<number>(0);
  getName =this.Edit.asObservable();
-<<<<<<< HEAD
-=======
-
- private State =new BehaviorSubject<number>(null);
- getState= this.State.asObservable();  
->>>>>>> 6b7abf4e786752f16559e30e85b537f48a379fff
  
 
   constructor() { }
@@ -51,8 +45,4 @@ export class InteractionService {
     this.communication.next(id);
     console.log(id);
   }
-  sendStateToChat(s){
-   this.State.next(s);
-   console.log(s);
-  } 
 }
