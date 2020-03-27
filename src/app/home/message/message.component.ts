@@ -16,11 +16,14 @@ import { doctorData } from 'src/app/model/doctorData';
 export class MessageComponent implements OnInit {
 
 
-  constructor(private navigation:NavigationService,
+  constructor(
+  private navigation:NavigationService,
   private intComp: InteractionService,
   // private docList:ActionSheetController,
   private addController : AlertController,
   private communication:InteractionService,
+  private getDocData: InteractionService,
+  private dataInteraction:InteractionService,
   private httpService:HttpService,
   private patientData:DatastreamingService,
   ) {
@@ -35,7 +38,9 @@ export class MessageComponent implements OnInit {
   private data :Reply;
   private patientId:number;
   private thread:newMessage;
-  private doctorRow = new Array<doctorData>();
+  // private doctorRow = new Array<doctorData>();
+  private doctorRow : doctorData;
+
   private eachDoctorData:doctorData;
   private patientName:string;
 
@@ -47,9 +52,11 @@ export class MessageComponent implements OnInit {
     this.patientName=this.patientData.getPatientName();
 
     const that=this;
-    this.intComp.msg.subscribe(
-      (doclist)=> { 
-        that.doctorRow=doclist;
+    this.getDocData.data.subscribe(
+      (docData)=> { 
+        that.doctorRow=docData;
+        console.log(docData)
+
         console.log(this.doctorRow)
         that.setDocList();
 
@@ -63,10 +70,10 @@ export class MessageComponent implements OnInit {
     
   }
   setDocList(){
-    this.eachDoctorData=this.doctorRow[0];
-    console.log("type eachDoctorData is "+typeof(this.eachDoctorData));
-    console.log("name"+this.eachDoctorData.name);
-    this.Reciever_from_dr_list=this.eachDoctorData.name;
+    // this.eachDoctorData=this.doctorRow;
+    console.log("type eachDoctorData is "+typeof(this.doctorRow));
+    console.log("name"+this.doctorRow.name);
+    this.Reciever_from_dr_list=this.doctorRow.name;
     console.log("rec"+this.Reciever_from_dr_list);
     
 
@@ -89,7 +96,7 @@ export class MessageComponent implements OnInit {
     }
     else{
       this.thread={
-        reciever_id :this.eachDoctorData.doctorId,
+        reciever_id :this.doctorRow.doctorId,
         msg_subject :this.Subject_from_input,
         created_date:new Date().toLocaleString(),
         is_readed:0,
@@ -106,23 +113,29 @@ export class MessageComponent implements OnInit {
    
    
   //post new message in data base
-   
-   this.data={
+     this.data={
     sender_id:this.patientId,
     reciever_id:this.thread.reciever_id,
     msg_body:this.thread.msg_body,
-    created_date:this.thread.created_date
+    created_date:new Date().toLocaleString()
    };
 
-   console.log("tthread"+this.thread.reciever_name)
-   console.log("data"+this.data.sender_id)
-   this.httpService.postThread(this.thread,this.patientId).subscribe((res)=>{
+
+  //  console.log("tthread"+this.thread.reciever_name)
+  //  console.log("data"+this.data.sender_id)
+  this.httpService.postThread(this.thread,this.patientId).subscribe((res)=>{
     console.log("new thread data",res);
      
      this.communication.getThreadIdfromMessageorConvListtoChat(res.insertId);
      
+
+     console.log("hey tehre:", this.data);
    this.httpService.postReply(this.data,res.insertId).subscribe((msg)=>{
+    console.log("heyyyyloo");
     console.log("first thread message",msg);
+    console.log("NAVIGATIOM11");
+
+  this.navigation.navigateTo('home/chat');
 
     });
 
@@ -131,8 +144,7 @@ export class MessageComponent implements OnInit {
 
   //send message content to chat component
   this.intComp.sendMSG(this.newMessages);
-  
-   this.navigation.navigateTo('home/chat');
+  console.log("NAVIGATIOM");
 
   }
  console.log(this.Content_from_text_area);

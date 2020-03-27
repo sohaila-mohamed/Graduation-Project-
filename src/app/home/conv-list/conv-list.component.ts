@@ -24,11 +24,13 @@ export class ConvListComponent implements OnInit {
   @ViewChild(IonContent,{static:false}) ionContent: IonContent;
 
 
-  constructor(private httpService:HttpService,
+  constructor(
+    private httpService:HttpService,
     private communication:InteractionService,
     private patientData:DatastreamingService,
     private navigation:NavigationService,
     private intComp: InteractionService,
+    private dataInteraction:InteractionService,
     private dateInteraction:InteractionService) {
     console.log("Constructor");
 
@@ -65,31 +67,31 @@ export class ConvListComponent implements OnInit {
       
 ///////////////////////////////////////////////////////////      
 /////////// to create new thread 
-     this.thread={
-        reciever_id   :  29,
-        msg_subject   :  "postman4",
-        created_date  :  "2020-02-02",
-        is_readed     :  0,
-        reciever_name :  "sohaila",
-        sender_name   :  "ahmed",
-        msg_body      :  "Hello Doctor i want...."
+    //  this.thread={
+    //     reciever_id   :  29,
+    //     msg_subject   :  "postman4",
+    //     created_date  :  "2020-02-02",
+    //     is_readed     :  0,
+    //     reciever_name :  "sohaila",
+    //     sender_name   :  "ahmed",
+    //     msg_body      :  "Hello Doctor i want...."
 
-      }
-      this.data={
-        sender_id:this.patientId,
-        reciever_id:this.thread.reciever_id,
-        msg_body:this.thread.msg_body,
-        created_date:this.thread.created_date,
-      };
-      this.httpService.postThread(this.thread,this.patientId).subscribe((res)=>{
-        console.log("new thread data",res);
+    //   }
+    //   this.data={
+    //     sender_id:this.patientId,
+    //     reciever_id:this.thread.reciever_id,
+    //     msg_body:this.thread.msg_body,
+    //     created_date:this.thread.created_date,
+    //   };
+    //   this.httpService.postThread(this.thread,this.patientId).subscribe((res)=>{
+    //     console.log("new thread data",res);
         
-      this.httpService.postReply(this.data,res.insertId).subscribe((msg)=>{
-        console.log("first thread message",msg);
+    //   this.httpService.postReply(this.data,res.insertId).subscribe((msg)=>{
+    //     console.log("first thread message",msg);
 
-      });
+    //   });
 
-      });
+    //   });
 
 ////////////////////////////////////////////////////////////
 
@@ -150,31 +152,46 @@ loadData(event){
 
     }
 //////////////////////////////////////////////////////////////////  
-  //////// to reply on specific thread 
-reply(thread_id){
-    console.log(thread_id);
-    let date=new Date().toLocaleString();
+  /////////// to reply on specific thread 
+  async reply(thread_id){
+    console.log("REPLIESSSS IN CONVLIST");
+    console.log("Thread ID: ", thread_id);
+    
+    this.httpService.getReplies(thread_id,0).subscribe((res)=>{
 
-    console.log("current date ",new Date().toLocaleString());
-    this.data={
-        sender_id:31,
-        reciever_id:59,
-        msg_body:"Okay man .., you can change the potato with salad and some fruits you love , i wish uou happy day, thanks. you can change the potato with salad and some fruits you love , i wish uou happy day, thanks. you can change the potato with salad and some fruits you love , i wish uou happy day, thanks. you can change the potato with salad and some fruits you love , i wish uou happy day, thanks. you can change the potato with salad and some fruits you love , i wish uou happy day, thanks.",
-        created_date:date,
+            this.intComp.sendMSG(res);
+            console.log("replies",res);
 
-    }
-      this.httpService.postReply(this.data,thread_id).subscribe((res)=>{
-        console.log("posted",res);
-      });
+      this.communication.getThreadIdfromMessageorConvListtoChat(thread_id).then(()=>{
+              this.navigation.navigateTo('home/chat');
+            });
+
+      }); 
+    
+    
+   
+    /////////////////////////////////////////////////////////////////////////reply/////////////////////////////////// 
+    
+      // this.navigation.navigateTo('home/chat');
+ 
+    // let date=new Date().toLocaleString();
+
+    // console.log("current date ",new Date().toLocaleString());
+    // this.data={
+    //     sender_id:patient_id,
+    //     reciever_id:this.Doctor_id,
+    //     msg_body:"Okay, you can change the potato with salad and some fruits you love , i wish uou happy day, thanks. you can change the potato with salad and some fruits you love , i wish uou happy day, thanks. you can change the potato with salad and some fruits you love , i wish uou happy day, thanks. you can change the potato with salad and some fruits you love , i wish uou happy day, thanks. you can change the potato with salad and some fruits you love , i wish uou happy day, thanks.",
+    //     created_date:date,
+
+    // }
+    //   this.httpService.postReply(this.data,thread_id).subscribe((res)=>{
+    //     console.log("posted",res);
+    //   });
   }
   /////////////////////////////////////////////////////////////////////////
-  ///get all replies by thread_id and offset for paging 
-  ///Attention Please !!!!!
-  //send offset zero until i finish the paging for chat  
-
+  //get all replies with thread_id and offset 
+  //Attention please send offset =0 until i finish paging for chat 
   // this.httpService.getReplies(thread_id,0).subscribe((res)=>{
   //   console.log("replies",res);
-  // });
-  ///////////////////////////////////////////////////////////////
-
+  // }); 
 }

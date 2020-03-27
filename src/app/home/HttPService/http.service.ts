@@ -4,6 +4,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { UpVitals, Reply } from '../DataModels';
 import { newMessage } from 'src/app/model/newMessage';
+import { DatastreamingService } from 'src/app/services/datastream/datastreaming.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,10 +15,13 @@ export class HttpService {
   Java_Host_Port ="http://ec2-52-91-212-167.compute-1.amazonaws.com:8080";
 
   Node_host ="http://ec2-3-20-227-97.us-east-2.compute.amazonaws.com:3000/";
-  constructor(private http:HttpClient) { 
+  constructor(private http:HttpClient,
+    private dataStream: DatastreamingService) { 
     
   }
   
+
+
  
   httpOptions = {
     headers: new HttpHeaders({
@@ -160,19 +164,19 @@ httpGetTokenOptions(accessToken) {
 
  }
  getInbox(user_id,offset){
-  const Url =this.Node_host+"api/users/threads/inbox/"+user_id+"/"+offset;
+  const Url =this.Node_host+"api/users/threads/inbox/"+this.dataStream.getPatientId()+"/"+offset;
   console.log("URL",Url);
   return this.http.get<any>(Url, this.httpOptions);
 
  }
  getSent(user_id,offset){
-  const Url =this.Node_host+"api/users/threads/sent/"+user_id+"/"+offset;
+  const Url =this.Node_host+"api/users/threads/sent/"+this.dataStream.getPatientId()+"/"+offset;
   console.log("URL",Url);
   return this.http.get<any>(Url, this.httpOptions);
  }
 
  postThread(data:newMessage,sender_id:number){
-  const Url =this.Node_host+"api/users/threads/"+sender_id;
+  const Url =this.Node_host+"api/users/threads/"+this.dataStream.getPatientId();
   let thread=JSON.stringify(data);
   console.log("JSON Thread_data",thread);
   console.log("URL",Url);
@@ -180,6 +184,7 @@ httpGetTokenOptions(accessToken) {
 
  }
  postReply(data:Reply,id:number){
+   console.log("data inside http: ",data);
   const Url =this.Node_host+"api/users/threads/msg/"+id;
   let reply=JSON.stringify(data);
   console.log("JSON Thread_data",reply);

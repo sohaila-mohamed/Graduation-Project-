@@ -66,7 +66,8 @@ async CreateNew(){
          this.Reciever= dRow.name;
          console.log("docM"+this.Reciever);
      
-        this.intComp.sendDoctorNamefromconvtoMessage(this.doctorRow);
+        this.intComp.sendDoctorNamefromconvtoMessage(dRow);
+        console.log("dRow"+dRow);
         this.navigation.navigateTo("home/message");
       }
   });

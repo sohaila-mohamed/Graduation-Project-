@@ -8,6 +8,7 @@ import { Reply } from '../DataModels';
 import { HttpService } from '../HttPService/http.service';
 import { DatastreamingService } from 'src/app/services/datastream/datastreaming.service';
 import { doctorData } from 'src/app/model/doctorData';
+import { timer } from 'rxjs';
 
 
 
@@ -17,145 +18,156 @@ import { doctorData } from 'src/app/model/doctorData';
   styleUrls: ['./chat.component.scss'],
 })
 export class ChatComponent implements OnInit {
-  private newMessages : newMessage[]=[];
  @ViewChild(IonContent, {static: false})   bigContent : IonContent
   constructor(private intComp: InteractionService,
     private navigation:NavigationService,
     private httpService:HttpService,
-    private patientData:DatastreamingService,
-
     private datastream: DatastreamingService, 
-
     private communication:InteractionService,
+    private dateInteraction:InteractionService
     ) { }
-
+   
+    private newMessages : any[]=[];
     private tId:number;
     private newMsgs:any;
-    private currentUser:number;
-    private currentUser2:number;
     private replyContent:string;
     private data :Reply;
-    private newReply:newMessage;
     private docRow = new Array<doctorData>();
-    private recievername:string;
-
-
-   ngOnInit() {
-    // this.isRendered=false;
-    // this.communication.getId.subscribe(
-    //     (id)=>{
-    //       this.tId =id;
-    //       console.log("id "+this.tId)
-    //     }
-    // )
-    // const that=this;
-    // this.intComp.msg.subscribe(
-    // (massage)=> { 
-    //   console.log(massage);
-    //   that.newMessages=massage;
-    //   console.log("tpe msg  "+that.newMessages);
-    //   // that.Messages.push(massage);
-    //   // console.log("arra "+that.Messages);
-
-    //   that.setMessege();
-          
-    // });
+    private docname:string;
+    private userToRecieve:number;
+    private pId:number;
     
-     
-   }
-  ngAfterViewInit(){
+
+
+    ngOnInit(){}
+
+    ionViewWillEnter() {
+    console.log("pid: ",this.pId);
+    this.pId =this.datastream.getPatientId();
+   
+
     this.communication.getId.subscribe(
       (id)=>{
         this.tId =id;
         console.log("id "+this.tId)
-      }
-  );
+     });
+  
   this.docRow = this.datastream.getDoctorList(); 
   console.log(this.docRow);
+
   const that=this;
   this.intComp.msg.subscribe(
-  (massage)=> { 
-    console.log(massage);
-    that.newMessages=massage;
+  (massagesFromMessageOrConvList)=> { 
+    console.log("replies in chat: " ,massagesFromMessageOrConvList);
+    that.newMessages=massagesFromMessageOrConvList;
+    
+    
     console.log("tpe msg  "+that.newMessages);
-    // that.Messages.push(massage);
-    // console.log("arra "+that.Messages);
+    
 
     that.setMessege();
-        
   });
   
 
+   }
   
-  }
   setMessege(){
     this.newMsgs=this.newMessages[0];
-    // this.isRendered=true;
-    // *ngIf="isRendered"
-    
+    if (this.newMsgs.sender_id==undefined){
+      this.newMsgs.sender_id=this.pId;
+      console.log("newMsgs.sender_id"+this.newMsgs.sender_id)   
+      console.log("newMsgs if denderid is undefined"+this.newMsgs)   
 
-    console.log("type myMsgs is "+typeof(this.newMsgs));
-
-    console.log("myMsgs",this.newMsgs);
-    for(let dRow of this.docRow){
-      if(this.newMsgs.reciever_id==dRow.doctorId){
-        this.recievername=dRow.name;
-        this.currentUser2=dRow.doctorId;
-      }
     }
-    this.currentUser=this.datastream.getPatientId();
-     
-    console.log("rec ",this.currentUser);
-    console.log("sender",this.newMsgs.sender_name);
+    // timer(3000).subscribe(()=> this.repliesAreHere = false);
+  console.log("type myMsgs is "+typeof(this.newMsgs));
+   
+      console.log("myMsgs",this.newMsgs);
+      for(let dRow of this.docRow){
 
-    // {{newMsgs.reciever_name}}
-    // <p class ="Sspace">{{newMsgs.sender_name}} </p>
-    // <p class ="Sspace">{{newMsgs.reciever_name}} </p>
-
-
-    
+        if(this.newMsgs.reciever_id==dRow.doctorId || this.newMsgs.sender_id==dRow.doctorId){
+          this.userToRecieve=dRow.doctorId;
+          console.log("userToRecieve"+this.userToRecieve);
+          this.docname=dRow.name;
+         
+        }
+      }
+     console.log("newMsgs.sender_id"+this.newMsgs.sender_id)   
+     console.log("sender",this.pId);    
   }
+
+
   back(){
-    console.log("must navigate to patient list")
     this.navigation.navigateTo('home');
+   }
 
-  }
+   sendReplyFun()
+   {
+     this.sendReply(this.tId );
+   }
    sendReply(threadId){
-     console.log("sendRep"+threadId)
-     this.newMessages.push({
-      reciever_id :this.newMsgs.reciever_id,
-      msg_subject :this.newMsgs.msg_subject,
-      created_date:this.newMsgs.created_date,
-      is_readed:this.newMsgs.is_readed,
-      reciever_name:this.newMsgs.reciever_name,
-      sender_name:this.newMsgs.sender_name,
-      msg_body:this.replyContent
+     console.log("this.tId: ",threadId);
+     console.log(this.newMessages);
+     console.log("userToRecieve"+this.userToRecieve);
 
-     
-    });
-      console.log(this.newMessages)
        //////////////////////////////////
        this.data={
-              sender_id:this.patientData.getPatientId(),
-              reciever_id:this.newMsgs.reciever_id,
+              sender_id:this.pId,
+              reciever_id:this.userToRecieve,
               msg_body:this.replyContent,
-              created_date:this.newMsgs.created_date,
+              created_date:new Date().toLocaleString(),
       
           }
             this.httpService.postReply(this.data,threadId).subscribe((res)=>{
               console.log("posted",res);
+              this.newMessages.push(this.data);
+
             });
-            this.replyContent="";
+            //  this.httpService.getReplies(threadId,0).subscribe((res)=>{
+            //   // this.intComp.sendMSG(res);
+            //   console.log("replies",res);
+            //   this.newMessages=res;  
+            //   this.newMsgs=this.newMessages[0];
+            //  });
+             this.replyContent="";
+ 
             this.bigContent.scrollToBottom(200);
             ////////////////////////////////////////////////////////////////////////////////////
            
 
 
   }
+
   goConv(){
 
-    // this.intComp.sendMSG(this.newMessages)
-    this.navigation.navigateTo("home/conversation/convList");
+   this.navigation.navigateTo("home/conversation/convList");
 
   }
 }
+
+
+// <ion-row *ngIf="repliesAreHere">
+        
+           
+// <div class="skeleton" >
+//     <ion-skeleton-text animated style="width: 100%" ></ion-skeleton-text>
+//     <ion-skeleton-text animated style="width: 85%" ></ion-skeleton-text>
+//     <ion-skeleton-text animated style="width: 60%" ></ion-skeleton-text>
+//     <ion-skeleton-text animated style="width: 45%" ></ion-skeleton-text>
+//     <ion-skeleton-text animated style="width: 30%" ></ion-skeleton-text>
+// </div>
+// <div class="skeleton">
+//    <ion-skeleton-text animated style="width: 30%" ></ion-skeleton-text>
+//     <ion-skeleton-text animated style="width: 45%"></ion-skeleton-text>
+//     <ion-skeleton-text animated style="width: 60%" ></ion-skeleton-text>
+//     <ion-skeleton-text animated style="width: 85%" ></ion-skeleton-text>
+//     <ion-skeleton-text animated style="width: 100%" ></ion-skeleton-text>
+// </div>
+// <div class="skeleton">
+//     <ion-skeleton-text animated style="width: 100%" ></ion-skeleton-text>
+//     <ion-skeleton-text animated style="width: 85%" ></ion-skeleton-text>
+//     <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+//     <ion-skeleton-text animated style="width: 45%" ></ion-skeleton-text>
+//     <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
+// </div>
+// </ion-row>
