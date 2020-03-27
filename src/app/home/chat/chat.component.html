@@ -7,6 +7,7 @@
          <ion-buttons slot="start">
             <ion-back-button defaultHref="home" (click)="goConv()"></ion-back-button>
          </ion-buttons>
+<<<<<<< HEAD
         </ion-toolbar>  
      </ion-row>
     
@@ -15,6 +16,28 @@
          <ion-col offset="3" size="9" *ngIf="newMsgs.sender_id===pId ">
          <div  class="speech-bubble">
     
+=======
+        </ion-toolbar>
+      <ion-row *ngIf="repliesAreHere">
+        
+           
+                <div class="skeleton">
+                    <ion-skeleton-text animated style="width: 5000%" slot="end"></ion-skeleton-text>
+                    <ion-skeleton-text animated style="width: 5000%" slot="end"></ion-skeleton-text>
+                    <ion-skeleton-text animated style="width: 5000%" slot="end"></ion-skeleton-text>
+                    <ion-skeleton-text animated style="width: 5000%" slot="end"></ion-skeleton-text>
+                    <ion-skeleton-text animated style="width: 5000%" slot="end"></ion-skeleton-text>
+                </div>
+            
+       
+      </ion-row>
+     </ion-row>
+    <div *ngIf="!repliesAreHere">
+     <ion-row *ngFor="let newMsgs of newMessages">
+         <ion-col offset="3" size="9" *ngIf="currentUser === pId">
+         <div  class="speech-bubble">
+           
+>>>>>>> 6b7abf4e786752f16559e30e85b537f48a379fff
           
           <p class ="Cspace">{{newMsgs.msg_body}}</p><br>
           <div class="time" text-right>
@@ -22,7 +45,11 @@
           </div>
          </div>
          </ion-col>
+<<<<<<< HEAD
           <ion-col  size="9" *ngIf="newMsgs.sender_id!==pId ">
+=======
+          <ion-col  size="9" *ngIf="currentUser !== pId">
+>>>>>>> 6b7abf4e786752f16559e30e85b537f48a379fff
          <div color="sub.severityLevel" class="speech-bubbleR">
            
           <p class ="Cspace">{{newMsgs.msg_body}}</p><br>
@@ -33,7 +60,11 @@
          </ion-col>
     
      </ion-row>
+<<<<<<< HEAD
         
+=======
+    </div>    
+>>>>>>> 6b7abf4e786752f16559e30e85b537f48a379fff
   </ion-grid>
 </ion-content>
 <ion-footer>

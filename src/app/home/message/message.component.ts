@@ -113,6 +113,7 @@ export class MessageComponent implements OnInit {
    
    
   //post new message in data base
+<<<<<<< HEAD
      this.data={
     sender_id:this.patientId,
     reciever_id:this.thread.reciever_id,
@@ -124,10 +125,25 @@ export class MessageComponent implements OnInit {
   //  console.log("tthread"+this.thread.reciever_name)
   //  console.log("data"+this.data.sender_id)
   this.httpService.postThread(this.thread,this.patientId).subscribe((res)=>{
+=======
+   
+  //  this.data={
+  //   sender_id:this.patientId,
+  //   reciever_id:this.thread.reciever_id,
+  //   msg_body:this.thread.msg_body,
+  //   created_date:new Date().toLocaleString()
+  //  };
+
+  //  console.log("tthread"+this.thread.reciever_name)
+  //  console.log("data"+this.data.sender_id)
+   this.httpService.postThread(this.thread,this.patientId).subscribe((res)=>{
+>>>>>>> 6b7abf4e786752f16559e30e85b537f48a379fff
     console.log("new thread data",res);
-     
+    console.log("new thread id",res.insertId);
+    this.dataInteraction.sendConversationState(2);
      this.communication.getThreadIdfromMessageorConvListtoChat(res.insertId);
      
+<<<<<<< HEAD
 
      console.log("hey tehre:", this.data);
    this.httpService.postReply(this.data,res.insertId).subscribe((msg)=>{
@@ -136,8 +152,12 @@ export class MessageComponent implements OnInit {
     console.log("NAVIGATIOM11");
 
   this.navigation.navigateTo('home/chat');
+=======
+  //  this.httpService.postReply(this.data,res.insertId).subscribe((msg)=>{
+  //   console.log("first thread message",msg);
+>>>>>>> 6b7abf4e786752f16559e30e85b537f48a379fff
 
-    });
+  //   });
 
     
    });
