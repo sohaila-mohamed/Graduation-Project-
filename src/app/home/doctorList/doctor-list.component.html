@@ -15,7 +15,17 @@
 
       </ion-col>
     </ion-row>
-    <ion-row *ngFor="let item of doctorRow; let i=index">
+    <ion-row>
+      <ion-col size="12">
+        
+        <ion-searchbar
+    showCancelButton
+    (ionInput)="filterList($event)"
+  ></ion-searchbar>
+
+      </ion-col>
+    </ion-row>
+    <ion-row *ngFor="let item of doctorArrayList; let i=index">
       <ion-grid >
         <ion-row >
           <ion-col size="1">
@@ -24,16 +34,39 @@
           <ion-col size="10" class="card" >
             <ion-grid  >
               <ion-row >
+
+
+                <ion-col size="4">
+                  <img  class="small-icon" src="assets/unnamed.png">
+              </ion-col>
+              <ion-col size="8">
+                <ion-row>
+                  <div color="dark" >
+                      <p style="font-weight: bold;"color="dark" > Dr/ {{item.name}}</p> 
+                      <p >Years Experience: {{item.years_experience}}</p>
+                  </div>
+                </ion-row>  
+              <!-- </ion-row>
+              Doctor Id: {{item.patientId}} <br> -->
+               <!-- Age: {{patient.age}} <br>
+              <ion-row>           -->
+                <!-- <ion-row> {{patient.address}} </ion-row>  -->
+
+              </ion-col>
+
+
+
+
                 <!-- <ion-col size="4">
                     <img  class="small-icon" [src]="item.img">
 
-                </ion-col> -->
+                </ion-col> 
                 <ion-col size="8">
                   Doctor Id: {{item.doctorId}} <br>
                   Dr/ {{item.name}} <br>
-                  <!-- {{item.email}} <br> -->
+                 {{item.email}} <br> 
                   Years Experience: {{item.years_experience}}
-             </ion-col>
+             </ion-col>-->
 
               </ion-row>
             </ion-grid>

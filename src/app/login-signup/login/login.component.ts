@@ -86,28 +86,28 @@ export class LoginComponent implements OnInit {
 
 
                 console.log('doctorlist');
-                //Get Doctor List
-                await  this.http.getDoctorList(res.token)
-                .subscribe(
-                  async response=>{
-                    console.log("respponce of doctor list");
-                    console.log(JSON.stringify(response));
-                    this.datastream.clearDoctorList();
-                    await response.forEach(element => {                    
-                      this.datastream.addToDoctorList(element);
-                    });                  
-                  }, 
-                  err =>
-                  {
-                    console.log('HTTP Doctor List Error: ', err.error.message);
-                    this.presentAlert('HTTP Doctor List Error: ', err.error.message);
-                  },
-                  () => 
-                  {
-                    this.datastream.saveDoctorListToDataStore();
-                    console.log('HTTP request completed.');
-                  }
-                );
+                // //Get Doctor List
+                // await  this.http.getDoctorList(res.token)
+                // .subscribe(
+                //   async response=>{
+                //     console.log("respponce of doctor list");
+                //     console.log(JSON.stringify(response));
+                //     this.datastream.clearDoctorList();
+                //     await response.forEach(element => {                    
+                //       this.datastream.addToDoctorList(element);
+                //     });                  
+                //   }, 
+                //   err =>
+                //   {
+                //     console.log('HTTP Doctor List Error: ', err.error.message);
+                //     this.presentAlert('HTTP Doctor List Error: ', err.error.message);
+                //   },
+                //   () => 
+                //   {
+                //     this.datastream.saveDoctorListToDataStore();
+                //     console.log('HTTP request completed.');
+                //   }
+                // );
 
 
             that.nav.navigateTo('home');
