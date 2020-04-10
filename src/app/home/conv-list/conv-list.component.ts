@@ -153,16 +153,16 @@ loadData(event){
     }
 //////////////////////////////////////////////////////////////////  
   /////////// to reply on specific thread 
-  async reply(thread_id){
+  async reply(thread){
     console.log("REPLIESSSS IN CONVLIST");
-    console.log("Thread ID: ", thread_id);
+    console.log("Thread ID: ", thread.thread_id);
     
-    this.httpService.getReplies(thread_id,0).subscribe((res)=>{
+    this.httpService.getReplies(thread.thread_id,0).subscribe((res)=>{
 
             this.intComp.sendMSG(res);
             console.log("replies",res);
 
-      this.communication.getThreadIdfromMessageorConvListtoChat(thread_id).then(()=>{
+      this.communication.getThreadIdfromMessageorConvListtoChat(thread).then(()=>{
               this.navigation.navigateTo('home/chat');
             });
 

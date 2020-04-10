@@ -55,7 +55,7 @@ export class MessageComponent implements OnInit {
     this.getDocData.data.subscribe(
       (docData)=> { 
         that.doctorRow=docData;
-        console.log(docData)
+        console.log("all doctors data",docData)
 
         console.log(this.doctorRow)
         that.setDocList();
@@ -74,7 +74,7 @@ export class MessageComponent implements OnInit {
     console.log("type eachDoctorData is "+typeof(this.doctorRow));
     console.log("name"+this.doctorRow.name);
     this.Reciever_from_dr_list=this.doctorRow.name;
-    console.log("rec"+this.Reciever_from_dr_list);
+    console.log("selected doctor "+this.Reciever_from_dr_list);
     
 
   }
@@ -102,8 +102,8 @@ export class MessageComponent implements OnInit {
         is_readed:0,
         reciever_name:this.Reciever_from_dr_list,
         sender_name:this.patientName,
-        msg_body:this.Content_from_text_area
-    
+        msg_body:this.Content_from_text_area,
+        
        }
     this.newMessages.push(this.thread);
     console.log(this.Content_from_text_area);
@@ -112,12 +112,14 @@ export class MessageComponent implements OnInit {
 
    
    
-  //post new message in data base
+  //post new message in database
      this.data={
     sender_id:this.patientId,
     reciever_id:this.thread.reciever_id,
     msg_body:this.thread.msg_body,
-    created_date:new Date().toLocaleString()
+    created_date:new Date().toLocaleString(),
+    thread_subject:this.Subject_from_input,
+    fcm_token:this.doctorRow.fcmtoken
    };
 
 
