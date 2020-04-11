@@ -13,7 +13,7 @@ import { doctorData } from 'src/app/model/doctorData';
   templateUrl: './message.component.html',
   styleUrls: ['./message.component.scss'],
 })
-export class MessageComponent implements OnInit {
+export class MessageComponent  {
 
 
   constructor(
@@ -44,7 +44,7 @@ export class MessageComponent implements OnInit {
   private eachDoctorData:doctorData;
   private patientName:string;
 
-    ngOnInit()
+  ionViewWillEnter()
     {
       
     

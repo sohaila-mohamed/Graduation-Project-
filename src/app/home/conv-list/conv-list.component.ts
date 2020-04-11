@@ -13,7 +13,7 @@ import { NavigationService } from '../NavService/navigation.service';
   templateUrl: './conv-list.component.html',
   styleUrls: ['./conv-list.component.scss'],
 })
-export class ConvListComponent implements OnInit {
+export class ConvListComponent  {
   private convList:Iconvs[];
   private patientId:number;
   private data :Reply;
@@ -36,7 +36,7 @@ export class ConvListComponent implements OnInit {
 
    }
 
-  ngOnInit() {
+  ionViewWillEnter() {
     console.log("oninit");
     console.log("this.scrolling",this.scrollPosition);
     this.patientId=this.patientData.getPatientId();
@@ -51,7 +51,6 @@ export class ConvListComponent implements OnInit {
           console.log("inbox ",res);
           this.convList=res;
           console.log("list ",this.convList);
-    
         });
       }
       else{
