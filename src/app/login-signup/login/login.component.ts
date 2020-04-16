@@ -113,7 +113,10 @@ export class LoginComponent implements OnInit {
             that.nav.navigateTo('home');
           },
           err => {
+            //to remove after simulation
+             this.nav.navigateTo('home');
              this.presentAlert('HTTP Patinet Data Error: ', err.error.message);
+
             
           },
           () => console.log('HTTP get patient data request completed.')
@@ -121,6 +124,8 @@ export class LoginComponent implements OnInit {
         )
       }, 
       err =>{
+        //to remove after simulation
+        this.nav.navigateTo('home');
         this.presentAlert('HTTP Login Error: ', err.error.message);
         
       },

@@ -65,7 +65,7 @@ import { AutosizeModule } from 'ngx-autosize';
         component: ConversationsComponent,
         children:[
           {
-            path: 'convList',
+            path: '',
             component: ConvListComponent
           }
          ]  

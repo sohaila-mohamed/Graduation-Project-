@@ -5,64 +5,127 @@ import { DatastreamingService } from 'src/app/services/datastream/datastreaming.
 import { InteractionService } from 'src/app/services/datacommunication/interaction.service';
 import { typeWithParameters } from '@angular/compiler/src/render3/util';
 import { newMessage } from 'src/app/model/newMessage';
-import { IonContent } from '@ionic/angular';
+import { IonContent, AlertController } from '@ionic/angular';
 import { eventMethod } from '@ionic/core/dist/types/utils/overlays';
 import { NavigationService } from '../NavService/navigation.service';
+import { throwError } from 'rxjs';
+import {__await} from "tslib";
+import {async} from "rxjs/internal/scheduler/async";
+import {last, takeLast} from "rxjs/operators";
+import {EventEmitterService} from "../../services/EventEmitterService/event-emitter.service";
+
 @Component({
   selector: 'app-conv-list',
   templateUrl: './conv-list.component.html',
   styleUrls: ['./conv-list.component.scss'],
 })
-export class ConvListComponent  {
+export class ConvListComponent implements OnInit{
   private convList:Iconvs[];
   private patientId:number;
   private data :Reply;
   private thread:newMessage;
   private page:number;
   private scrollPosition:number;
-  private state:number;
+  public state:number;
+ 
   @ViewChild(IonContent,{static:false}) ionContent: IonContent;
 
 
   constructor(
     private httpService:HttpService,
-    private communication:InteractionService,
     private patientData:DatastreamingService,
     private navigation:NavigationService,
-    private intComp: InteractionService,
-    private dataInteraction:InteractionService,
-    private dateInteraction:InteractionService) {
-    console.log("Constructor");
+    private eventEmitterService:EventEmitterService,
+    private dateInteraction:InteractionService, private addController : AlertController)
+     {
+
+         console.log("convlist constructor");
+   }
+
+
+   ngOnInit(){
+     console.log("convlist oninit");
+
+       new Promise((resolve, reject) => {
+           this.patientId=this.patientData.getPatientId();
+           console.log("check patient id");
+           if(this.patientId==undefined){
+               reject("patient id is undefined ");
+
+           }else{
+               console.log("patient id resolved");
+               console.log("patient_id",this.patientId);
+               resolve();
+
+           }
+       }).then(()=>{
+           console.log("patient id form convlist",this.patientId);
+           this.GetData(0);
+           // at the fist time we need to assign the part of code we need to invoke every time the event emitter emits value
+           if(this.eventEmitterService.Subscribtion==undefined){
+               console.log("subscribting to the event emitter");
+               // when the event emitter emits new value only the part of the code that the subscriber hold will be invoked
+               this.eventEmitterService.Subscribtion=this.eventEmitterService.FunctionCaller.
+               subscribe((state:number)=>{this.GetData(state);console.log("event emitter listener invoked");});
+           }
+
+
+
+       }).catch((err)=>this.presentAlert("data stream error",err.message));
+
 
    }
 
   ionViewWillEnter() {
-    console.log("oninit");
-    console.log("this.scrolling",this.scrollPosition);
-    this.patientId=this.patientData.getPatientId();
-    console.log("patient_id",this.patientId);
-    this.dateInteraction.currentStateConversation.subscribe(state=>{
-      this.page=0;
-      this.state=state;
-      if(this.state==0){
-        console.log("page",this.page);
-        console.log("interaction works");
-        this.httpService.getInbox(this.patientId,this.page).subscribe((res)=>{
-          console.log("inbox ",res);
-          this.convList=res;
-          console.log("list ",this.convList);
-        });
-      }
-      else{
-        console.log("page",this.page);
-        this.httpService.getSent(this.patientId,this.page).subscribe((res)=>{
-          console.log("sent ",res);
-          this.convList=res;
-          console.log("list sent",this.convList);
-    
-        });
 
-      }
+    console.log("convlist ion view will enter");
+    console.log("this.scrolling",this.scrollPosition);
+  }
+
+
+
+  GetData(state){
+      console.log("get data function");
+      this.page=0;
+
+                  if(state==0){
+                  console.log("page",this.page);
+                  console.log("interaction works");
+                  this.httpService.getInbox(this.patientId,this.page).subscribe((res)=>{
+                    console.log("inbox ",res);
+                    this.convList=res;
+                    console.log("list ",this.convList);
+                  },error1 => this.presentAlert("http error get inbox",error1.message));
+                  }
+
+                
+                else{
+                  console.log("page",this.page);
+                  this.httpService.getSent(this.patientId,this.page).subscribe((res)=>{
+                    console.log("sent ",res);
+                    this.convList=res;
+                    console.log("list sent",this.convList);
+
+
+                  },error1 => this.presentAlert("http error get sent",error1.message));
+                  }
+
+        }
+        
+        
+    async presentAlert(subtitleString:string,messageString:string) {
+         console.log("alert holding screen ");
+          const alert = await this.addController.create({
+            header: 'ERROR',
+            subHeader: subtitleString,
+            message: messageString,
+            buttons: ['OK']
+          });
+      
+          await alert.present();
+        }
+    
+
       
 ///////////////////////////////////////////////////////////      
 /////////// to create new thread 
@@ -97,20 +160,20 @@ export class ConvListComponent  {
 
 
 
-    });
+   
 
 
-  }
+  
 ngAfterViewInit(){
-    this.dateInteraction.currentStateConversation.subscribe(state=>{
+   
       console.log("ngviewtinit");
       this.ionContent.scrollToTop();
-    });
+    
 
   }
  
 loadData(event){
-  console.log("scrolling NOw")
+  console.log("scrolling NOw");
   this.page=this.page+10;
   console.log("event",event);
     if(this.state==0){
@@ -158,10 +221,10 @@ loadData(event){
     
     this.httpService.getReplies(thread.thread_id,0).subscribe((res)=>{
 
-            this.intComp.sendMSG(res);
+            this.dateInteraction.sendMSG(res);
             console.log("replies",res);
 
-      this.communication.getThreadIdfromMessageorConvListtoChat(thread).then(()=>{
+      this.dateInteraction.getThreadIdfromMessageorConvListtoChat(thread).then(()=>{
               this.navigation.navigateTo('home/chat');
             });
 

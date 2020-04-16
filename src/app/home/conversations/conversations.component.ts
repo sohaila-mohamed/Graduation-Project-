@@ -1,57 +1,70 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {Component} from '@angular/core';
 import { NavigationService } from '../NavService/navigation.service';
 import { HttpService } from '../HttPService/http.service';
 import { InteractionService } from 'src/app/services/datacommunication/interaction.service';
-import { IonContent, ActionSheetController } from '@ionic/angular';
+import { ActionSheetController} from '@ionic/angular';
 import { doctorData } from 'src/app/model/doctorData';
 import { DatastreamingService } from 'src/app/services/datastream/datastreaming.service';
+import {EventEmitterService} from "../../services/EventEmitterService/event-emitter.service";
+
 
 @Component({
   selector: 'app-conversations',
   templateUrl: './conversations.component.html',
   styleUrls: ['./conversations.component.scss'],
 })
-export class ConversationsComponent implements OnInit {
+export class ConversationsComponent  {
 
-  constructor(private navigation: NavigationService
+
+    constructor(private navigation: NavigationService
      , private httpService:HttpService
      ,private dataInteraction:InteractionService
      ,private docList:ActionSheetController,
-     private datastream: DatastreamingService, 
+     private datastream: DatastreamingService,
+     private  eventEmitterService:EventEmitterService,
      private intComp:InteractionService
-     ) { }
-     
-     private doctorRow = new Array<doctorData>();
+     ) {
+      console.log("conversations component constructor");
+  }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         private doctorRow = new Array<doctorData>();
      private Reciever:string;
 
 
 
 
-  ngOnInit() {
-    this.dataInteraction.sendConversationState(0);
-    this.doctorRow = this.datastream.getDoctorList(); 
-    console.log("doc"+this.doctorRow[0]);
-    this.navigation.navigateTo('home/conversation/convList');
+
+
+
+
+
+
+    async ionViewDidEnter() {
+
+    console.log("conversation component ion view did enter ");
+    this.doctorRow = this.datastream.getDoctorList();
+    console.log("doctors array"+this.doctorRow[0]);
+
+
   }
-  ngAfterViewInit(){
-    this.dataInteraction.sendConversationState(0);
-    this.doctorRow = this.datastream.getDoctorList(); 
-    console.log("doc"+this.doctorRow[0]);
-    this.navigation.navigateTo('home/conversation/convList');
-  }
-  
+
  inbox(){
-  console.log("inbox");
-  this.dataInteraction.sendConversationState(0);
- 
+
+     console.log("inbox");
+     this.eventEmitterService.OnComponentCall(0);
+     console.log("inbox button triggered the state Function");
+
+
  }
  sent(){
    console.log("sent");
-   this.dataInteraction.sendConversationState(1);
+   this.eventEmitterService.OnComponentCall(1);
+   console.log("sent button triggered the state Function ");
+
 
 }
 back(){
   this.navigation.navigateTo('home');
+
 }
 async CreateNew(){
   let actionSheetButtons = [];
@@ -61,11 +74,11 @@ async CreateNew(){
       text: 'Dr.'+ dRow.name, //get doctor list
       icon: 'person',
       handler: () => {
-        
+
           // this.Reciever="Dr.Mahmoud";
          this.Reciever= dRow.name;
          console.log("docM"+this.Reciever);
-     
+
         this.intComp.sendDoctorNamefromconvtoMessage(dRow);
         console.log("dRow"+dRow);
         this.navigation.navigateTo("home/message");
@@ -73,45 +86,14 @@ async CreateNew(){
   });
 }
 
-    
+
   const actionSheet = await this.docList.create({
     header: 'You want to send message to:',
-    
-     buttons:  actionSheetButtons 
 
-      //buttons: [{
-    //     //  text :'Dr.Mahmoud',  
-    //    text: 'Dr.'+ dRow.name, //get doctor list
-    //   icon: 'person',
-    //   handler: () => {
-        
-    //       // this.Reciever="Dr.Mahmoud";
-    //      this.Reciever= dRow.name;
-    //      console.log("docM"+this.Reciever);
-     
-    //     this.intComp.sendDoctorNamefromHometoMessage(this.doctorRow);
-    //     this.navigation.navigateTo("home/message");
-        
+     buttons:  actionSheetButtons
 
-    //     //must be getten from database
-    //   }
-    // }
-    // ,
-    //  {
-    //     // text:'Dr.Medhat',
-    //     text: 'Dr.'+ this.doctorRow[1].name,
-    //    icon: 'person',
-    //   // icon: 'camera',
-    //   handler: () => {
-        
-    //     //  this.Reciever="Dr.Medhat";
-    //      this.intComp.sendDoctorNamefromHometoMessage(this.doctorRow);
-    //    this.Reciever= this.doctorRow[1].name;    
-    //      this.navigation.navigateTo("home/message");
-    //   }
-    // }
-    // ]
-  
+
+
   });
   await actionSheet.present();
 }

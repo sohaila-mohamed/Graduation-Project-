@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { LoginSignupModule } from './login-signup/login-signup.module';
+
 
 const routes: Routes = [
   { path: '', redirectTo: 'cover', pathMatch: 'full' },

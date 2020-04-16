@@ -12,9 +12,11 @@ import { DatastreamingService } from 'src/app/services/datastream/datastreaming.
 export class HttpService {
   
  
-  Java_Host_Port ="https://81b89107.ngrok.io";
+  Java_Host_Port ="http://ec2-3-86-89-133.compute-1.amazonaws.com:8080";
 
-  Node_host ="http://5fd28920.ngrok.io/";
+
+  Node_host ="http://ec2-3-87-1-35.compute-1.amazonaws.com:3000/";
+
   constructor(private http:HttpClient,
     private dataStream: DatastreamingService) { 
     
@@ -49,7 +51,8 @@ export class HttpService {
   
   createPatient(newPatient):Observable<any>
  {
-  console.log("da5lt")
+  console.log("da5lt");
+
 
   const url =this.Java_Host_Port+"/patient/api/createPatient";
   return this.http.post<any>(url,newPatient,this.httpOptions);
@@ -164,10 +167,10 @@ httpGetTokenOptions(accessToken) {
 
  }
  getInbox(user_id,offset){
-  const Url =this.Node_host+"api/users/threads/inbox/"+this.dataStream.getPatientId()+"/"+offset;
+  const Url =this.Node_host+"api/users/threads/inbox/"+user_id+"/"+offset;
   console.log("URL",Url);
-  return this.http.get<any>(Url, this.httpOptions);
-
+  let res=this.http.get<any>(Url, this.httpOptions);
+  return res;
  }
  getSent(user_id,offset){
   const Url =this.Node_host+"api/users/threads/sent/"+this.dataStream.getPatientId()+"/"+offset;
