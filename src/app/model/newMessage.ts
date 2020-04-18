@@ -6,6 +6,5 @@ export interface newMessage{
   is_readed:number
   reciever_name :string,
   sender_name:string,
-  msg_body :string
-  
+  msg_body :string,
   }  

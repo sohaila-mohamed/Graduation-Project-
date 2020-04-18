@@ -12,9 +12,9 @@ import { DatastreamingService } from 'src/app/services/datastream/datastreaming.
 export class HttpService {
   
  
-  Java_Host_Port = "http://ec2-18-233-165-61.compute-1.amazonaws.com:8080";
+Java_Host_Port ="http://ec2-3-86-89-133.compute-1.amazonaws.com:8080";
 
-  Node_host ="http://ec2-3-20-227-97.us-east-2.compute.amazonaws.com:3000/";
+  Node_host ="http://ec2-3-87-1-35.compute-1.amazonaws.com:3000/";
   constructor(private http:HttpClient,
     private dataStream: DatastreamingService) { 
     
@@ -184,7 +184,7 @@ httpGetTokenOptions(accessToken) {
 
  }
  postReply(data:Reply,id:number){
-   console.log("data inside http: ",data);
+  console.log("data inside http: ",data);
   const Url =this.Node_host+"api/users/threads/msg/"+id;
   let reply=JSON.stringify(data);
   console.log("JSON Thread_data",reply);
