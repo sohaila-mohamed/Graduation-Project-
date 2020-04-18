@@ -12,9 +12,9 @@ import { DatastreamingService } from 'src/app/services/datastream/datastreaming.
 export class HttpService {
   
  
-  Java_Host_Port ="https://81b89107.ngrok.io";
+Java_Host_Port ="http://ec2-3-86-89-133.compute-1.amazonaws.com:8080";
 
-  Node_host ="http://5fd28920.ngrok.io/";
+  Node_host ="http://ec2-3-87-1-35.compute-1.amazonaws.com:3000/";
   constructor(private http:HttpClient,
     private dataStream: DatastreamingService) { 
     
