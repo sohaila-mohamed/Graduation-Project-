@@ -1,4 +1,10 @@
-
+//to control rows height
+.grid {
+  display:grid;
+  grid-template-rows:  1.5fr 1fr 1fr 1fr;
+  grid-gap:10px;
+  //height: calc(100vh - 10px);
+}
   .middle-text{
     text-align: center;
     font-family: Georgia, 'Times New Roman', Times, serif;
@@ -10,7 +16,7 @@
    
   }
   .background{
-    background-image: linear-gradient(to bottom right,#0a5279, #80d3cb);
+    //background-image: linear-gradient(to bottom right,#0a5279, #80d3cb);
     height: 100%;
     overflow: scroll;
   }
