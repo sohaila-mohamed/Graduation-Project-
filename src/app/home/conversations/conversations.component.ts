@@ -14,8 +14,6 @@ import {EventEmitterService} from "../../services/EventEmitterService/event-emit
   styleUrls: ['./conversations.component.scss'],
 })
 export class ConversationsComponent  {
-
-
     constructor(private navigation: NavigationService
      , private httpService:HttpService
      ,private dataInteraction:InteractionService
