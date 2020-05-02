@@ -4,7 +4,7 @@ import { newMessage } from 'src/app/model/newMessage';
 import { NavigationService } from '../NavService/navigation.service';
 import {AutosizeModule} from 'ngx-autosize';
 import { IonContent } from '@ionic/angular';
-import { Reply } from '../DataModels';
+import { Reply, Iconvs } from '../DataModels';
 import { HttpService } from '../HttPService/http.service';
 import { DatastreamingService } from 'src/app/services/datastream/datastreaming.service';
 import { doctorData } from 'src/app/model/doctorData';
@@ -33,9 +33,9 @@ export class ChatComponent implements OnInit {
     private replyContent:string;
     private data :Reply;
     private docRow = new Array<doctorData>();
-    private docname:string;
-    private userToRecieve:number;
     private pId:number;
+    private thread: Iconvs;
+    private doctor:doctorData;
     
 
 
@@ -47,9 +47,9 @@ export class ChatComponent implements OnInit {
    
 
     this.communication.getId.subscribe(
-      (id)=>{
-        this.tId =id;
-        console.log("id "+this.tId)
+      (thread)=>{
+        this.thread=thread;
+        console.log("id "+this.thread.thread_id)
      });
   
   this.docRow = this.datastream.getDoctorList(); 
@@ -86,10 +86,9 @@ export class ChatComponent implements OnInit {
       for(let dRow of this.docRow){
 
         if(this.newMsgs.reciever_id==dRow.doctorId || this.newMsgs.sender_id==dRow.doctorId){
-          this.userToRecieve=dRow.doctorId;
-          console.log("userToRecieve"+this.userToRecieve);
-          this.docname=dRow.name;
-         
+          this.doctor=dRow;
+          console.log("doctor.doctorId"+this.doctor.doctorId);
+          
         }
       }
      console.log("newMsgs.sender_id"+this.newMsgs.sender_id)   
@@ -103,20 +102,22 @@ export class ChatComponent implements OnInit {
 
    sendReplyFun()
    {
-     this.sendReply(this.tId );
+     this.sendReply(this.thread.thread_id );
    }
    sendReply(threadId){
-     console.log("this.tId: ",threadId);
+     console.log("this.thread.thread_id: ",threadId);
      console.log(this.newMessages);
-     console.log("userToRecieve"+this.userToRecieve);
+     console.log("doctor.doctorId"+this.doctor.doctorId);
 
        //////////////////////////////////
        this.data={
               sender_id:this.pId,
-              reciever_id:this.userToRecieve,
+              reciever_id:this.doctor.doctorId,
               msg_body:this.replyContent,
               created_date:new Date().toLocaleString(),
-      
+              thread_subject:this.thread.msg_subject,
+              fcm_token:this.doctor.fcmtoken
+              
           }
             this.httpService.postReply(this.data,threadId).subscribe((res)=>{
               console.log("posted",res);

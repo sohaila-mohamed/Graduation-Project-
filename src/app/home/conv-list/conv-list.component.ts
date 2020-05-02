@@ -13,7 +13,7 @@ import { NavigationService } from '../NavService/navigation.service';
   templateUrl: './conv-list.component.html',
   styleUrls: ['./conv-list.component.scss'],
 })
-export class ConvListComponent implements OnInit {
+export class ConvListComponent  {
   private convList:Iconvs[];
   private patientId:number;
   private data :Reply;
@@ -36,7 +36,7 @@ export class ConvListComponent implements OnInit {
 
    }
 
-  ngOnInit() {
+  ionViewWillEnter() {
     console.log("oninit");
     console.log("this.scrolling",this.scrollPosition);
     this.patientId=this.patientData.getPatientId();
@@ -51,7 +51,6 @@ export class ConvListComponent implements OnInit {
           console.log("inbox ",res);
           this.convList=res;
           console.log("list ",this.convList);
-    
         });
       }
       else{
@@ -153,16 +152,16 @@ loadData(event){
     }
 //////////////////////////////////////////////////////////////////  
   /////////// to reply on specific thread 
-  async reply(thread_id){
+  async reply(thread){
     console.log("REPLIESSSS IN CONVLIST");
-    console.log("Thread ID: ", thread_id);
+    console.log("Thread ID: ", thread.thread_id);
     
-    this.httpService.getReplies(thread_id,0).subscribe((res)=>{
+    this.httpService.getReplies(thread.thread_id,0).subscribe((res)=>{
 
             this.intComp.sendMSG(res);
             console.log("replies",res);
 
-      this.communication.getThreadIdfromMessageorConvListtoChat(thread_id).then(()=>{
+      this.communication.getThreadIdfromMessageorConvListtoChat(thread).then(()=>{
               this.navigation.navigateTo('home/chat');
             });
 

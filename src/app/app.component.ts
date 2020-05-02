@@ -71,7 +71,7 @@ export class AppComponent {
                 this.fcm.getToken().then((fcmtoken)=>{
                   this.http.editFCMToken(fcmtoken, token).subscribe((data)=>
                   {
-                    console.log(JSON.stringify(data));
+                    console.log(JSON.stringify("fcm token",data));
                   }, 
                   err=>{
                     alert("ERROR in updating FCM token ");
@@ -95,7 +95,6 @@ export class AppComponent {
        this.statusBar.styleLightContent();
        this.splashScreen.hide();
 
-       
         
       //recieveing notification
       this.fcm.onNotification().subscribe((data)=>
