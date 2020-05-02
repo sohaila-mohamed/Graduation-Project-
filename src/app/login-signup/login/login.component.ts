@@ -85,7 +85,7 @@ export class LoginComponent implements OnInit {
                 );
 
 
-                console.log('doctorlist');
+                // console.log('doctorlist');
                 // //Get Doctor List
                 // await  this.http.getDoctorList(res.token)
                 // .subscribe(
