@@ -1,3 +1,4 @@
+/* tslint:disable:variable-name */
 import { Component, OnInit } from '@angular/core';
 import { InteractionService } from 'src/app/services/datacommunication/interaction.service';
 import { NavigationService } from '../NavService/navigation.service';
@@ -17,139 +18,137 @@ export class MessageComponent  {
 
 
   constructor(
-  private navigation:NavigationService,
+  private navigation: NavigationService,
   private intComp: InteractionService,
   // private docList:ActionSheetController,
-  private addController : AlertController,
-  private communication:InteractionService,
+  private addController: AlertController,
+  private communication: InteractionService,
   private getDocData: InteractionService,
-  private dataInteraction:InteractionService,
-  private httpService:HttpService,
-  private patientData:DatastreamingService,
+  private dataInteraction: InteractionService,
+  private httpService: HttpService,
+  private patientData: DatastreamingService,
   ) {
 
    }
 
 
-  private Subject_from_input:string;
-  private Content_from_text_area:string;
-  private Reciever_from_dr_list:string;
-  private newMessages :  newMessage[]=[];
-  private data :Reply;
-  private patientId:number;
-  private thread:newMessage;
+  // tslint:disable-next-line:variable-name
+  private Subject_from_input: string;
+  private Content_from_text_area: string;
+  private Reciever_from_dr_list: string;
+  private newMessages: newMessage[] = [];
+  private data: Reply;
+  private patientId: number;
+  private thread: newMessage;
   // private doctorRow = new Array<doctorData>();
-  private doctorRow : doctorData;
+  private doctorRow: doctorData;
 
-  private eachDoctorData:doctorData;
-  private patientName:string;
+  private eachDoctorData: doctorData;
+  private patientName: string;
 
-  ionViewWillEnter()
-    {
-      
-    
-    this.patientId=this.patientData.getPatientId();
-    this.patientName=this.patientData.getPatientName();
+  ionViewWillEnter() {
 
-    const that=this;
+
+    this.patientId = this.patientData.getPatientId();
+    this.patientName = this.patientData.getPatientName();
+
+    const that = this;
     this.getDocData.data.subscribe(
-      (docData)=> { 
-        that.doctorRow=docData;
-        console.log("all doctors data",docData)
+      (docData) => {
+        that.doctorRow = docData;
+        console.log('all doctors data', docData);
 
-        console.log(this.doctorRow)
+        console.log(this.doctorRow);
         that.setDocList();
 
       }
     );
 
     // this.Reciever_from_dr_list="Dr.Mahmoud"
-    this.Content_from_text_area="";
-    this.Subject_from_input="";
+    this.Content_from_text_area = '';
+    this.Subject_from_input = '';
     // this.Reciever_from_dr_list="";
-    
+
   }
-  setDocList(){
+  setDocList() {
     // this.eachDoctorData=this.doctorRow;
-    console.log("type eachDoctorData is "+typeof(this.doctorRow));
-    console.log("name"+this.doctorRow.name);
-    this.Reciever_from_dr_list=this.doctorRow.name;
-    console.log("selected doctor "+this.Reciever_from_dr_list);
-    
+    console.log('type eachDoctorData is ' + typeof(this.doctorRow));
+    console.log('name' + this.doctorRow.name);
+    this.Reciever_from_dr_list = this.doctorRow.name;
+    console.log('selected doctor ' + this.Reciever_from_dr_list);
+
 
   }
 
-  
-  async presentAlert(subtitleString:string,messageString:string) {
+
+  async presentAlert(subtitleString: string, messageString: string) {
     const alert = await this.addController.create({
       header: 'ERROR',
       subHeader: subtitleString,
       message: messageString,
       buttons: ['OK']
     });
-  
+
     await alert.present();
   }
-  send(){
-    if(this.Reciever_from_dr_list==""||this.Content_from_text_area==""||this.Subject_from_input==""){
-        this.presentAlert('Can not send message', "Make sure you typed your Subject, Message and choose your Doctor.");
-    }
-    else{
-      this.thread={
-        reciever_id :this.doctorRow.doctorId,
-        msg_subject :this.Subject_from_input,
-        created_date:new Date().toLocaleString(),
-        is_readed:0,
-        reciever_name:this.Reciever_from_dr_list,
-        sender_name:this.patientName,
-        msg_body:this.Content_from_text_area,
-        
-       }
-    this.newMessages.push(this.thread);
-    console.log(this.Content_from_text_area);
-    console.log(this.newMessages);
+  send() {
+    // tslint:disable-next-line:triple-equals
+    if (this.Reciever_from_dr_list == '' || this.Content_from_text_area == '' || this.Subject_from_input == '') {
+        this.presentAlert('Can not send message', 'Make sure you typed your Subject, Message and choose your Doctor.');
+    } else {
+      this.thread = {
+        reciever_id : this.doctorRow.doctorId,
+        msg_subject : this.Subject_from_input,
+        is_readed: 0,
+        reciever_name: this.Reciever_from_dr_list,
+        sender_name: this.patientName,
+        msg_body: this.Content_from_text_area,
+
+       };
+      this.newMessages.push(this.thread);
+      console.log(this.Content_from_text_area);
+      console.log(this.newMessages);
 
 
-   
-   
-  //post new message in database
-     this.data={
-    sender_id:this.patientId,
-    reciever_id:this.thread.reciever_id,
-    msg_body:this.thread.msg_body,
-    created_date:new Date().toLocaleString(),
-    thread_subject:this.Subject_from_input,
-    fcm_token:this.doctorRow.fcmtoken
+
+
+  // post new message in database
+      this.data = {
+    sender_id: this.patientId,
+    reciever_id: this.thread.reciever_id,
+    msg_body: this.thread.msg_body,
+    thread_subject: this.Subject_from_input,
+    fcm_token: this.doctorRow.fcmtoken
    };
 
 
   //  console.log("tthread"+this.thread.reciever_name)
   //  console.log("data"+this.data.sender_id)
-  this.httpService.postThread(this.thread,this.patientId).subscribe((res)=>{
-    console.log("new thread data",res);
-     
-     this.communication.getThreadIdfromMessageorConvListtoChat(res.insertId);
-     
+      this.httpService.postThread(this.thread, this.patientId).subscribe((res) => {
+    console.log('new thread data', res);
 
-     console.log("hey tehre:", this.data);
-   this.httpService.postReply(this.data,res.insertId).subscribe((msg)=>{
-    console.log("heyyyyloo");
-    console.log("first thread message",msg);
-    console.log("NAVIGATIOM11");
+    this.communication.getThreadIdfromMessageorConvListtoChat(res.insertId);
 
-  this.navigation.navigateTo('home/chat');
+
+    console.log('hey tehre:', this.data);
+    this.httpService.postReply(this.data, res.insertId).subscribe((msg) => {
+    console.log('heyyyyloo');
+    console.log('first thread message', msg);
+    console.log('NAVIGATIOM11');
+
+    this.navigation.navigateTo('home/chat');
 
     });
 
-    
+
    });
 
-  //send message content to chat component
-  this.intComp.sendMSG(this.newMessages);
-  console.log("NAVIGATIOM");
+  // send message content to chat component
+      this.intComp.sendMSG(this.newMessages);
+      console.log('NAVIGATIOM');
 
   }
- console.log(this.Content_from_text_area);
+    console.log(this.Content_from_text_area);
 }
 
 
@@ -170,9 +169,9 @@ export class MessageComponent  {
 //       icon: 'person',
 //       // icon: 'camera',
 //       handler: () => {
-        
+
 //         this.Reciever_from_dr_list="Dr.Medhat";
-        
+
 
 //         // this.navigation.navigateTo("home/schedule");
 //       }

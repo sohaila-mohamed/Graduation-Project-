@@ -19,14 +19,9 @@ import {EventEmitterService} from '../../services/EventEmitterService/event-emit
 export class ConvListComponent implements OnInit {
     private convList: Iconvs[];
     private patientId: number;
-    private data: Reply;
-    private thread: newMessage;
-
-
     private page: number;
     private scrollPosition: number;
     public state: number;
-
     @ViewChild(IonContent, {static: false}) ionContent: IonContent;
 
 
@@ -47,6 +42,7 @@ export class ConvListComponent implements OnInit {
         new Promise((resolve, reject) => {
             this.patientId = this.patientData.getPatientId();
             console.log('check patient id');
+            // tslint:disable-next-line:triple-equals
             if (this.patientId == undefined) {
 
                 reject('patient id is undefined ');
@@ -61,6 +57,7 @@ export class ConvListComponent implements OnInit {
             console.log('patient id form convlist', this.patientId);
             this.GetData(0);
             // at the fist time we need to assign the part of code we need to invoke every time the event emitter emits value
+            // tslint:disable-next-line:triple-equals
             if (this.eventEmitterService.Subscribtion == undefined) {
                 console.log('subscribing to the event emitter');
                 // when the event emitter emits new value only the part of the code that the subscriber hold will be invoked
