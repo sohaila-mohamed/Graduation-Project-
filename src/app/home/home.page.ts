@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,OnDestroy} from '@angular/core';
 
 import { NavigationService } from './NavService/navigation.service';
 import { DatastreamingService } from '../services/datastream/datastreaming.service';
@@ -15,7 +15,7 @@ import { doctorData } from '../model/doctorData';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage implements OnInit {
+export class HomePage implements OnInit,OnDestroy {
 
   patientName: String = this.datastream.patient.name;
   val: string;
@@ -133,6 +133,10 @@ getDocList()
   
     conv(){
       this.navigation.navigateTo("home/conversation");
+
+    }
+   ngOnDestroy(){
+      console.log("home destroyed");
 
     }
 

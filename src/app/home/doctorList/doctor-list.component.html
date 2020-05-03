@@ -3,20 +3,21 @@
 
   <ion-grid class="grid">
 <!--  //first row  -->
-    <ion-row>
+    <ion-row class="f-row">
     <ion-button class="back" (click)= "backClick()"  shape="round" color="light">
               <ion-icon name="arrow-round-back"></ion-icon>
               
           </ion-button>
       <ion-col size="12">
-        <div class="center">
-            <h1 class="middle-text">My Doctors</h1>
+        <div class="center middle-text" >
+            <h1 >My Doctors</h1>
         </div>
         
 
       </ion-col>
     </ion-row>
 <!--    -->
+
 <!--  //second row  -->
     <ion-row *ngFor="let item of doctorRow; let i=index">
       <ion-grid >
