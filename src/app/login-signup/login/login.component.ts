@@ -112,6 +112,7 @@ export class LoginComponent implements OnInit {
         subHeader: subtitleString,
         message: messageString,
         buttons: ['OK']
+
       });
   
       await alert.present();
