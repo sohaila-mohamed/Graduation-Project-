@@ -59,24 +59,21 @@ export class SignUpComponent  implements OnInit{
       
       }
   
-  async signup(first, last, mobile,password, password2,age,address)
+  async signup(first, last, mobile,password,age,address)
   {
-    
-      var fcmtoken="abc";
+      let fcmtoken="bgrb";
       // this.fcm.getToken().then((token)=>{
-      //   fcmtoken = "abc";
+      //   fcmtoken= token;
 
       // },
       // (err)=>{
       //   alert("ERROR in getting FCM token: "+JSON.stringify(err));
       // });
-    console.log("fcmtoken signup: "+ fcmtoken)
-    console.log("fcmtoken in SIGN Up: "+ fcmtoken)
-    if(this.checkCredentials(password,password2,age))
-    {
-      let newPatient = this.createNewPatient(first, last, mobile,password,age,address, fcmtoken);
-      this.addPatientToDatabase(newPatient);
-    }     
+    // console.log("fcmtoken signup: "+ fcmtoken)
+    // console.log("fcmtoken in SIGN Up: "+ fcmtoken)
+    let newPatient = this.createNewPatient(first, last, mobile,password,age,address, fcmtoken);
+    this.addPatientToDatabase(newPatient);
+       
   }
   createNewPatient(first, last, mobile,password,age,address, fcmtoken)
   {
@@ -103,19 +100,7 @@ export class SignUpComponent  implements OnInit{
 
       },
       
-      () => {console.log('HTTP request completed.');
-      let vital={weight:"0.00",height:"0.00",BMI:"0.00",body_fats_ratio: "00.0",
-      body_water_ratio: "00.0",
-      stomic_area_fats: "00.0",
-      bone_desity: "00.0",
-      muscle_desity: "00.0" };
-      console.log(vital);
-      this.http.PostVitals(vital,this.patient_Data.id).subscribe(
-        postedvitals=>{
-          console.log(postedvitals);
-        }
-
-      );}
+      () => {console.log('HTTP request completed.');}
       
      );
   

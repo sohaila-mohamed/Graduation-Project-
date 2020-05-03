@@ -15,7 +15,6 @@ import { HttpService } from './home/HttPService/http.service';
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
-  myName: String;
   
   constructor(
     private platform: Platform,
@@ -61,8 +60,7 @@ export class AppComponent {
             console.log(" app compoennt :: Token isnot expired:  "+isTokenExpired);
             await this.datastore.getMyPatientData().then((patient)=>{
                that.datastream.SetPatientforLogin(patient);
-               this.myName =this.datastream.getPatientName();
-               console.log("Check that my name came from platfrom ready name",this.myName)
+               
             })
             await this.datastore.getPatientToken().then((token)=>{
                that.datastream.setToken(token);

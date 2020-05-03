@@ -7,8 +7,10 @@ import { doctorData } from 'src/app/model/doctorData';
   providedIn: 'root'
 })
 export class DatastreamingService {
-   public patient = new MyPatient;
-   token: string;
+   
+  public patient = new MyPatient;
+   
+  token: string;
    doctorList = new Array<doctorData>();
   // fcmToken : String;
 
