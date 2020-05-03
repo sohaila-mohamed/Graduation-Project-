@@ -69,54 +69,28 @@ export class LoginComponent implements OnInit {
         this.http.getPatientUsingToken(res.token).subscribe(
             async patientData =>
             {
-                console.log("patient: "+JSON.stringify(patientData));
-                await that.datastream.setPatient(patientData);
-                let vital={weight:"0.00",height:"0.00",BMI:"0.00",body_fats_ratio: "00.0",
-                body_water_ratio: "00.0",
-                stomic_area_fats: "00.0",
-                bone_desity: "00.0",
-                muscle_desity: "00.0" };
-                console.log(vital);
-                this.http.PostVitals(vital,patientData.id).subscribe(
-                  postedvitals=>{
-                    console.log(postedvitals);
-                  }
-          
-                );
-
-
-                // console.log('doctorlist');
-                // //Get Doctor List
-                // await  this.http.getDoctorList(res.token)
-                // .subscribe(
-                //   async response=>{
-                //     console.log("respponce of doctor list");
-                //     console.log(JSON.stringify(response));
-                //     this.datastream.clearDoctorList();
-                //     await response.forEach(element => {                    
-                //       this.datastream.addToDoctorList(element);
-                //     });                  
-                //   }, 
-                //   err =>
-                //   {
-                //     console.log('HTTP Doctor List Error: ', err.error.message);
-                //     this.presentAlert('HTTP Doctor List Error: ', err.error.message);
-                //   },
-                //   () => 
-                //   {
-                //     this.datastream.saveDoctorListToDataStore();
-                //     console.log('HTTP request completed.');
-                //   }
-                // );
-
-
-            that.nav.navigateTo('home');
+                console.log("patientData.myPatient: ", patientData.myPatient)
+                that.datastream.setPatient(patientData.myPatient);
+                this.datastream.clearDoctorList();
+                console.log("patientData.doctorsArrayList: ", patientData.doctorsArrayList);
+                
+                await patientData.doctorsArrayList.forEach(element => {                    
+                      this.datastream.addToDoctorList(element);
+                
+                });                  
+                 
           },
           err => {
              this.presentAlert('HTTP Patinet Data Error: ', err.error.message);
             
           },
-          () => console.log('HTTP get patient data request completed.')
+          () => {
+            console.log('HTTP get patient data request completed.');
+            console.log(that.datastream.getDoctorList);
+            console.log(that.datastream.getPatientName);
+            that.nav.navigateTo('home');
+          }
+
 
         )
       }, 

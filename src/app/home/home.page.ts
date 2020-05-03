@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges, OnDestroy } from '@angular/core';
 
 import { NavigationService } from './NavService/navigation.service';
 import { DatastreamingService } from '../services/datastream/datastreaming.service';
@@ -15,69 +15,36 @@ import { doctorData } from '../model/doctorData';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage implements OnInit {
+export class HomePage {
 
-  patientName: String = this.datastream.patient.name;
+  patientName: String;
   val: string;
   // timer
-  showSplash 
+  showSplash ;
   private Reciever:string;
   constructor(
     private navigation:NavigationService, 
     private datastream: DatastreamingService, 
-    private http: HttpService,
     private addController : AlertController,
-    private docList:ActionSheetController,
-    private intComp:InteractionService
     ) {
+      this.patientName =this.datastream.patient.name;
     }
-    doctorRow = new Array<doctorData>();
-    ngAfterViewInit(){
-      console.log('view');
-
-        this.patientName =this.datastream.getPatientName();
-
-    }
-
-    ngOnInit()
-    {
-
-      console.log("oninit");
-      this.doctorRow = this.datastream.getDoctorList(); 
-      console.log("doc"+this.doctorRow[0]);
-      this.patientName =this.datastream.getPatientName();
-
-      // if(this.patientName==undefined )
-      // {
-      //   this.presentAlert('HTTP DataStream Error: ', "My Patient Name is Null");
-      //   console.log("this.datastream.getPatientName()==undefined ");
-      //   this.navigation.navigateTo('cover');
-      // }  
-
   
-
-      this.getDocList();
+    
+    clear()
+    {
+          this.datastream.clearData();
+          this.navigation.navigateTo('cover');
     }
 
-getDocList()
-{
-  const token = this.datastream.getToken();
-  console.log("Token to get doctor list in home page: ",token);
-}
     
-  clear()
-  {
-        this.datastream.clearData();
-        this.navigation.navigateTo('cover');
-  }
+    NavigateMe(path:string){
+      
+      this.navigation.navigateTo(path);
+      console.log("navigate to ", path);
 
-    
-  NavigateMe(path:string){
-    
-    this.navigation.navigateTo(path);
-    console.log("navigate to ", path);
+    }
 
-  }
 
   async presentAlert(subtitleString:string,messageString:string) {
     const alert = await this.addController.create({
