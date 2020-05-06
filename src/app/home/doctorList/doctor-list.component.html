@@ -1,64 +1,99 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-row class="f-row">
+            <ion-col >
+                <ion-grid id="item">
+                    <ion-row>
+                        <ion-col size="4">
+                            <ion-button (click)= "backClick()"  shape="round" color="light" >
+                                <ion-icon name="arrow-round-back"></ion-icon>
+                            </ion-button>
+                        </ion-col>
+                        <ion-col size="8">
+                            <h1>My Doctors</h1>
+                        </ion-col>
+                    </ion-row>
+
+                    <ion-row >
+                        <ion-col size="12">
+                            <ion-searchbar
+                                    (ionInput)="filterList($event)"
+                            ></ion-searchbar>
+
+                        </ion-col>
+
+
+
+
+                    </ion-row>
+                </ion-grid>
+
+
+
+            </ion-col>
+        </ion-row>
+    </ion-toolbar>
+
+</ion-header>
+
 <ion-content >
   <div class="background">
 
   <ion-grid class="grid">
-<!--  //first row  -->
-    <ion-row class="f-row">
-    <ion-button class="back" (click)= "backClick()"  shape="round" color="light">
-              <ion-icon name="arrow-round-back"></ion-icon>
-              
-          </ion-button>
-      <ion-col size="12">
-        <div class="center middle-text" >
-            <h1 >My Doctors</h1>
-        </div>
-        
-
-      </ion-col>
-    </ion-row>
-<!--    -->
-
-<!--  //second row  -->
-    <ion-row *ngFor="let item of doctorRow; let i=index">
+    <ion-row *ngFor="let item of doctorArrayList; let i=index">
       <ion-grid >
 <!--        //first nested row-->
         <ion-row >
-          <ion-col size="1">
-
-          </ion-col>
-          <ion-col size="10" class="card" >
-            <ion-grid  >
+          <ion-col size="12" class="card" >
+            <ion-grid >
 <!--          //second nested row    -->
               <ion-row >
-                <!-- <ion-col size="4">
-                    <img  class="small-icon" [src]="item.img">
+                 <ion-col  size="3">
+                    <img  class="small-icon" src="assets/doctor1.jpeg" align-self-sm-center>
+                </ion-col>
+                <ion-col size="9">
 
-                </ion-col> -->
-                <ion-col size="8">
-                  Doctor Id: {{item.doctorId}} <br>
-                  Dr/ {{item.name}} <br>
-                  <!-- {{item.email}} <br> -->
-                  Years Experience: {{item.years_experience}}
+                    <ion-grid  id="item2">
+
+                        <ion-row >
+                            <h3>Dr/ {{item.name}}</h3>
+                        </ion-row>
+                        <ion-row>
+
+                        </ion-row>
+
+                        <ion-row >
+                            <ion-col size="3"  sizeSm="1" >
+
+                            </ion-col>
+                            <ion-col sizeLg="9" sizeMd="9" sizeSm="11">
+                                <ion-grid  >
+                                    <ion-row >
+                                        <ion-col>
+                                            <ion-icon class="icon" name="chatboxes" size="large" ></ion-icon>
+
+                                        </ion-col>
+                                        <ion-col>
+                                            <ion-icon class="icon" name="call" size="large"></ion-icon>
+                                        </ion-col>
+                                        <ion-col>
+                                            <ion-icon class="icon" name="calendar"size="large"></ion-icon>
+
+                                        </ion-col>
+                                    </ion-row>
+                                </ion-grid>
+
+
+
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
              </ion-col>
 
               </ion-row>
 <!--              -->
             </ion-grid>
-            
 
-
-
-
-
-
-
-
-
-
-      
-          </ion-col>
-          <ion-col size="1">
-       
           </ion-col>
         </ion-row>
 <!--        -->
@@ -78,3 +113,4 @@
 </div>
 
 </ion-content>
+

@@ -29,6 +29,7 @@ export class LoginComponent implements OnInit {
       this.men.enable(false);
     }
    login(email,password)
+
     {
     // email ="beebz@mail.com";
     // password = "beebz1997";
@@ -81,8 +82,6 @@ export class LoginComponent implements OnInit {
                  
           },
           err => {
-            //to remove after simulation
-             this.nav.navigateTo('home');
              this.presentAlert('HTTP Patinet Data Error: ', err.error.message);
 
             

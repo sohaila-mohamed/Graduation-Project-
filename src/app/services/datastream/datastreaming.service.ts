@@ -50,7 +50,7 @@ export class DatastreamingService {
   {
     (await doctorList).forEach(element => {
       this.doctorList.push(element);
-    });;
+    });
   }
    getDoctorList()
    {

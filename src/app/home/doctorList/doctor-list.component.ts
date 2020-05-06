@@ -62,7 +62,6 @@ export class DoctorListComponent implements OnInit {
    
      }
    
-   
      initializeList(){
        this.doctorArrayList = this.doctorRow;
      }
@@ -85,6 +84,7 @@ export class DoctorListComponent implements OnInit {
          }
        });
      }
+
    
   ngOnInit() {}
   backClick(){
