@@ -3,6 +3,7 @@ import { Subject, BehaviorSubject } from 'rxjs';
 import { newMessage } from 'src/app/model/newMessage';
 import { Iconvs } from 'src/app/home/DataModels';
 import {last, takeLast} from "rxjs/operators";
+import {doctorData} from '../../model/doctorData';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,7 @@ export class InteractionService {
 
  private Edit= new BehaviorSubject<number>(0);
  getName =this.Edit.asObservable();
- 
+ private DoctorData:BehaviorSubject<doctorData>=new BehaviorSubject<doctorData>(null);
 
   constructor() { }
   
@@ -48,5 +49,11 @@ export class InteractionService {
   async getThreadIdfromMessageorConvListtoChat(thread){
     this.communication.next(thread);
     console.log(thread);
+  }
+  sendDoctorData(data:doctorData){
+      this.DoctorData.next(data);
+  }
+  getDoctorData():doctorData{
+     return  this.DoctorData.getValue();
   }
 }

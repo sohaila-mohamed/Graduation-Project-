@@ -18,6 +18,7 @@ import { ConversationsComponent } from './conversations/conversations.component'
 import { ConvListComponent } from './conv-list/conv-list.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { AutosizeModule } from 'ngx-autosize';
+import {DoctorProfileComponent} from './doctor-profile/doctor-profile.component';
 
 
 @NgModule({
@@ -37,7 +38,18 @@ import { AutosizeModule } from 'ngx-autosize';
         path:'doctorList',
         component: DoctorListComponent
 
-      }, 
+      },
+      {
+        path:'doctorProfile',
+        component:DoctorProfileComponent,
+        children:[
+            {
+              path:'chat',
+              component:MessageComponent
+
+        }
+        ]
+      },
       {
         path:'Myprofile',
         component:ProfileComponent
@@ -88,7 +100,8 @@ import { AutosizeModule } from 'ngx-autosize';
     ChatComponent,
     ConversationsComponent,
     ConvListComponent,
-    ScheduleComponent
+    ScheduleComponent,
+    DoctorProfileComponent
   ]
 })
 export class HomePageModule {}

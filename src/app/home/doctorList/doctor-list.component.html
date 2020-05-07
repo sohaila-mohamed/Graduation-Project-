@@ -40,7 +40,7 @@
   <div class="background">
 
   <ion-grid class="grid">
-    <ion-row *ngFor="let item of doctorArrayList; let i=index">
+    <ion-row *ngFor="let item of doctorArrayList; let i=index" (click)="Resolve_DocData('home/doctorProfile/chat',item)">
       <ion-grid >
 <!--        //first nested row-->
         <ion-row >
