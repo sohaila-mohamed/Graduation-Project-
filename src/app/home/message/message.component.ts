@@ -47,8 +47,6 @@ export class MessageComponent  {
   private patientName: string;
 
   ionViewWillEnter() {
-
-
     this.patientId = this.patientData.getPatientId();
     this.patientName = this.patientData.getPatientName();
 

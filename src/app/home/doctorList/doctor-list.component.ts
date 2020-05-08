@@ -90,6 +90,11 @@ export class DoctorListComponent implements OnInit {
 
    
   ngOnInit() {}
+  consultDoc(item:doctorData){
+        this.dataShare.sendDoctorNamefromconvtoMessage(item);
+        console.log("doctor data from profile"+item);
+        this.navigation.navigateTo("home/message");
+    }
   backClick(){
     console.log("must navigate to patient list");
     this.navigation.navigateTo('home');

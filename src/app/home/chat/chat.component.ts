@@ -24,7 +24,6 @@ export class ChatComponent implements OnInit {
               private httpService: HttpService,
               private datastream: DatastreamingService,
               private communication: InteractionService,
-              private dateInteraction: InteractionService
     ) { }
 
     private newMessages: any[] = [];
@@ -33,6 +32,7 @@ export class ChatComponent implements OnInit {
     private replyContent: string;
     private data: Reply;
     private docRow = new Array<doctorData>();
+    private docName:string;
     private pId: number;
     private thread: Iconvs;
     private doctor: doctorData;
@@ -49,6 +49,7 @@ export class ChatComponent implements OnInit {
     this.communication.getId.subscribe(
       (thread) => {
         this.thread = thread;
+        this.docName=thread.receiver_name;
         console.log('id ' + this.thread.thread_id);
      });
 

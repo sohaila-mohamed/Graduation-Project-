@@ -13,7 +13,7 @@ import {doctorData} from '../../model/doctorData';
 })
 export class DoctorProfileComponent implements OnInit,OnDestroy{
   private FreeTimes:number[]=[0,1,2,4,5,6,7,8];
-  private doctorData:doctorData;
+  private docData:doctorData;
   private spinnerState:boolean=true;
   constructor(private navigation:NavigationService,
               private datastream: DatastreamingService,
@@ -29,8 +29,8 @@ export class DoctorProfileComponent implements OnInit,OnDestroy{
   ngOnInit() {
     console.log("Profile component Initiated");
     new Promise((resolve, reject) => {
-      this.doctorData=this.dataShare.getDoctorData();
-      if(this.doctorData==undefined){
+      this.docData=this.dataShare.getDoctorData();
+      if(this.docData==undefined){
        // this.presentAlert('Data Interaction Error','doctor data undefined');
         reject('doctor data undefined');
 
@@ -50,6 +50,11 @@ export class DoctorProfileComponent implements OnInit,OnDestroy{
   backClick(){
     console.log("must navigate to patient list");
     this.navigation.navigateTo('home/doctorList');
+  }
+  consultDoc(){
+    this.dataShare.sendDoctorNamefromconvtoMessage(this.docData);
+    console.log("doctor data from profile"+this.docData);
+    this.navigation.navigateTo("home/message");
   }
   async presentAlert(subtitleString: string, messageString: string) {
     console.log('alert holding screen ');
@@ -71,6 +76,7 @@ export class DoctorProfileComponent implements OnInit,OnDestroy{
 
 
   }
+
 
 
 }

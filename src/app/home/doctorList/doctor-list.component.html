@@ -40,7 +40,7 @@
   <div class="background">
 
   <ion-grid class="grid">
-    <ion-row *ngFor="let item of doctorArrayList; let i=index" (click)="Resolve_DocData('home/doctorProfile/chat',item)">
+    <ion-row *ngFor="let item of doctorArrayList; let i=index" >
       <ion-grid >
 <!--        //first nested row-->
         <ion-row >
@@ -48,14 +48,14 @@
             <ion-grid >
 <!--          //second nested row    -->
               <ion-row >
-                 <ion-col  size="3">
+                 <ion-col  size="3" (click)="Resolve_DocData('home/doctorProfile/chat',item)">
                     <img  class="small-icon" src="assets/doctor1.jpeg" align-self-sm-center>
                 </ion-col>
                 <ion-col size="9">
 
                     <ion-grid  id="item2">
 
-                        <ion-row >
+                        <ion-row (click)="Resolve_DocData('home/doctorProfile/chat',item)">
                             <h3>Dr/ {{item.name}}</h3>
                         </ion-row>
                         <ion-row>
@@ -69,7 +69,7 @@
                             <ion-col sizeLg="9" sizeMd="9" sizeSm="11">
                                 <ion-grid  >
                                     <ion-row >
-                                        <ion-col>
+                                        <ion-col (click)="consultDoc(item)">
                                             <ion-icon class="icon" name="chatboxes" size="large" ></ion-icon>
 
                                         </ion-col>

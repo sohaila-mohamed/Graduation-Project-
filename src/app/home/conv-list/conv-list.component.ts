@@ -76,7 +76,7 @@ export class ConvListComponent implements OnInit {
     ionViewWillEnter() {
 
         console.log('convlist ion view will enter');
-        console.log('this.scrolling', this.scrollPosition);
+        // console.log('this.scrolling', this.scrollPosition);
     }
 
 

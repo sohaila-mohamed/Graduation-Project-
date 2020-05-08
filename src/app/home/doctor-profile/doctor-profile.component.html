@@ -27,7 +27,7 @@
             </ion-col>
             <ion-col size="7">
               <h1>
-                {{doctorData.name}}
+                {{docData.name}}
               </h1>
               <p class="disc">Nutrition Consultant at Nutrition Institution-Cairo</p>
               <div class="holder">
@@ -69,7 +69,7 @@
 
     <ion-row class="info ">
       <ion-col size="6" >
-        <div class="info-card" >
+        <div class="info-card" (click)="consultDoc()" >
           <ion-icon   name="chatboxes" style="font-size:x-large;padding:10px 5px 5px 0px;"> </ion-icon>
           <p class="icon-disc">Consultations</p>
         </div>
