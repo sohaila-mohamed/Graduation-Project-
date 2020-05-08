@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { InteractionService } from 'src/app/services/datacommunication/interaction.service';
 import { NavigationService } from '../NavService/navigation.service';
 import { newMessage } from 'src/app/model/newMessage';
-import { ActionSheetController, AlertController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 import { HttpService } from '../HttPService/http.service';
 import { Reply } from '../DataModels';
 import { DatastreamingService } from 'src/app/services/datastream/datastreaming.service';
@@ -80,19 +80,19 @@ export class MessageComponent  {
   }
 
   
-  async presentAlert(subtitleString:string,messageString:string) {
-    const alert = await this.addController.create({
-      header: 'ERROR',
-      subHeader: subtitleString,
-      message: messageString,
-      buttons: ['OK']
-    });
+  // async presentAlert(subtitleString:string,messageString:string) {
+  //   const alert = await this.addController.create({
+  //     header: 'ERROR',
+  //     subHeader: subtitleString,
+  //     message: messageString,
+  //     buttons: ['OK']
+  //   });
   
-    await alert.present();
-  }
+  //   await alert.present();
+  // }
   send(){
     if(this.Reciever_from_dr_list==""||this.Content_from_text_area==""||this.Subject_from_input==""){
-        this.presentAlert('Can not send message', "Make sure you typed your Subject, Message and choose your Doctor.");
+        alert('Can not send message'+ " Make sure you typed your Subject, Message and choose your Doctor.");
     }
     else{
       this.thread={

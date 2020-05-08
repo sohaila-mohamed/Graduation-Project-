@@ -3,10 +3,8 @@ import { HttpService } from '../HttPService/http.service';
 import { Iconvs, Reply } from '../DataModels';
 import { DatastreamingService } from 'src/app/services/datastream/datastreaming.service';
 import { InteractionService } from 'src/app/services/datacommunication/interaction.service';
-import { typeWithParameters } from '@angular/compiler/src/render3/util';
 import { newMessage } from 'src/app/model/newMessage';
 import { IonContent } from '@ionic/angular';
-import { eventMethod } from '@ionic/core/dist/types/utils/overlays';
 import { NavigationService } from '../NavService/navigation.service';
 @Component({
   selector: 'app-conv-list',

@@ -1,14 +1,11 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { InteractionService } from 'src/app/services/datacommunication/interaction.service';
-import { newMessage } from 'src/app/model/newMessage';
 import { NavigationService } from '../NavService/navigation.service';
-import {AutosizeModule} from 'ngx-autosize';
 import { IonContent } from '@ionic/angular';
 import { Reply, Iconvs } from '../DataModels';
 import { HttpService } from '../HttPService/http.service';
 import { DatastreamingService } from 'src/app/services/datastream/datastreaming.service';
 import { doctorData } from 'src/app/model/doctorData';
-import { timer } from 'rxjs';
 
 
 

@@ -6,13 +6,13 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { HttpService } from './home/HttPService/http.service';
 import { DatastreamingService } from './services/datastream/datastreaming.service';
 import { DatastorageService } from './services/datastorage/datastorage.service';
 import { IonicStorageModule } from '@ionic/storage';
 import { FormsModule } from '@angular/forms';
 import { FCM } from '@ionic-native/fcm/ngx';
 import { HttpClientModule } from '@angular/common/http';
+import { HttpService } from './home/HttPService/http.service';
 
 
 
@@ -30,7 +30,6 @@ import { HttpClientModule } from '@angular/common/http';
     DatastreamingService,
     DatastorageService,
     FCM,
-    HttpService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

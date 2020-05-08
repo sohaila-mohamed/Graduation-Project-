@@ -9,8 +9,8 @@ import { NavigationService } from '../home/NavService/navigation.service';
 import { LoginComponent } from './login/login.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { HttpClientModule } from '@angular/common/http';
-import { HttpService } from '../home/HttPService/http.service';
 import { FCM } from '@ionic-native/fcm/ngx';
+import { HttpService } from '../home/HttPService/http.service';
 
 
 @NgModule({

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../HttPService/http.service';
 import { IVital, UpVitals, Ivitals } from '../DataModels';
-import { DatastorageService } from 'src/app/services/datastorage/datastorage.service';
 import { DatastreamingService } from 'src/app/services/datastream/datastreaming.service';
 import { NavigationService } from '../NavService/navigation.service';
 

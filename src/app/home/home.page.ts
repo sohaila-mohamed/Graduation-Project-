@@ -3,11 +3,7 @@ import { Component, OnInit, OnChanges, OnDestroy } from '@angular/core';
 import { NavigationService } from './NavService/navigation.service';
 import { DatastreamingService } from '../services/datastream/datastreaming.service';
 import { AlertController, ActionSheetController} from '@ionic/angular';
-import { HttpService } from './HttPService/http.service';
-import { timer } from 'rxjs';
-import { ConversationsComponent } from './conversations/conversations.component';
-import { InteractionService } from '../services/datacommunication/interaction.service';
-import { doctorData } from '../model/doctorData';
+
 
 
 @Component({
@@ -46,16 +42,6 @@ export class HomePage {
     }
 
 
-  async presentAlert(subtitleString:string,messageString:string) {
-    const alert = await this.addController.create({
-      header: 'ERROR',
-      subHeader: subtitleString,
-      message: messageString,
-      buttons: ['OK']
-    });
-
-    await alert.present();
-  }
 
 
     async newMessage() {

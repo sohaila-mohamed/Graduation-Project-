@@ -4,7 +4,6 @@ import { DatastreamingService } from 'src/app/services/datastream/datastreaming.
 import { NavigationService } from '../NavService/navigation.service';
 import { doctorData } from 'src/app/model/doctorData';
 import { HttpService } from '../HttPService/http.service';
-import { AlertController} from '@ionic/angular';
 
 
 @Component({
@@ -12,13 +11,13 @@ import { AlertController} from '@ionic/angular';
   templateUrl: './doctor-list.component.html',
   styleUrls: ['./doctor-list.component.scss'],
 })
-export class DoctorListComponent implements OnInit {
+export class DoctorListComponent {
+
   doctorArrayList=new Array<doctorData>();
   doctorRow = new Array<doctorData>();
   constructor(
     private datastream : DatastreamingService, 
     private navigation : NavigationService,
-    private addController : AlertController,
     private http: HttpService
     ) {
       // this.doctorRow = this.datastream.getDoctorList();     
@@ -26,31 +25,26 @@ export class DoctorListComponent implements OnInit {
 
     
      ionViewWillEnter() {
-       let that = this;
-       let token = this.datastream.getToken();
-       //Get Doctor List
-       this.http.getDoctorList(token)
-                .subscribe(
-                  async response=>{
-                    console.log("respponce of doctor list");
-                    console.log(JSON.stringify(response));
+       //Get Doctor List                    
+      
+       this.datastream.clearDoctorList();
 
-                    this.datastream.clearDoctorList();
-                    await response.forEach(element => {                    
-                      this.datastream.addToDoctorList(element);
-                    });          
-                    
-                    this.doctorRow = this.datastream.getDoctorList();
-                    this.doctorArrayList = this.doctorRow;
+       this.http.getDoctorList()
+                .subscribe(
+                   (doctor)=>{
+
+                    this.datastream.doctorList.push(doctor);
 
                   }, 
                   err =>
                   {
                     console.log('HTTP Doctor List Error: ', err.error.message);
-                    this.presentAlert('HTTP Doctor List Error: ', err.error.message);
+                    alert('HTTP Doctor List Error: '+ err.error.message);
                   },
                   () => 
                   {
+                    this.doctorRow = this.datastream.getDoctorList();
+                    this.doctorArrayList = this.doctorRow;
                     this.datastream.saveDoctorListToDataStore();
                     console.log('HTTP request completed.');
                   }
@@ -86,20 +80,10 @@ export class DoctorListComponent implements OnInit {
        });
      }
    
-  ngOnInit() {}
   backClick(){
     console.log("must navigate to patient list")
     this.navigation.navigateTo('home');
 
   }
-  async presentAlert(subtitleString:string,messageString:string) {
-    const alert = await this.addController.create({
-      header: 'ERROR',
-      subHeader: subtitleString,
-      message: messageString,
-      buttons: ['OK']
-    });
-
-    await alert.present();
-  }
+ 
 }

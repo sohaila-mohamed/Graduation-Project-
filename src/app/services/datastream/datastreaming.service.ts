@@ -25,7 +25,7 @@ export class DatastreamingService {
   addToDoctorList(element)
   {
     //ELECT us.id, us.name, us.fcmtoken, us.mobile, doc.years_experience, relation.relationid
-    const doctor = new doctorData;
+    const doctor = new doctorData();
     doctor.doctorId = element[0];
     doctor.name = element[1];
     doctor.fcmtoken = element[2];
@@ -39,6 +39,8 @@ export class DatastreamingService {
     this.patient.address = address;
     this.patient.age=age;
     this.patient.name = name;
+    this.dataStore.savePatientLocally(this.patient);
+
   }
   saveDoctorListToDataStore()
   {
