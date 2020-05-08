@@ -1,0 +1,121 @@
+
+.cont{
+  height: 100%;
+  width: 100%;
+  overflow: scroll;
+}
+#item{
+  display:grid;
+  color: white;
+
+}
+.f-row{
+  background: linear-gradient(#7fddef 16%, #8de5d3 73%);
+  margin: -5px;
+  font-size: 2em;
+  border-bottom-left-radius: 500px;
+}
+.disc{
+  font-size: small;
+  color: white;
+}
+.profileImage{
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+}
+.holder{
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding-right: 5%;
+}
+.docId{
+  border: black;
+  width: 40px;
+  height: 40px;
+}
+.card{
+  box-shadow: 0px 0px 0px 0px rgba(0,0,0,0.3);
+  overflow: hidden;
+  //color: #3aa087;
+  border: #0ec254;
+  color: rgba(0,0,0,0.6);
+  font-family: 'Open Sans', Helvetica, sans-serif;
+  font-size: small;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #a3f1e6;
+  border-radius: 25px;
+  padding: 7%;
+  min-width: fit-content;
+}
+.container {
+  white-space: nowrap;
+  scrollbar-width: none;  // Firefox
+  &::-webkit-scrollbar {  //chrome and safari
+    display: none;
+  }
+  .scroll {
+    overflow: auto;
+  }
+
+}
+
+.info{
+  //color:#707070;
+  padding-left: 2%;
+  color: rgba(0,0,0,0.7);
+}
+.info-card{
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  min-width: fit-content;
+
+}
+.icon-disc{
+  font-size: medium;
+
+
+}
+
+.location{
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  color: rgba(0,0,0,0.7);
+  padding: 3%;
+  padding-bottom: 0px;
+}
+.time-slots{
+  border-bottom: solid 1px lightslategray;
+
+}
+.light-border{
+  width: 150px;
+  border-bottom: solid 1px #7fddef;
+}
+.fab{
+  margin-bottom: 3%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+.col-with-arrow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.myBackground{
+  position: absolute;
+  width:100%;
+  height:100%;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:rgb(80, 185, 182);
+
+}
+
