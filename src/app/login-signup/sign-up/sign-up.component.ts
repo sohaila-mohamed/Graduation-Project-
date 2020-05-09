@@ -65,8 +65,11 @@ export class SignUpComponent  implements OnInit{
 
          console.log("Entered Created  Patient: ", data);
        },
-      (err)=> alert('HTTP create patient Error: '+ err.error.message),
-      () => {       
+      (err)=> {
+        alert('HTTP create patient Error: '+ err.error.message),
+        this.showSplash = false;
+      },
+        () => {       
         this.showSplash = false; 
         that.nav.navigateTo('cover/login');
         console.log('HTTP Create Patient request completed.');

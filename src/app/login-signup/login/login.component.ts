@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationService } from 'src/app/home/NavService/navigation.service';
+import { HttpService } from 'src/app/home/HttPService/http.service';
 import { DatastreamingService } from 'src/app/services/datastream/datastreaming.service';
 import { MenuController } from '@ionic/angular';
-import { HttpService } from 'src/app/home/HttPService/http.service';
 
 @Component({
   selector: 'app-login',
@@ -30,10 +30,10 @@ export class LoginComponent implements OnInit {
       let that = this;
       let  mobile = "+20" +email.replace(/^0+/, '');
       this.http.Login(mobile, password).subscribe( 
-       tokenObj=>{
+       tokenObj=>{      
         this.showSplash = true;
+
         // timer(10000).subscribe(()=> this.showSplash = false);
-        
         //Use Token To get PatientData
         console.log("Token: ",tokenObj.token);
         this.datastream.setToken(tokenObj.token);
@@ -52,6 +52,7 @@ export class LoginComponent implements OnInit {
                 });                         
           },
           err => {
+            this.showSplash = false;
              alert('HTTP Patinet Data Error: '+ err.error.message);  
           },
           () => {
@@ -64,6 +65,7 @@ export class LoginComponent implements OnInit {
         )
       }, 
       err =>{
+        this.showSplash = false;
         alert('HTTP Login Error: '+ err.error.message);
         
       },
