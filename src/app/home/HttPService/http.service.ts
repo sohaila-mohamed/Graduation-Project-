@@ -175,7 +175,34 @@ httpGetTokenOptions(accessToken) {
      } ,this.gethttpOption());
 
    }
+   json()
+   {
+     return {
+       "thread_id":12,
+       "sender_id":70,
+       "reciever_id":56,
+       "msg_body":"Sohaila Heyyyy",
+       "fcm_token":"shshshshsshhshhhh"
+};
 
+   }
+   bgrb(file)
+   {
+     console.log("entered");
+     console.log("My File is formData:  "+JSON.stringify(file));
+     let url = this.Java_Host_Port+ "/storage/uploadFile";
+     console.log("url: ", url);
+
+   // let formData = new FormData();
+   // formData.append('file', file);
+   // formData.append('data',  JSON.stringify(this.json()));
+   console.log("file of formdata");
+   console.log(file.getAll('file'));
+   console.log("data of formdata  "+file.getAll('data'));
+
+   return this.http.post<any>(url,
+         file);
+   }
    editFCMToken(){
      console.log("EDIT FCM TOKEN ");
      const url =this.Java_Host_Port+"/patient/updateToken";

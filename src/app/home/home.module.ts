@@ -18,6 +18,11 @@ import { ConversationsComponent } from './conversations/conversations.component'
 import { ConvListComponent } from './conv-list/conv-list.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { AutosizeModule } from 'ngx-autosize';
+import { WebView } from '@ionic-native/ionic-webview/ngx';
+import { Camera } from '@ionic-native/camera/ngx';
+import { FilePath } from '@ionic-native/file-path/ngx';
+import {IonicStorageModule } from '@ionic/storage'
+import { File } from '@ionic-native/file/ngx';
 
 
 @NgModule({
@@ -26,6 +31,7 @@ import { AutosizeModule } from 'ngx-autosize';
     FormsModule,
     IonicModule,
     HttpClientModule,
+    IonicStorageModule.forRoot(),
     AutosizeModule,
     RouterModule.forChild([
     
@@ -77,6 +83,10 @@ import { AutosizeModule } from 'ngx-autosize';
   providers: [
     NavigationService,
     HttpService, 
+    Camera,
+    WebView,
+    File,
+    FilePath
   ],
   declarations: [HomePage,
     VitalsComponent,
