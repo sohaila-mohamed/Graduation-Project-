@@ -6,18 +6,14 @@ import { Reply, Iconvs } from '../DataModels';
 import { HttpService } from '../HttPService/http.service';
 import { DatastreamingService } from 'src/app/services/datastream/datastreaming.service';
 import { doctorData } from 'src/app/model/doctorData';
-import { ActionSheetController, ToastController, LoadingController, Platform } from '@ionic/angular';
+import { ActionSheetController, ToastController, Platform } from '@ionic/angular';
 import {Storage} from '@ionic/storage';
-
 import {Camera,CameraOptions, PictureSourceType} from'@ionic-native/camera/ngx';
 import { File ,FileEntry } from '@ionic-native/file/ngx';
 import {WebView} from'@ionic-native/ionic-webview/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
 
-
-
 const STORAGE_KEY = 'my_images';
-
 
 @Component({
   selector: 'app-chat',
