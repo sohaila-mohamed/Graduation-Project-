@@ -326,12 +326,7 @@ images = [];
     fcm_token:this.doctor.fcmtoken,
     media:imgEntry.path,
 };
-//   // this.http.postReply(this.data,this.thread.thread_id).subscribe((res)=>{
-//   //   console.log("posted",res);
-   
-
-  // });
-  
+ 
    this.newMessages.push(this.image);
 
 
