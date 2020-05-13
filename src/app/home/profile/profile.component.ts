@@ -121,11 +121,10 @@ async save(name: String,age: number, address:String, token: String){
         console.log("myName "+ name);
         console.log("myAddress "+ address);
     
-    this.editPatientService.editPatientProfile(name,age,address,token).subscribe(
+    this.editPatientService.editPatientProfile(name,age,address).subscribe(
        response=>{
           console.log("http request to Change patient Data: "+ JSON.stringify(response));
           this.datastream.changePatientData(name,age,address);
-
     }, 
     err =>
     {

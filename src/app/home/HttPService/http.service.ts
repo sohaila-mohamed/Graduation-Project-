@@ -4,27 +4,27 @@ import { HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { UpVitals, Reply } from '../DataModels';
 import { newMessage } from 'src/app/model/newMessage';
+import { map, flatMap } from 'rxjs/operators';
+import { TokenClass } from 'src/app/model/token';
 import { DatastreamingService } from 'src/app/services/datastream/datastreaming.service';
-
+import { FCM } from '@ionic-native/fcm/ngx';
+import { doctorData } from 'src/app/model/doctorData';
 @Injectable({
   providedIn: 'root'
 })
 export class HttpService {
-  
- 
-  Java_Host_Port ="http://ec2-3-86-89-133.compute-1.amazonaws.com:8080";
-
 
   Node_host ="http://ec2-3-87-1-35.compute-1.amazonaws.com:3000/";
+ Java_Host_Port ="http://ec2-3-86-89-133.compute-1.amazonaws.com:8080";
 
   constructor(private http:HttpClient,
-    private dataStream: DatastreamingService) { 
-    
+    private dataStream: DatastreamingService,
+        private fcm: FCM,) {
   }
-  
 
 
- 
+
+
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
@@ -33,84 +33,9 @@ export class HttpService {
     })
   };
   //-------------------------------------------------------------------------------
-  addDoctor(code,token):Observable<any>
-  {
-    const httpOption = {
-      headers: this.httpGetTokenOptions(token)
-    };  
-
-    const url =this.Java_Host_Port+"/DoctorPatient/addMyDoctor";
-    return this.http.post<any>(
-      url,
-      {
-      "code":code
-      }
-    ,httpOption);
-
-  } 
-  
-  createPatient(newPatient):Observable<any>
- {
-  console.log("da5lt");
 
 
-  const url =this.Java_Host_Port+"/patient/api/createPatient";
-  return this.http.post<any>(url,newPatient,this.httpOptions);
-// .toPromise()
-// .then(data => {
-//   console.log("da5lr")
-//   console.log(data);
-// }).catch(error => {
-//   console.log("EROOR: " +error.status);
-// });
-}
 
-
-Login(email,pass):Observable<any>
-{
- console.log("d5lt")
-
- const url =this.Java_Host_Port+"/signIn";
-return this.http.post<any>(url,
-  {
-    "username": email,
-    "password": pass
-  },this.httpOptions);
-
-}
-
-
-httpGetTokenOptions(accessToken) {
-
-  return new HttpHeaders({
-    'Content-Type':  'application/json',
-    'Access-Control-Allow-Origin' :'*',
-    "Authorization": "Bearer " + accessToken
-
-  })
-};
-
-
- getPatientUsingToken(token): Observable<any>
- {
-  const httpOption = {
-    headers: this.httpGetTokenOptions(token)
-  };
-  const url =this.Java_Host_Port+"/patient/getCurrentPatientData";
-  
-  return this.http.get<any>(url,httpOption);
-
- }
-
-  getDoctorList(token): Observable<any>
-  {
-  const httpOption = {
-    headers: this.httpGetTokenOptions(token)
-  };
-  const url =this.Java_Host_Port+"/DoctorPatient/getMyDoctorList/";
-  return this.http.get<any>(url,httpOption);
-
-  }
 
   PostVitals(vital:any,id:number): Observable<any>{
     const Url =this.Node_host+"api/users/vitals/"+id;
@@ -133,39 +58,9 @@ httpGetTokenOptions(accessToken) {
     return this.http.get<any>(Url, this.httpOptions);
   }
     
-  editPatientProfile(name,age,address,token){
-     console.log(name,age,address,token) 
-     const httpOption = {
-     headers: this.httpGetTokenOptions(token)
-    };  
-     const url =this.Java_Host_Port+"/patient/updateProfile";
-     return this.http.post<any>(
-      url,
-      {
-        "name":name, 
-        "age": age,
-        "address":address
-      } ,httpOption);
 
-      
 
-  }
-  
-  editFCMToken(fcmtoken, token){
-    const httpOption = {
-    headers: this.httpGetTokenOptions(token)
-   };  
 
-    const url =this.Java_Host_Port+"/patient/updateToken";
-    return this.http.post<any>(
-     url,
-     {
-       "fcmtoken":fcmtoken
-     } ,httpOption);
-
-     
-
- }
  getInbox(user_id,offset){
   const Url =this.Node_host+"api/users/threads/inbox/"+user_id+"/"+offset;
   console.log("URL",Url);
@@ -201,6 +96,122 @@ httpGetTokenOptions(accessToken) {
 
  }
 
+
+
+
+ //----------------------------------------------------------------------------------------------
+
+
+
+ createPatient(newPatient):Observable<any>
+ {
+  const url =this.Java_Host_Port+"/patient/api/createPatient";
+  return this.http.post<any>(url,newPatient,this.httpOptions);
+}
+
+
+Login(email,pass):Observable<any>
+{
+ console.log(email,pass);
+ const url =this.Java_Host_Port+"/signIn";
+ return this.http.post<any>(url,
+  {
+    "username": email,
+    "password": pass
+  },this.httpOptions).pipe(
+   map((token)=>
+   {
+     return new TokenClass(token.token);
+   })
+ );
+
+}
+
+ gethttpOption() {
+   return {
+    headers: this.httpGetTokenOptions(this.dataStream.getToken())
+  };
+ }
+
+httpGetTokenOptions(accessToken) {
+
+  return new HttpHeaders({
+    'Content-Type':  'application/json',
+    'Access-Control-Allow-Origin' :'*',
+    "Authorization": "Bearer " + accessToken
+
+  })
+};
+
+ getPatientUsingToken(): Observable<any>
+ {
+   const url =this.Java_Host_Port+"/patient/getCurrentPatientData";
+   return this.http.get<any>(url,this.gethttpOption());
+ }
+
+  getDoctorList(): Observable<any>
+  {
+     const url =this.Java_Host_Port+"/DoctorPatient/getMyDoctorList/";
+     return this.http.get<any>(url,this.gethttpOption()).pipe(
+       flatMap(doctors => doctors),
+       map((doctor)=>
+       {
+         console.log("doctor inside javahttp: ", doctor);
+         return new doctorData(doctor[0], doctor[1], doctor[2],
+           doctor[3], doctor[4],doctor[5]);
+       })
+     );;
+  }
+
+
+  editPatientProfile(name,age,address){
+     let token = this.dataStream.getToken();
+     console.log(name,age,address,token);
+     const url =this.Java_Host_Port+"/patient/updateProfile";
+     return this.http.post<any>(
+     url,
+     {
+       "name":name,
+       "age": age,
+       "address":address
+     } ,this.gethttpOption());
+
+   }
+
+   bgrb(file)
+   {
+     console.log("entered");
+     console.log("My File is formData:  "+JSON.stringify(file));
+     let url = this.Java_Host_Port+ "/storage/uploadFile";
+     console.log("url: ", url);
+
+   // let formData = new FormData();
+   // formData.append('file', file);
+   // formData.append('data',  JSON.stringify(this.json()));
+   console.log("file of formdata");
+   console.log(file.getAll('file'));
+   console.log("data of formdata  "+file.getAll('data'));
+
+   return this.http.post<any>(url,
+         file);
+   }
+   editFCMToken(){
+     console.log("EDIT FCM TOKEN ");
+     const url =this.Java_Host_Port+"/patient/updateToken";
+
+     this.fcm.getToken().then((fcmtoken)=>{
+       this.http.post<any>( url,
+       {
+         "fcmtoken":fcmtoken
+       } ,this.gethttpOption()).subscribe(
+         (error)=>{
+           console.log("error in fcm: ", error);
+         },
+       ()=>{
+         console.log("fcm changed");
+       }
+     )});
+   }
 }
 
 

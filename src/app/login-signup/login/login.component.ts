@@ -3,9 +3,6 @@ import { NavigationService } from 'src/app/home/NavService/navigation.service';
 import { HttpService } from 'src/app/home/HttPService/http.service';
 import { DatastreamingService } from 'src/app/services/datastream/datastreaming.service';
 import { MenuController } from '@ionic/angular';
-import { AlertController} from '@ionic/angular';
-import { timer } from 'rxjs';
-import { FCM } from '@ionic-native/fcm/ngx';
 
 @Component({
   selector: 'app-login',
@@ -20,102 +17,62 @@ export class LoginComponent implements OnInit {
      private http: HttpService,
      private datastream : DatastreamingService,
      private men:MenuController,
-     private addController : AlertController,
-     private fcm: FCM,
     ) { }
  
 
     ngOnInit() {
       this.men.enable(false);
     }
-   login(email,password)
 
+
+   login(email,password)
     {
-    // email ="beebz@mail.com";
-    // password = "beebz1997";
-    let that = this;
-    console.log(email,password);
-    let  mobile = email.replace(/^0+/, '');
-    mobile= "+20"+mobile;
-    // Loggining In
-    this.http.Login(mobile, password).subscribe( 
-       
-       res=>{
-         // timer
+      let that = this;
+      let  mobile = "+20" +email.replace(/^0+/, '');
+      this.http.Login(mobile, password).subscribe( 
+       tokenObj=>{      
         this.showSplash = true;
-        // timer
-        timer(10000).subscribe(()=> this.showSplash = false);
+
+        // timer(10000).subscribe(()=> this.showSplash = false);
         //Use Token To get PatientData
-        console.log("Token: "+res.token);
-        this.datastream.setToken(res.token);
-        
+        console.log("Token: ",tokenObj.token);
+        this.datastream.setToken(tokenObj.token);
         
         //recieveing Token For Development Only FOR NOW
-        this.fcm.getToken().then((fcmtoken)=>{
-          this.http.editFCMToken(fcmtoken, res.token).subscribe((data)=>
+        this.http.editFCMToken();
+       
+
+        this.http.getPatientUsingToken().subscribe(
+          patientData =>
           {
-            console.log(JSON.stringify(data));
-          }, 
-          err=>{
-            alert("ERROR in updating FCM token: "+JSON.stringify(err));
-
-          });
-
-        },
-        (err)=>{
-          alert("ERROR in getting FCM token: "+JSON.stringify(err));
-        });
-
-
-        this.http.getPatientUsingToken(res.token).subscribe(
-            async patientData =>
-            {
-                console.log("patientData.myPatient: ", patientData.myPatient)
                 that.datastream.setPatient(patientData.myPatient);
-                this.datastream.clearDoctorList();
-                console.log("patientData.doctorsArrayList: ", patientData.doctorsArrayList);
-                
-                await patientData.doctorsArrayList.forEach(element => {                    
+                this.datastream.clearDoctorList();                
+                patientData.doctorsArrayList.forEach(element => {                    
                       this.datastream.addToDoctorList(element);
-                
-                });                  
-                 
+                });                         
           },
           err => {
-             this.presentAlert('HTTP Patinet Data Error: ', err.error.message);
-
-            
+            this.showSplash = false;
+             alert('HTTP Patinet Data Error: '+ err.error.message);  
           },
           () => {
+            this.showSplash = false;
             console.log('HTTP get patient data request completed.');
-            console.log(that.datastream.getDoctorList);
-            console.log(that.datastream.getPatientName);
+            console.log("patientData.doctorsArrayList: ",that.datastream.getDoctorList());
+            console.log("patientData.myPatient Name: ",that.datastream.getPatientName());
             that.nav.navigateTo('home');
           }
-
-
         )
       }, 
       err =>{
-        this.presentAlert('HTTP Login Error: ', err.error.message);
+        this.showSplash = false;
+        alert('HTTP Login Error: '+ err.error.message);
         
       },
-      () => console.log('HTTP Login request completed.')
-      
-     );
+      () => console.log('HTTP Login request completed.'));
    }
 
-    async presentAlert(subtitleString:string,messageString:string) {
-      const alert = await this.addController.create({
-        header: 'ERROR',
-        subHeader: subtitleString,
-        message: messageString,
-        buttons: ['OK']
 
-      });
-  
-      await alert.present();
-    }
 
     backClick(){
       console.log("must navigate to patient list")

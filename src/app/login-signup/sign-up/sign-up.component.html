@@ -1,4 +1,10 @@
 <ion-content>
+  <div *ngIf="showSplash" class="myBackground">
+    <div>
+       <img src="/assets/giphy.gif">
+   </div> 
+</div> 
+<div *ngIf="!showSplash">
   <ion-grid >
     <ion-row>
       <ion-col>
@@ -102,5 +108,6 @@
     PasswordInput.value, 
     ageInput.value, 
     addressInput.value
-   )" color="light" >Sign Up</ion-button></div>      
+   )" color="light" >Sign Up</ion-button></div>
+  </div>      
 </ion-content>

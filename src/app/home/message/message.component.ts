@@ -1,4 +1,3 @@
-/* tslint:disable:variable-name */
 import { Component, OnInit } from '@angular/core';
 import { InteractionService } from 'src/app/services/datacommunication/interaction.service';
 import { NavigationService } from '../NavService/navigation.service';
@@ -18,63 +17,65 @@ export class MessageComponent  {
 
 
   constructor(
-  private navigation: NavigationService,
+  private navigation:NavigationService,
   private intComp: InteractionService,
   // private docList:ActionSheetController,
-  private addController: AlertController,
-  private communication: InteractionService,
+  private addController : AlertController,
+  private communication:InteractionService,
   private getDocData: InteractionService,
-  private dataInteraction: InteractionService,
-  private httpService: HttpService,
-  private patientData: DatastreamingService,
+  private dataInteraction:InteractionService,
+  private httpService:HttpService,
+  private patientData:DatastreamingService,
   ) {
 
    }
 
 
-  // tslint:disable-next-line:variable-name
-  private Subject_from_input: string;
-  private Content_from_text_area: string;
-  private Reciever_from_dr_list: string;
-  private newMessages: newMessage[] = [];
-  private data: Reply;
-  private patientId: number;
-  private thread: newMessage;
+  private Subject_from_input:string;
+  private Content_from_text_area:string;
+  private Reciever_from_dr_list:string;
+  private newMessages :  newMessage[]=[];
+  private data :Reply;
+  private patientId:number;
+  private thread:newMessage;
   // private doctorRow = new Array<doctorData>();
-  private doctorRow: doctorData;
+  private doctorRow : doctorData;
 
-  private eachDoctorData: doctorData;
-  private patientName: string;
+  private eachDoctorData:doctorData;
+  private patientName:string;
 
-  ionViewWillEnter() {
-    this.patientId = this.patientData.getPatientId();
-    this.patientName = this.patientData.getPatientName();
+  ionViewWillEnter()
+    {
+      
+    
+    this.patientId=this.patientData.getPatientId();
+    this.patientName=this.patientData.getPatientName();
 
-    const that = this;
+    const that=this;
     this.getDocData.data.subscribe(
-      (docData) => {
-        that.doctorRow = docData;
-        console.log('all doctors data', docData);
+      (docData)=> { 
+        that.doctorRow=docData;
+        console.log("all doctors data",docData)
 
-        console.log(this.doctorRow);
+        console.log(this.doctorRow)
         that.setDocList();
 
       }
     );
 
     // this.Reciever_from_dr_list="Dr.Mahmoud"
-    this.Content_from_text_area = '';
-    this.Subject_from_input = '';
+    this.Content_from_text_area="";
+    this.Subject_from_input="";
     // this.Reciever_from_dr_list="";
-
+    
   }
-  setDocList() {
+  setDocList(){
     // this.eachDoctorData=this.doctorRow;
-    console.log('type eachDoctorData is ' + typeof(this.doctorRow));
-    console.log('name' + this.doctorRow.name);
-    this.Reciever_from_dr_list = this.doctorRow.name;
-    console.log('selected doctor ' + this.Reciever_from_dr_list);
-
+    console.log("type eachDoctorData is "+typeof(this.doctorRow));
+    console.log("name"+this.doctorRow.name);
+    this.Reciever_from_dr_list=this.doctorRow.name;
+    console.log("selected doctor "+this.Reciever_from_dr_list);
+    
 
   }
 
@@ -122,31 +123,31 @@ export class MessageComponent  {
 
   //  console.log("tthread"+this.thread.reciever_name)
   //  console.log("data"+this.data.sender_id)
-      this.httpService.postThread(this.thread, this.patientId).subscribe((res) => {
-    console.log('new thread data', res);
+  this.httpService.postThread(this.thread,this.patientId).subscribe((res)=>{
+    console.log("new thread data",res);
+     
+     this.communication.getThreadIdfromMessageorConvListtoChat(res.insertId);
+     
 
-    this.communication.getThreadIdfromMessageorConvListtoChat(res.insertId);
+     console.log("hey tehre:", this.data);
+   this.httpService.postReply(this.data,res.insertId).subscribe((msg)=>{
+    console.log("heyyyyloo");
+    console.log("first thread message",msg);
+    console.log("NAVIGATIOM11");
 
-
-    console.log('hey tehre:', this.data);
-    this.httpService.postReply(this.data, res.insertId).subscribe((msg) => {
-    console.log('heyyyyloo');
-    console.log('first thread message', msg);
-    console.log('NAVIGATIOM11');
-
-    this.navigation.navigateTo('home/chat');
+  this.navigation.navigateTo('home/chat');
 
     });
 
-
+    
    });
 
-  // send message content to chat component
-      this.intComp.sendMSG(this.newMessages);
-      console.log('NAVIGATIOM');
+  //send message content to chat component
+  this.intComp.sendMSG(this.newMessages);
+  console.log("NAVIGATIOM");
 
   }
-    console.log(this.Content_from_text_area);
+ console.log(this.Content_from_text_area);
 }
 
 
@@ -167,9 +168,9 @@ export class MessageComponent  {
 //       icon: 'person',
 //       // icon: 'camera',
 //       handler: () => {
-
+        
 //         this.Reciever_from_dr_list="Dr.Medhat";
-
+        
 
 //         // this.navigation.navigateTo("home/schedule");
 //       }
