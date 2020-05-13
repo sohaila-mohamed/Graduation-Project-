@@ -29,42 +29,34 @@ export class DoctorListComponent implements OnInit {
 
     
      ionViewWillEnter() {
-       let that = this;
-       let token = this.datastream.getToken();
        //Get Doctor List
-       this.http.getDoctorList(token)
-                .subscribe(
-                  async response=>{
-                    console.log("respponce of doctor list");
-                    console.log(JSON.stringify(response));
+         this.datastream.clearDoctorList();
+         this.http.getDoctorList()
+             .subscribe(
+                 (doctor)=>{
 
-                    this.datastream.clearDoctorList();
-                    await response.forEach(element => {                    
-                      this.datastream.addToDoctorList(element);
-                    });          
-                    
-                    this.doctorRow = this.datastream.getDoctorList();
-                    this.doctorArrayList = this.doctorRow;
+                     this.datastream.doctorList.push(doctor);
 
-                  }, 
-                  err =>
-                  {
-                    console.log('HTTP Doctor List Error: ', err.error.message);
-                    this.presentAlert('HTTP Doctor List Error: ', err.error.message);
-                  },
-                  () => 
-                  {
-                    this.datastream.saveDoctorListToDataStore();
-                    console.log('HTTP request completed.');
-                  }
-                );
+                 },
+                 err =>
+                 {
+                     console.log('HTTP Doctor List Error: ', err.error.message);
+                     alert('HTTP Doctor List Error: '+ err.error.message);
+                 },
+                 () =>
+                 {
+                     this.doctorRow = this.datastream.getDoctorList();
+                     this.doctorArrayList = this.doctorRow;
+                     this.datastream.saveDoctorListToDataStore();
+                     console.log('HTTP request completed.');
+                 }
+             );
 
-  
-   
-   
-   
+
+
+
+
      }
-   
      initializeList(){
        this.doctorArrayList = this.doctorRow;
      }

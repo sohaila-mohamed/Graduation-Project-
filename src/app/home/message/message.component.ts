@@ -55,9 +55,9 @@ export class MessageComponent  {
     this.getDocData.data.subscribe(
       (docData)=> { 
         that.doctorRow=docData;
-        console.log("all doctors data",docData)
+        console.log("all doctors data",docData);
 
-        console.log(this.doctorRow)
+        console.log(this.doctorRow);
         that.setDocList();
 
       }

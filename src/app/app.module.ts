@@ -13,7 +13,9 @@ import { FormsModule } from '@angular/forms';
 import { FCM } from '@ionic-native/fcm/ngx';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpService } from './home/HttPService/http.service';
-
+import {Camera} from '@ionic-native/camera/ngx';
+import {File} from '@ionic-native/file';
+import {FilePath} from '@ionic-native/file-path';
 
 
 @NgModule({
@@ -30,6 +32,10 @@ import { HttpService } from './home/HttPService/http.service';
     DatastreamingService,
     DatastorageService,
     FCM,
+    Camera,
+    File,
+    FilePath,
+
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
