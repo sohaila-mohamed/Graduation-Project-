@@ -114,7 +114,7 @@ images = [];
     this.newMsgs=this.newMessages[2];
     if (this.newMsgs.sender_id==undefined){
       this.newMsgs.sender_id=this.pId;
-      console.log("newMsgs.sender_id"+this.newMsgs.sender_id)   
+      console.log("newMsgs.sender_id"+this.newMessages)   
       console.log("newMsgs if denderid is undefined"+this.newMsgs)   
 
     }
@@ -312,11 +312,29 @@ images = [];
       this.startUpload(newEntry);
   
       this.images = [newEntry, ...this.images];
-      this.ref.detectChanges(); // trigger change detection cycle
+      this.ref.detectChanges(); 
   });
   }
   startUpload(imgEntry) {
   console.log("upload"+JSON.stringify(imgEntry.path));
+  this.image={
+    sender_id:this.pId,
+    reciever_id:this.doctor.doctorId,
+    msg_body:"",
+    created_date:new Date().toLocaleString(),
+    thread_subject:this.thread.thread_id,
+    fcm_token:this.doctor.fcmtoken,
+    media:imgEntry.path,
+};
+//   // this.http.postReply(this.data,this.thread.thread_id).subscribe((res)=>{
+//   //   console.log("posted",res);
+   
+
+  // });
+  
+   this.newMessages.push(this.image);
+
+
   this.file.resolveLocalFilesystemUrl(imgEntry.filePath)
       .then(entry => {
           ( < FileEntry > entry).file(file => this.readFile(file))
@@ -329,27 +347,25 @@ images = [];
   {
   return {
   "thread_id":this.thread.thread_id,
-  "sender_id":56,
-  "reciever_id":25,
+  "sender_id":this.pId,
+  "reciever_id":this.doctor.doctorId,
   "msg_body":"",
-  "fcm_token":"this.doctor.fcmtoken"
+  "fcm_token":this.doctor.fcmtoken
   };}
 
-
-
-  
   readFile(file: any) {
   const that = this;
   const reader = new FileReader();
   
-  reader.onloadend = () => {
+      reader.onloadend = () => {
     
-    console.log("ressssssss"+reader.result);
+      console.log("ressssssss"+reader.result);
       const formData = new FormData();
       const imgBlob = new Blob([reader.result], {type: file.type });
       console.log("blob"+JSON.stringify(imgBlob));
       formData.append('file', imgBlob, file.name);
       formData.append('data',  JSON.stringify(this.json()));
+
       this.http.bgrb(formData).subscribe(
           (data)=>{
             console.log(" allData ", data);
@@ -358,7 +374,7 @@ images = [];
           //  this.url="https://s3.ap-south-1.amazonaws.com/fortifyfitness/1588904766021-Photo_26042020_161941.jpg";
 
             //////////////////////////////////////////////////////////////////
-          //   this.newMsgs={
+          //     this.newMsgs={
           //     thread_id: this.thread.thread_id,
           //     sender_id:this.pId,
           //     reciever_id:this.doctor.doctorId,
@@ -367,14 +383,14 @@ images = [];
           //     media:data.url,
           // }
           this.image={
-            sender_id:56,
-            reciever_id:25,
+            sender_id:this.pId,
+            reciever_id:this.doctor.doctorId,
             msg_body:"",
             created_date:new Date().toLocaleString(),
-            thread_subject:19,
-            fcm_token:"this.doctor.fcmtoken",
+            thread_subject:this.thread.thread_id,
+            fcm_token:this.doctor.fcmtoken,
             media:data.url,
-        }
+        };
         //   // this.http.postReply(this.data,this.thread.thread_id).subscribe((res)=>{
         //   //   console.log("posted",res);
            
@@ -382,10 +398,10 @@ images = [];
           // });
           this.showSplash=false;
           console.log("Data Came: ", that.url );
-           that.newMessages.concat(this.image);
+           that.newMessages.push(this.image);
            this.showSplash=true;
-
-          //  that.setMessege();
+           
+           that.setMessege();
            this.bigContent.scrollToBottom(500);
 
              
@@ -411,10 +427,7 @@ images = [];
         )
       
       console.log("form  "+JSON.stringify(formData.getAll('file')));
-      console.log("Data Came1: ", that.url );
-      console.log("Data Came:2 ", this.image );
-
-
+      
   };
   reader.readAsArrayBuffer(file);
   console.log("Data Came:2 ", that.url );
@@ -422,6 +435,7 @@ images = [];
 
 
   }
+
 
 }
 
