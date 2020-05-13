@@ -175,17 +175,7 @@ httpGetTokenOptions(accessToken) {
      } ,this.gethttpOption());
 
    }
-   json()
-   {
-     return {
-       "thread_id":12,
-       "sender_id":70,
-       "reciever_id":56,
-       "msg_body":"Sohaila Heyyyy",
-       "fcm_token":"shshshshsshhshhhh"
-};
-
-   }
+   
    bgrb(file)
    {
      console.log("entered");

@@ -38,7 +38,6 @@ export class ChatComponent implements OnInit {
       private filePath: FilePath) { 
   
   
-      // this.url="https://s3.ap-south-1.amazonaws.com/fortifyfitness/1588904766021-Photo_26042020_161941.jpg";
 }
 url:string;  
 images = [];
@@ -51,6 +50,10 @@ images = [];
     private pId:number;
     private thread: Iconvs;
     private doctor:doctorData;
+    private docname:string;
+    private image:any;
+    showSplash: boolean=false;
+
     
 
     ngOnInit() {
@@ -76,8 +79,9 @@ images = [];
     }
 
     ionViewWillEnter() {
-    console.log("pid: ",this.pId);
+    
     this.pId =this.datastream.getPatientId();
+    console.log("pid: ",this.pId);
    
 
     this.communication.getId.subscribe(
@@ -94,7 +98,8 @@ images = [];
   (massagesFromMessageOrConvList)=> { 
     console.log("replies in chat: " ,massagesFromMessageOrConvList);
     that.newMessages=massagesFromMessageOrConvList;
-    
+    this.showSplash=true;
+
     
     console.log("tpe msg  "+that.newMessages);
     
@@ -106,7 +111,7 @@ images = [];
    }
   
   setMessege(){
-    this.newMsgs=this.newMessages[0];
+    this.newMsgs=this.newMessages[2];
     if (this.newMsgs.sender_id==undefined){
       this.newMsgs.sender_id=this.pId;
       console.log("newMsgs.sender_id"+this.newMsgs.sender_id)   
@@ -116,11 +121,12 @@ images = [];
     // timer(3000).subscribe(()=> this.repliesAreHere = false);
   console.log("type myMsgs is "+typeof(this.newMsgs));
    
-      console.log("myMsgs",this.newMsgs);
+      console.log("myMsgs",this.newMsgs.media);
       for(let dRow of this.docRow){
 
         if(this.newMsgs.reciever_id==dRow.doctorId || this.newMsgs.sender_id==dRow.doctorId){
           this.doctor=dRow;
+          this.docname=dRow.name;
           console.log("doctor.doctorId"+this.doctor.doctorId);
           
         }
@@ -196,7 +202,9 @@ images = [];
     toast.present();
   }
   
-  // Next functions follow here...
+  card(){
+
+  }
   async selectImage() {
     const actionSheet = await this.actionSheetController.create({
         header: "Select Image source",
@@ -299,6 +307,8 @@ images = [];
           path: resPath,
           filePath: filePath
       };
+      console.log("newEntry"+newEntry);
+
       this.startUpload(newEntry);
   
       this.images = [newEntry, ...this.images];
@@ -306,7 +316,7 @@ images = [];
   });
   }
   startUpload(imgEntry) {
-  console.log("upload");
+  console.log("upload"+JSON.stringify(imgEntry.path));
   this.file.resolveLocalFilesystemUrl(imgEntry.filePath)
       .then(entry => {
           ( < FileEntry > entry).file(file => this.readFile(file))
@@ -318,14 +328,18 @@ images = [];
   json()
   {
   return {
-  "thread_id":12,
-  "sender_id":70,
-  "reciever_id":56,
-  "msg_body":"Sohaila Heyyyy",
-  "fcm_token":"shshshshsshhshhhh"
+  "thread_id":this.thread.thread_id,
+  "sender_id":56,
+  "reciever_id":25,
+  "msg_body":"",
+  "fcm_token":"this.doctor.fcmtoken"
   };}
+
+
+
+  
   readFile(file: any) {
-  let tat = this;
+  const that = this;
   const reader = new FileReader();
   
   reader.onloadend = () => {
@@ -338,8 +352,42 @@ images = [];
       formData.append('data',  JSON.stringify(this.json()));
       this.http.bgrb(formData).subscribe(
           (data)=>{
-            tat.url = data.url;
-            console.log("Data Came: ", data.url);
+            console.log(" allData ", data);
+
+            that.url = data.url;
+          //  this.url="https://s3.ap-south-1.amazonaws.com/fortifyfitness/1588904766021-Photo_26042020_161941.jpg";
+
+            //////////////////////////////////////////////////////////////////
+          //   this.newMsgs={
+          //     thread_id: this.thread.thread_id,
+          //     sender_id:this.pId,
+          //     reciever_id:this.doctor.doctorId,
+          //     msg_body:"",
+          //     created_date:new Date().toLocaleString(),
+          //     media:data.url,
+          // }
+          this.image={
+            sender_id:56,
+            reciever_id:25,
+            msg_body:"",
+            created_date:new Date().toLocaleString(),
+            thread_subject:19,
+            fcm_token:"this.doctor.fcmtoken",
+            media:data.url,
+        }
+        //   // this.http.postReply(this.data,this.thread.thread_id).subscribe((res)=>{
+        //   //   console.log("posted",res);
+           
+
+          // });
+          this.showSplash=false;
+          console.log("Data Came: ", that.url );
+           that.newMessages.concat(this.image);
+           this.showSplash=true;
+
+          //  that.setMessege();
+           this.bigContent.scrollToBottom(500);
+
              
           },
           (err)=>{
@@ -349,14 +397,32 @@ images = [];
           ()=>
           {
             console.log("Completed");
-    
+            
+            console.log("Data Came3: ", that.newMessages );
+            console.log("Data Came:2 ", this.image);
+
+
+          //   console.log("newMsgs"+this.newMsgs);
+          //   this.newMessages.push(this.newMsgs);
+          //  console.log("image ", this.newMessages);
+            // this.bigContent.scrollToBottom(300);
+            // this.file.removeDir()
           }
         )
       
       console.log("form  "+JSON.stringify(formData.getAll('file')));
+      console.log("Data Came1: ", that.url );
+      console.log("Data Came:2 ", this.image );
+
+
   };
   reader.readAsArrayBuffer(file);
+  console.log("Data Came:2 ", that.url );
+  console.log("Data Came:2 ", this.image);
+
+
   }
+
 }
 
 
