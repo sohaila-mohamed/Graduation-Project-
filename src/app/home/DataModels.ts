@@ -30,17 +30,16 @@ export class Ivitals{
 
 }
 export interface Iconvs{
-      
     sender_id:number;
-    receiver_name:string;
+    reciever_id:number;
     thread_id:number;
     ​​msg_subject: string;
     created_date: string;
     is_readed: number;
     sender_name:string;
-    receiver_name_string:string,
+    receiver_name:string;
     msg_body:string;
-}
+ }
 export interface Reply{
     sender_id: number,
     reciever_id	:number,

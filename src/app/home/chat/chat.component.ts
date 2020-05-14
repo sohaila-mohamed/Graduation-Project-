@@ -9,9 +9,9 @@ import { doctorData } from 'src/app/model/doctorData';
 import { ActionSheetController, ToastController, Platform } from '@ionic/angular';
 import {Storage} from '@ionic/storage';
 import {Camera,CameraOptions, PictureSourceType} from'@ionic-native/camera/ngx';
-import { File ,FileEntry } from '@ionic-native/file';
+import { File ,FileEntry } from '@ionic-native/file/ngx';
 import {WebView} from'@ionic-native/ionic-webview/ngx';
-import { FilePath } from '@ionic-native/file-path';
+import { FilePath } from '@ionic-native/file-path/ngx';
 
 const STORAGE_KEY = 'my_images';
 
@@ -80,43 +80,45 @@ export class ChatComponent implements OnInit {
 
     ionViewWillEnter() {
 
-        this.pId =this.datastream.getPatientId();
-        console.log("pid: ",this.pId);
+        new Promise((resolve, reject) => {
+            this.pId =this.datastream.getPatientId();
+            if(this.pId==undefined){reject('patient undefined');}
+            else {resolve();}
+
+        }).then(()=>{
+            this.communication.getId.subscribe(
+                (thread)=>{
+                    this.thread=thread;
+                    console.log("id "+this.thread.thread_id)
+                });
+            this.docRow = this.datastream.getDoctorList();
+            console.log(this.docRow);
+
+            }
+
+        ).then(()=>{
+
+            this.communication.msg.subscribe(
+                (massagesFromMessageOrConvList)=> {
+                    console.log("replies in chat: " ,massagesFromMessageOrConvList);
+                    this.newMessages=massagesFromMessageOrConvList;
+                    this.showSplash=true;
+                    console.log("tpe msg  "+this.newMessages);
 
 
-        this.communication.getId.subscribe(
-            (thread)=>{
-                this.thread=thread;
-                console.log("id "+this.thread.thread_id)
-            });
+                    this.setMessege();
+                });
 
-        this.docRow = this.datastream.getDoctorList();
-        console.log(this.docRow);
-
-        const that=this;
-        this.communication.msg.subscribe(
-            (massagesFromMessageOrConvList)=> {
-                console.log("replies in chat: " ,massagesFromMessageOrConvList);
-                that.newMessages=massagesFromMessageOrConvList;
-                this.showSplash=true;
-
-
-                console.log("tpe msg  "+that.newMessages);
-
-
-                that.setMessege();
-            });
-
+        });
 
     }
 
     setMessege(){
-        this.newMsgs=this.newMessages[2];
+        this.newMsgs=this.newMessages[0];
         if (this.newMsgs.sender_id==undefined){
             this.newMsgs.sender_id=this.pId;
-            console.log("newMsgs.sender_id"+this.newMessages)
+            console.log("newMsgs.sender_id"+this.newMessages);
             console.log("newMsgs if denderid is undefined"+this.newMsgs)
-
         }
         // timer(3000).subscribe(()=> this.repliesAreHere = false);
         console.log("type myMsgs is "+typeof(this.newMsgs));
@@ -131,7 +133,7 @@ export class ChatComponent implements OnInit {
 
             }
         }
-        console.log("newMsgs.sender_id"+this.newMsgs.sender_id)
+        console.log("newMsgs.sender_id"+this.newMsgs.sender_id);
         console.log("sender",this.pId);
     }
 
@@ -180,7 +182,7 @@ export class ChatComponent implements OnInit {
 
     goConv(){
 
-        this.navigation.navigateTo("home/conversation/convList");
+        this.navigation.navigateTo("home/conversation");
 
     }
     pathForImage(img) {

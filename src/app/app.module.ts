@@ -14,8 +14,10 @@ import { FCM } from '@ionic-native/fcm/ngx';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpService } from './home/HttPService/http.service';
 import {Camera} from '@ionic-native/camera/ngx';
-import {File} from '@ionic-native/file';
-import {FilePath} from '@ionic-native/file-path';
+import {File} from '@ionic-native/file/ngx';
+import {FilePath} from '@ionic-native/file-path/ngx';
+import {WebView} from '@ionic-native/ionic-webview/ngx';
+
 
 
 @NgModule({
@@ -35,6 +37,7 @@ import {FilePath} from '@ionic-native/file-path';
     Camera,
     File,
     FilePath,
+      WebView,
 
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],

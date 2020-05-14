@@ -9,7 +9,7 @@ import {doctorData} from '../../model/doctorData';
   providedIn: 'root'
 })
 export class InteractionService {
- private intComp= new BehaviorSubject<any>([]);
+ private intComp= new BehaviorSubject<any[]>(null);
  msg =this.intComp.asObservable();
 
  private getDocData= new BehaviorSubject<any>({});

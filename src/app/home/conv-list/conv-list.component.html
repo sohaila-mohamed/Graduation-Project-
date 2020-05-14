@@ -3,7 +3,8 @@
 <ion-row>
 <ion-col size="12">
 <ion-grid>
-<ion-row *ngFor="let account of convList" class="img-holder" (click)="reply(account)">
+<!--    <ion-row><p>{{convList[0].receiver_name}}</p></ion-row>-->
+<ion-row *ngFor="let account of convList;let i=index; "class="img-holder" (click)="reply(account)">
 <ion-col size="3">
 <div>
 <img  class="small-icon" src="assets/doctor1.jpeg">
@@ -43,6 +44,7 @@
 
 
 </ion-row>
+<!--    <ion-row>bye</ion-row>-->
 </ion-grid>
 
 

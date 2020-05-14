@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import { NavigationService } from '../NavService/navigation.service';
 import { HttpService } from '../HttPService/http.service';
 import { InteractionService } from 'src/app/services/datacommunication/interaction.service';
@@ -13,7 +13,7 @@ import {EventEmitterService} from "../../services/EventEmitterService/event-emit
   templateUrl: './conversations.component.html',
   styleUrls: ['./conversations.component.scss'],
 })
-export class ConversationsComponent  {
+export class ConversationsComponent implements OnDestroy {
     constructor(private navigation: NavigationService
      , private httpService:HttpService
      ,private dataInteraction:InteractionService
@@ -34,9 +34,7 @@ export class ConversationsComponent  {
 
 
 
-
-
-    async ionViewDidEnter() {
+     ionViewDidEnter() {
 
     console.log("conversation component ion view did enter ");
     this.doctorRow = this.datastream.getDoctorList();
@@ -46,7 +44,6 @@ export class ConversationsComponent  {
   }
 
  inbox(){
-
      console.log("inbox");
      this.eventEmitterService.OnComponentCall(0);
      console.log("inbox button triggered the state Function");
@@ -64,6 +61,9 @@ back(){
   this.navigation.navigateTo('home');
 
 }
+ngOnDestroy(){
+        console.log(" conversation destroyed");
+    }
 async CreateNew(){
   let actionSheetButtons = [];
 

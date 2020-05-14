@@ -64,6 +64,7 @@
     overflow: scroll;
   }
   //first row
+
 .f-row{
   background: linear-gradient(#7fddef 16%, #8de5d3 73%);
   margin: -5px;
@@ -77,7 +78,7 @@
 
 .card{
 
-  box-shadow: 9px 9px 16px rgb(163,177,198,0.6),
+  box-shadow: 9px 9px 16px  rgba(163,177,198,0.6),
   -9px -9px 16px    rgba(255,255,255, 0.5);
   //box-shadow: 1px 2px 10px 0px rgba(0,0,0,0.3);
   overflow: hidden;

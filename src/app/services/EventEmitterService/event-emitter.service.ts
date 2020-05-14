@@ -6,7 +6,7 @@ import {Subscription} from "rxjs";
 })
 export class EventEmitterService {
   FunctionCaller=new EventEmitter<number>();
-  Subscribtion:Subscription;
+  subscription:Subscription;
   constructor() { }
   OnComponentCall(state){
     this.FunctionCaller.emit(state);
