@@ -5,26 +5,39 @@
 </div> 
 </div> 
   <ion-grid class="background">
-    <ion-row>
-      <ion-col >
-          <ion-button  (click)= "clear()" color="light" shape ="round" >
-              <ion-icon name="arrow-round-back"></ion-icon>
-              Logout
-              </ion-button>
-            <!-- <img class ="icon"src="assets/talin.png" > -->
-  
-            <div class="center">
+      <ion-row>
+          <ion-col size="3" sizeLg="3" sizeSm="1" sizeMd="2" sizeXs="2"></ion-col>
+          <ion-col size="6" sizeLg="6" sizeMd="8" sizeSm="10" sizeXs="8">
+              <ion-toolbar text-center>
+                  <div class="wrapper">
+                      <div class="profile-img-frame">
+                          <div class="profile-img-holder">
+                              <img class="profile-img"  src="{{datastream.patient.profile_img}}"alt="profile image" (click)="NavigateMe('home/profile')">
+                          </div>
+                      </div>
+                  </div>
+                  <h1 class="middle-text user-name">{{datastream.patient.name}}</h1>
 
-              <ion-avatar class="avat" >
-                  <img src="assets/talin.png" (click)="NavigateMe('home/Myprofile')">
-             </ion-avatar>
-            </div>
-            <h1 class="middle-text user-name">{{datastream.patient.name}}</h1>
-  
-              
-      </ion-col>
+              </ion-toolbar>
 
-    </ion-row>
+          </ion-col>
+          <ion-col size="3" sizeLg="3" sizeSm="1" sizeMd="2" sizeXs="2"></ion-col>
+      </ion-row>
+<!--    <ion-row>-->
+<!--      <ion-col >-->
+<!--            &lt;!&ndash; <img class ="icon"src="assets/talin.png" > &ndash;&gt;-->
+<!--  -->
+<!--            <div class="center">-->
+<!--              <ion-avatar class="avat" >-->
+<!--                  <img src="{{datastream.patient.profile_img}}" (click)="NavigateMe('home/profile')">-->
+<!--             </ion-avatar>-->
+<!--            </div>-->
+<!--            <h1 class="middle-text user-name">{{datastream.patient.name}}</h1>-->
+<!--  -->
+<!--              -->
+<!--      </ion-col>-->
+
+<!--    </ion-row>-->
   </ion-grid >
   <ion-row class="main-card">
     <ion-grid>

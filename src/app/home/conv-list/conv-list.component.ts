@@ -1,7 +1,7 @@
 /* tslint:disable:typedef-whitespace */
 import {Component, ViewChild, ElementRef, OnInit, NgZone, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy} from '@angular/core';
 import {HttpService} from '../HttPService/http.service';
-import {Iconvs, Reply} from '../DataModels';
+import { Iconvs,Reply} from '../DataModels';
 import {DatastreamingService} from 'src/app/services/datastream/datastreaming.service';
 import {InteractionService} from 'src/app/services/datacommunication/interaction.service';
 import {typeWithParameters} from '@angular/compiler/src/render3/util';
@@ -11,6 +11,8 @@ import {eventMethod} from '@ionic/core/dist/types/utils/overlays';
 import {NavigationService} from '../NavService/navigation.service';
 import {EventEmitterService} from '../../services/EventEmitterService/event-emitter.service';
 import {__await} from 'tslib';
+import {flatMap, map} from "rxjs/operators";
+import {pipe} from "rxjs";
 
 @Component({
     selector: 'app-conv-list',
@@ -19,7 +21,7 @@ import {__await} from 'tslib';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConvListComponent implements OnInit, OnDestroy {
-    private convList: Iconvs[];
+    private convList: any[];
     private patientId: number;
     private page: number;
     private scrollPosition: number;
@@ -34,18 +36,16 @@ export class ConvListComponent implements OnInit, OnDestroy {
         private eventEmitterService: EventEmitterService,
         private dateInteraction: InteractionService, private addController: AlertController,
         private detectChange: ChangeDetectorRef) {
-
         console.log('convlist constructor');
     }
 
 
     ngOnInit() {
         console.log('convlist oninit');
-
         new Promise((resolve, reject) => {
             this.patientId = this.patientData.getPatientId();
             console.log('check patient id');
-            // tslint:disable-next-line:triple-equals
+
             if (this.patientId == undefined) {
 
                 reject('patient id is undefined ');
@@ -59,12 +59,14 @@ export class ConvListComponent implements OnInit, OnDestroy {
         }).then(() => {
             console.log('patient id form convlist', this.patientId);
             this.GetData(0);
+            this.state=0;
             // at the fist time we need to assign the part of code we need to invoke every time the event emitter emits value
             // tslint:disable-next-line:triple-equals
             if (this.eventEmitterService.subscription == undefined) {
                 console.log('subscribing to the event emitter//////////////////');
                 // when the event emitter emits new value only the part of the code that the subscriber hold will be invoked
                 this.eventEmitterService.subscription = this.eventEmitterService.FunctionCaller.subscribe((state: number) => {
+                    this.state=state;
                      this.GetData(state);
 
                 });
@@ -79,38 +81,46 @@ export class ConvListComponent implements OnInit, OnDestroy {
     ngOnDestroy(){
         this.eventEmitterService.subscription=undefined;
         console.log(" list destroyed");
-
     }
 
     ionViewWillEnter() {
 
         console.log('convlist ion view will enter');
-        // console.log('this.scrolling', this.scrollPosition);
     }
 
 
-    async GetData(state) {
+    GetData(state) {
         console.log('get data function');
         this.page = 0;
         if (state == 0) {
             console.log('page', this.page);
             console.log('interaction works');
-            this.httpService.getInbox(this.patientId, this.page).subscribe((res) => {
-                console.log('inbox ', res);
-                this.convList = res;
-                this.detectChange.markForCheck();
-                console.log('list ', this.convList);
-            }, error1 => this.presentAlert('http error get inbox', error1.message));
-        } else if(state==1) {
+            this.httpService.getInbox(this.patientId, this.page).subscribe(res=>{
+                if(res.length){
+                    this.convList=res;
+
+                }else {
+                    this.convList=[res];
+
+                }
+
+                console.log("Get Inbox res",res)
+            ;this.detectChange.detectChanges();},
+                    error1 => alert("http error get inbox"));}
+
+         else if(state==1) {
             console.log('page', this.page);
-            this.httpService.getSent(this.patientId, this.page).subscribe((res) => {
-                console.log('sent ', res);
-                this.convList = res;
-                this.detectChange.markForCheck();
-                console.log('list sent', this.convList);
+            this.httpService.getSent(this.patientId, this.page).subscribe(res=>{
+                if(res.length){
+                    this.convList=res;
 
-
-            }, error1 => this.presentAlert('http error get sent', error1.message));
+                }
+                else {
+                    this.convList=[res];
+                }
+                    console.log("Get sent res",res);
+                   this.detectChange.detectChanges();}
+             , error1 => this.presentAlert('http error get sent', error1.message));
         }
 
     }
@@ -127,37 +137,22 @@ export class ConvListComponent implements OnInit, OnDestroy {
 
         await alert.present();
     }
+    doRefresh(event) {
+        console.log('Begin async operation');
+            new Promise((resolve, reject) => {
+                console.log("state",this.state);
+                this.GetData(this.state);
+                console.log('Async operation has ended');
+                resolve();
+
+            }).then(()=>{event.target.complete();this.detectChange.detectChanges();});
 
 
-///////////////////////////////////////////////////////////
-/////////// to create new thread 
-    //  this.thread={
-    //     reciever_id   :  29,
-    //     msg_subject   :  "postman4",
-    //     created_date  :  "2020-02-02",
-    //     is_readed     :  0,
-    //     reciever_name :  "sohaila",
-    //     sender_name   :  "ahmed",
-    //     msg_body      :  "Hello Doctor i want...."
 
-    //   }
-    //   this.data={
-    //     sender_id:this.patientId,
-    //     reciever_id:this.thread.reciever_id,
-    //     msg_body:this.thread.msg_body,
-    //     created_date:this.thread.created_date,
-    //   };
-    //   this.httpService.postThread(this.thread,this.patientId).subscribe((res)=>{
-    //     console.log("new thread data",res);
 
-    //   this.httpService.postReply(this.data,res.insertId).subscribe((msg)=>{
-    //     console.log("first thread message",msg);
+    }
 
-    //   });
 
-    //   });
-
-////////////////////////////////////////////////////////////
 
 
     ngAfterViewInit() {
@@ -250,3 +245,33 @@ export class ConvListComponent implements OnInit, OnDestroy {
     //   console.log("replies",res);
     // });
 }
+
+///////////////////////////////////////////////////////////
+/////////// to create new thread
+//  this.thread={
+//     reciever_id   :  29,
+//     msg_subject   :  "postman4",
+//     created_date  :  "2020-02-02",
+//     is_readed     :  0,
+//     reciever_name :  "sohaila",
+//     sender_name   :  "ahmed",
+//     msg_body      :  "Hello Doctor i want...."
+
+//   }
+//   this.data={
+//     sender_id:this.patientId,
+//     reciever_id:this.thread.reciever_id,
+//     msg_body:this.thread.msg_body,
+//     created_date:this.thread.created_date,
+//   };
+//   this.httpService.postThread(this.thread,this.patientId).subscribe((res)=>{
+//     console.log("new thread data",res);
+
+//   this.httpService.postReply(this.data,res.insertId).subscribe((msg)=>{
+//     console.log("first thread message",msg);
+
+//   });
+
+//   });
+
+////////////////////////////////////////////////////////////

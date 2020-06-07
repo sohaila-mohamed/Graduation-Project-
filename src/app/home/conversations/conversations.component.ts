@@ -54,8 +54,6 @@ export class ConversationsComponent implements OnDestroy {
    console.log("sent");
    this.eventEmitterService.OnComponentCall(1);
    console.log("sent button triggered the state Function ");
-
-
 }
 back(){
   this.navigation.navigateTo('home');

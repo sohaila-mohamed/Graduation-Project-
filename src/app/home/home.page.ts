@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, OnDestroy } from '@angular/core';
+import {Component, OnInit, OnChanges, OnDestroy, ChangeDetectorRef} from '@angular/core';
 
 import { NavigationService } from './NavService/navigation.service';
 import { DatastreamingService } from '../services/datastream/datastreaming.service';
@@ -14,6 +14,7 @@ import { AlertController, ActionSheetController} from '@ionic/angular';
 export class HomePage {
 
   patientName: String;
+  profileImg:String;
   val: string;
   // timer
   showSplash ;
@@ -22,16 +23,14 @@ export class HomePage {
     private navigation:NavigationService, 
     private datastream: DatastreamingService, 
     private addController : AlertController,
+    private ref: ChangeDetectorRef,
     ) {
       this.patientName =this.datastream.patient.name;
+      this.profileImg=this.datastream.patient.profile_img;
     }
   
     
-    clear()
-    {
-          this.datastream.clearData();
-          this.navigation.navigateTo('cover');
-    }
+
 
     
     NavigateMe(path:string){

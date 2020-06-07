@@ -17,6 +17,8 @@ import {Camera} from '@ionic-native/camera/ngx';
 import {File} from '@ionic-native/file/ngx';
 import {FilePath} from '@ionic-native/file-path/ngx';
 import {WebView} from '@ionic-native/ionic-webview/ngx';
+import { Network } from '@ionic-native/network/ngx';
+import {NetworkService} from "./services/Network/network.service";
 
 
 
@@ -33,11 +35,13 @@ import {WebView} from '@ionic-native/ionic-webview/ngx';
     HttpService,
     DatastreamingService,
     DatastorageService,
+    NetworkService,
     FCM,
     Camera,
     File,
     FilePath,
       WebView,
+      Network,
 
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],

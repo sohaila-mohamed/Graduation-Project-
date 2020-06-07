@@ -92,27 +92,24 @@ export class ChatComponent implements OnInit {
                     console.log("id "+this.thread.thread_id)
                 });
             this.docRow = this.datastream.getDoctorList();
-            console.log(this.docRow);
+            console.log("chat doctor list ",this.docRow);
 
             }
 
         ).then(()=>{
-
             this.communication.msg.subscribe(
                 (massagesFromMessageOrConvList)=> {
                     console.log("replies in chat: " ,massagesFromMessageOrConvList);
                     this.newMessages=massagesFromMessageOrConvList;
                     this.showSplash=true;
                     console.log("tpe msg  "+this.newMessages);
-
-
                     this.setMessege();
                 });
 
         });
 
     }
-
+//////////////////////////moving from Create Msg component to chat
     setMessege(){
         this.newMsgs=this.newMessages[0];
         if (this.newMsgs.sender_id==undefined){
@@ -136,12 +133,8 @@ export class ChatComponent implements OnInit {
         console.log("newMsgs.sender_id"+this.newMsgs.sender_id);
         console.log("sender",this.pId);
     }
-
-
-    back(){
-        this.navigation.navigateTo('home');
-    }
-
+///////////////////////////////////////////////////////////////////////////////
+////////////////////////////send msg reply//Only Text Msg/////////////////////
     sendReplyFun()
     {
         this.sendReply(this.thread.thread_id );
@@ -159,53 +152,21 @@ export class ChatComponent implements OnInit {
             thread_subject:this.thread.msg_subject,
             fcm_token:this.doctor.fcmtoken
 
-        }
+        };
         this.http.postReply(this.data,threadId).subscribe((res)=>{
             console.log("posted",res);
             this.newMessages.push(this.data);
 
         });
-        //  this.httpService.getReplies(threadId,0).subscribe((res)=>{
-        //   // this.communication.sendMSG(res);
-        //   console.log("replies",res);
-        //   this.newMessages=res;
-        //   this.newMsgs=this.newMessages[0];
-        //  });
-        this.replyContent="";
 
+        this.replyContent="";
         this.bigContent.scrollToBottom(200);
         ////////////////////////////////////////////////////////////////////////////////////
-
-
-
     }
+//////////////////////////////////////////////////////////////////////////////////
 
-    goConv(){
 
-        this.navigation.navigateTo("home/conversation");
 
-    }
-    pathForImage(img) {
-        if (img === null) {
-            return '';
-        } else {
-            let converted = this.webview.convertFileSrc(img);
-            return converted;
-        }
-    }
-
-    async presentToast(text) {
-        const toast = await this.toastController.create({
-            message: text,
-            position: 'bottom',
-            duration: 3000
-        });
-        toast.present();
-    }
-
-    card(){
-
-    }
     async selectImage() {
         const actionSheet = await this.actionSheetController.create({
             header: "Select Image source",
@@ -246,33 +207,24 @@ export class ChatComponent implements OnInit {
                         let correctPath = filePath.substr(0, filePath.lastIndexOf('/') + 1);
                         let currentName = imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.lastIndexOf('?'));
                         this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
-                        // let fileP = this.file.dataDirectory + name;
-                        // let resPath = this.pathForImage(fileP);
-                        // let newEntry = {
-                        //     name: this.createFileName(),
-                        //     path: resPath,
-                        //     filePath: fileP
-                        // };
-                        // this.startUpload(newEntry);
                     });
             } else {
                 var currentName = imagePath.substr(imagePath.lastIndexOf('/') + 1);
                 var correctPath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
                 this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
 
-                // let fileP = this.file.dataDirectory + name;
-                //       let resPath = this.pathForImage(fileP);
-                //       let newEntry = {
-                //           name: this.createFileName(),
-                //           path: resPath,
-                //           filePath: fileP
-                //        };
-                // this.startUpload(newEntry);
-
-
             }
         });
 
+    }
+
+    pathForImage(img) {
+        if (img === null) {
+            return '';
+        } else {
+            let converted = this.webview.convertFileSrc(img);
+            return converted;
+        }
     }
     createFileName() {
         var d = new Date(),
@@ -413,12 +365,6 @@ export class ChatComponent implements OnInit {
                     console.log("Data Came3: ", that.newMessages );
                     console.log("Data Came:2 ", this.image);
 
-
-                    //   console.log("newMsgs"+this.newMsgs);
-                    //   this.newMessages.push(this.newMsgs);
-                    //  console.log("image ", this.newMessages);
-                    // this.bigContent.scrollToBottom(300);
-                    // this.file.removeDir()
                 }
             )
 
@@ -430,6 +376,17 @@ export class ChatComponent implements OnInit {
         console.log("Data Came:2 ", this.image);
 
 
+    }
+    async presentToast(text) {
+        const toast = await this.toastController.create({
+            message: text,
+            position: 'bottom',
+            duration: 3000
+        });
+        toast.present();
+    }
+    back(){
+        this.navigation.navigateTo('home');
     }
 
 

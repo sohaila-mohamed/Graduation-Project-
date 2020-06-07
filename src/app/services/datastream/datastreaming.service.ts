@@ -13,7 +13,6 @@ export class DatastreamingService {
   token: string;
    doctorList = new Array<doctorData>();
   // fcmToken : String;
-
    constructor(
      private dataStore: DatastorageService,){}
 
@@ -32,6 +31,7 @@ export class DatastreamingService {
     doctor.mobile= element[3];
     doctor.years_experience = element[4];
     doctor.relationid=element[5];
+    doctor.user_image=element[6];
     this.doctorList.push(doctor);
   }
   changePatientData(name,age,address)
@@ -42,6 +42,7 @@ export class DatastreamingService {
     this.dataStore.savePatientLocally(this.patient);
 
   }
+
   saveDoctorListToDataStore()
   {
     console.log("mydoctorlist");
@@ -69,15 +70,17 @@ export class DatastreamingService {
 
    SetPatientforLogin(patientData)
    {
+       console.log("patient data for login",patientData);
      this.patient.patient_id =patientData.patient_id;
      this.patient.mobile = patientData.mobile;
      this.patient.name = patientData.name;
      this.patient.user_id = patientData.user_id;
-     this.patient.password = patientData.password,
+     this.patient.password = patientData.password;
      this.patient.type = patientData.type;
      this.patient.timestamp = patientData.timestamp;
      this.patient.age = patientData.age;
      this.patient.address=patientData.address;
+     this.patient.profile_img=patientData.profile_img;
     //  this.dataStore.savePatientLocally(this.patient);
    }
     setPatient(patientData)
@@ -92,6 +95,7 @@ export class DatastreamingService {
       this.patient.timestamp = patientData.user.timestamp;
       this.patient.age = patientData.age;
       this.patient.address=patientData.address;
+      this.patient.profile_img=patientData.user.user_image;
       this.dataStore.savePatientLocally(this.patient);
     }
     setToken(token)
@@ -104,6 +108,15 @@ export class DatastreamingService {
     {
       console.log(this.patient.name);
       return this.patient.name;
+    }
+    getPatientProfileImage():String{
+       console.log("patient profile image ",this.patient.profile_img);
+       return this.patient.profile_img;
+    }
+    changePatientProfileImage(imgPath:String){
+       this.patient.profile_img=imgPath;
+        this.dataStore.savePatientLocally(this.patient);
+
     }
  
    clearData(){

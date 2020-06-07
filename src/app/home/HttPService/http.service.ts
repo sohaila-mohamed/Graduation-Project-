@@ -1,21 +1,23 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { UpVitals, Reply } from '../DataModels';
-import { newMessage } from 'src/app/model/newMessage';
-import { map, flatMap } from 'rxjs/operators';
-import { TokenClass } from 'src/app/model/token';
-import { DatastreamingService } from 'src/app/services/datastream/datastreaming.service';
-import { FCM } from '@ionic-native/fcm/ngx';
-import { doctorData } from 'src/app/model/doctorData';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {Iconvs, Reply, UpVitals} from '../DataModels';
+import {newMessage} from 'src/app/model/newMessage';
+import {flatMap, map, reduce} from 'rxjs/operators';
+import {TokenClass} from 'src/app/model/token';
+import {DatastreamingService} from 'src/app/services/datastream/datastreaming.service';
+import {FCM} from '@ionic-native/fcm/ngx';
+import {doctorData} from 'src/app/model/doctorData';
+import {inboxThread} from "../../model/ConsultationModel";
+
 @Injectable({
   providedIn: 'root'
 })
 export class HttpService {
 
   Node_host ="http://ec2-3-87-1-35.compute-1.amazonaws.com:3000/";
- Java_Host_Port ="http://ec2-3-86-89-133.compute-1.amazonaws.com:8080";
+ // Java_Host_Port ="http://986b7152e0e7.ngrok.io";
+    Java_Host_Port = 'http://ec2-54-166-181-90.compute-1.amazonaws.com:8080';
 
   constructor(private http:HttpClient,
     private dataStream: DatastreamingService,
@@ -61,16 +63,37 @@ export class HttpService {
 
 
 
- getInbox(user_id,offset){
-  const Url =this.Node_host+"api/users/threads/inbox/"+user_id+"/"+offset;
-  console.log("URL",Url);
-  let res=this.http.get<any>(Url, this.httpOptions);
-  return res;
- }
- getSent(user_id,offset){
-  const Url =this.Node_host+"api/users/threads/sent/"+this.dataStream.getPatientId()+"/"+offset;
+ getSent(user_id,offset):Observable<any[]>{
+  const Url =this.Node_host+"api/users/threads/sent/"+user_id+"/"+offset;
   console.log("URL",Url);
   return this.http.get<any>(Url, this.httpOptions);
+ }
+
+
+ getInbox(user_id,offset):Observable<any[]>{
+  const Url =this.Node_host+"api/users/threads/inbox/"+this.dataStream.getPatientId()+"/"+offset;
+  console.log("URL",Url);
+     return this.http.get<Iconvs[]>(Url, this.httpOptions).pipe(
+         flatMap((consult) => {console.log("consult",consult);return consult})
+         ,map((consult)=>{
+         console.log("map",consult);
+         console.log("doctors",this.dataStream.getDoctorList())
+         return new inboxThread(consult.sender_id, consult.reciever_id, consult.thread_id,
+             consult.msg_subject, consult.created_date,consult.is_readed,consult.sender_name,consult.receiver_name,consult.msg_body,
+             this.dataStream.getDoctorList().find(doctorData=>doctorData.doctorId==consult.sender_id).user_image)
+     } ),reduce<any>((consults,consult)=>{
+             if (consults.length ) {
+                 return [consult, ...consults];
+             } else {
+
+                 console.log("consults,consult",[consults,consult]);
+                 return [consults, consult];
+
+             }
+
+         })
+     )
+
  }
 
  postThread(data:newMessage,sender_id:number){
@@ -156,11 +179,11 @@ httpGetTokenOptions(accessToken) {
        flatMap(doctors => doctors),
        map((doctor)=>
        {
-         console.log("doctor inside javahttp: ", doctor);
+         console.log("doctor inside http: ", doctor);
          return new doctorData(doctor[0], doctor[1], doctor[2],
-           doctor[3], doctor[4],doctor[5]);
+           doctor[3], doctor[4],doctor[5],doctor[6]);
        })
-     );;
+     );
   }
 
 
@@ -212,6 +235,33 @@ httpGetTokenOptions(accessToken) {
        }
      )});
    }
+    ProfilegethttpOption() {
+        return {
+            headers: this.ProfilehttpGetTokenOptions(this.dataStream.getToken())
+        };
+    }
+
+    ProfilehttpGetTokenOptions(accessToken) {
+
+        return new HttpHeaders({
+            "Authorization": "Bearer " + accessToken
+
+        })
+
+    };
+
+    postProfileImage(image:any): Observable<any>{
+        console.log("image file data inside http: ", image.getAll('file'));
+        const Url =this.Java_Host_Port+"/user/uploadImage";
+        console.log("URL",Url);
+        let data=JSON.stringify(image.getAll('file'));
+        console.log("data",data);
+        let auth=this.ProfilegethttpOption();
+        console.log(auth);
+        return this.http.post<any>(Url, image,auth);
+
+    }
+
 }
 
 

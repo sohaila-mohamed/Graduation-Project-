@@ -30,15 +30,15 @@ export class Ivitals{
 
 }
 export interface Iconvs{
-    sender_id:number;
-    reciever_id:number;
-    thread_id:number;
-    ​​msg_subject: string;
+    sender_id:number,
+    reciever_id:number,
+    thread_id:number,
+    ​​msg_subject: string,
     created_date: string;
-    is_readed: number;
-    sender_name:string;
-    receiver_name:string;
-    msg_body:string;
+    is_readed: number,
+    sender_name:string,
+    receiver_name:string,
+    msg_body:string,
  }
 export interface Reply{
     sender_id: number,
@@ -46,4 +46,14 @@ export interface Reply{
     msg_body:string,
     thread_subject:string,
     fcm_token:string
+}
+export interface IinputData {
+    label:string;
+    value:any;
+    type:any;
+}
+export class ImagePath {
+    path:String;
+    currentName:String;
+    correctPath:String;
 }

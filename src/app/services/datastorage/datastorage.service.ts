@@ -26,6 +26,7 @@ export class DatastorageService {
     {  
       this.storage.set('patient',patient);
     }
+
     saveTokenLocally(token:String)
     {  
       console.log("data store save token locally");

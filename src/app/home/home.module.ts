@@ -19,6 +19,8 @@ import { ConvListComponent } from './conv-list/conv-list.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { AutosizeModule } from 'ngx-autosize';
 import {DoctorProfileComponent} from './doctor-profile/doctor-profile.component';
+import {NetworkService} from "../services/Network/network.service";
+
 
 
 @NgModule({
@@ -51,7 +53,7 @@ import {DoctorProfileComponent} from './doctor-profile/doctor-profile.component'
         ]
       },
       {
-        path:'Myprofile',
+        path:'profile',
         component:ProfileComponent
       } ,   
       {
@@ -88,7 +90,8 @@ import {DoctorProfileComponent} from './doctor-profile/doctor-profile.component'
   ],
   providers: [
     NavigationService,
-    HttpService, 
+    HttpService,
+    NetworkService,
   ],
   declarations: [HomePage,
     VitalsComponent,

@@ -7,6 +7,7 @@ export class doctorData{
     mobile: string;
     years_experience: number;
     relationid: number;
+    user_image:String;
       
   
     constructor(doctorId?: number,
@@ -14,7 +15,9 @@ export class doctorData{
       fcmtoken?: string,
       mobile?: string,
       years_experience?: number,
-      relationid?: number)
+      relationid?: number,
+                user_image?:String
+    )
     {
       this.doctorId= doctorId;
       this.name= name;
@@ -22,6 +25,7 @@ export class doctorData{
       this.mobile= mobile;
       this.years_experience= years_experience;
       this.relationid= relationid;
+      this.user_image=user_image;
     }
     
   }  

@@ -45,6 +45,8 @@ export class LoginComponent implements OnInit {
         this.http.getPatientUsingToken().subscribe(
           patientData =>
           {
+
+                console.log('patient data as user login ts', patientData);
                 that.datastream.setPatient(patientData.myPatient);
                 this.datastream.clearDoctorList();                
                 patientData.doctorsArrayList.forEach(element => {                    
@@ -53,7 +55,7 @@ export class LoginComponent implements OnInit {
           },
           err => {
             this.showSplash = false;
-             alert('HTTP Patinet Data Error: '+ err.error.message);  
+             alert('HTTP Patinet Data Error: '+ err.error.message);
           },
           () => {
             this.showSplash = false;

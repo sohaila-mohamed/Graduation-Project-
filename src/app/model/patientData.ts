@@ -11,6 +11,7 @@ export class MyPatient{
   username: String;
   age: number;
   address: String;
+  profile_img:String;
 
   
 }  
