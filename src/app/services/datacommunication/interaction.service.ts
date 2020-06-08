@@ -9,7 +9,7 @@ import {doctorData} from '../../model/doctorData';
   providedIn: 'root'
 })
 export class InteractionService {
- private intComp= new BehaviorSubject<any[]>(null);
+ private intComp= new BehaviorSubject<any>(null);
  msg =this.intComp.asObservable();
 
  private getDocData= new BehaviorSubject<any>({});
@@ -17,8 +17,6 @@ export class InteractionService {
 
  private CoversationState = new BehaviorSubject<number>(0);
  currentStateConversation = this.CoversationState.asObservable();
- private communication= new BehaviorSubject<Iconvs>(null);
- getId =this.communication.asObservable();
 
  private Edit= new BehaviorSubject<number>(0);
  getName =this.Edit.asObservable();
@@ -46,10 +44,7 @@ export class InteractionService {
     console.log(doctorListfromconv);
 
   }
-  async getThreadIdfromMessageorConvListtoChat(thread){
-    this.communication.next(thread);
-    console.log(thread);
-  }
+
   sendDoctorData(data:doctorData){
       this.DoctorData.next(data);
   }

@@ -38,6 +38,7 @@ export class MessageComponent  {
   private data :Reply;
   private patientId:number;
   private thread:newMessage;
+  private  thread_id:number;
   // private doctorRow = new Array<doctorData>();
   private doctorRow : doctorData;
 
@@ -95,17 +96,19 @@ export class MessageComponent  {
         this.presentAlert('Can not send message', 'Make sure you typed your Subject, Message and choose your Doctor.');
     } else {
       this.thread = {
+        sender_id:this.patientId,
         reciever_id : this.doctorRow.doctorId,
         msg_subject : this.Subject_from_input,
         is_readed: 0,
-        reciever_name: this.Reciever_from_dr_list,
         sender_name: this.patientName,
+        reciever_name: this.Reciever_from_dr_list,
         msg_body: this.Content_from_text_area,
 
        };
       this.newMessages.push(this.thread);
       console.log(this.Content_from_text_area);
       console.log(this.newMessages);
+      console.log("thread created in message ",this.thread);
 
 
 
@@ -124,10 +127,7 @@ export class MessageComponent  {
   //  console.log("data"+this.data.sender_id)
   this.httpService.postThread(this.thread,this.patientId).subscribe((res)=>{
     console.log("new thread data",res);
-     
-     this.communication.getThreadIdfromMessageorConvListtoChat(res.insertId);
-     
-
+    this.thread_id=res.insertId;
      console.log("hey tehre:", this.data);
    this.httpService.postReply(this.data,res.insertId).subscribe((msg)=>{
     console.log("heyyyyloo");
@@ -142,7 +142,12 @@ export class MessageComponent  {
    });
 
   //send message content to chat component
-  this.intComp.sendMSG(this.newMessages);
+      let newThread={
+        newMessages:this.newMessages,
+        thread:this.thread,
+        thread_id:this.thread_id
+      };
+  this.intComp.sendMSG(newThread);
   console.log("NAVIGATIOM");
 
   }

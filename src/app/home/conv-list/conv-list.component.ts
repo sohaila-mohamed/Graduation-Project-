@@ -13,6 +13,7 @@ import {EventEmitterService} from '../../services/EventEmitterService/event-emit
 import {__await} from 'tslib';
 import {flatMap, map} from "rxjs/operators";
 import {pipe} from "rxjs";
+import {async} from "rxjs/internal/scheduler/async";
 
 @Component({
     selector: 'app-conv-list',
@@ -203,20 +204,25 @@ export class ConvListComponent implements OnInit, OnDestroy {
 
 //////////////////////////////////////////////////////////////////
     /////////// to reply on specific thread
-    reply(thread) {
+    async reply(thread) {
         console.log('REPLIESSSS IN CONVLIST');
         console.log('Thread ID: ', thread.thread_id);
 
-        this.httpService.getReplies(thread.thread_id, 0).subscribe((res) => {
+       await this.httpService.getReplies(thread.thread_id, 0).subscribe((res) => {
 
-            this.dateInteraction.getThreadIdfromMessageorConvListtoChat(thread).then(() => {
-                this.dateInteraction.sendMSG(res);
+                let newThread={
+                    newMessages:res,
+                    thread:thread,
+                    thread_id:thread.thread_id
+                };
+                this.dateInteraction.sendMSG(newThread);
                 console.log('replies', res);
+                this.navigation.navigateTo('home/chat')
 
-            }).then(()=>{ this.navigation.navigateTo('home/chat')});
+            });
 
 
-        });
+        }
 
 
         /////////////////////////////////////////////////////////////////////////reply///////////////////////////////////
@@ -236,7 +242,7 @@ export class ConvListComponent implements OnInit, OnDestroy {
         //   this.httpService.postReply(this.data,thread_id).subscribe((res)=>{
         //     console.log("posted",res);
         //   });
-    }
+
 
     /////////////////////////////////////////////////////////////////////////
     //get all replies with thread_id and offset

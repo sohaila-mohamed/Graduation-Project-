@@ -105,10 +105,11 @@ export class HttpService {
 
  }
  postReply(data:Reply,id:number){
+
   console.log("data inside http: ",data);
   const Url =this.Node_host+"api/users/threads/msg/"+id;
   let reply=JSON.stringify(data);
-  console.log("JSON Thread_data",reply);
+  console.log("JSON Reply_data",reply);
   console.log("URL",Url);
   return this.http.post<any>(Url, reply, this.httpOptions);
  }

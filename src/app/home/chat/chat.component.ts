@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef, ViewChild, Input } from '@angular
 import { InteractionService } from 'src/app/services/datacommunication/interaction.service';
 import { NavigationService } from '../NavService/navigation.service';
 import { IonContent } from '@ionic/angular';
-import { Reply, Iconvs } from '../DataModels';
+import {Reply, Iconvs, ImagePath} from '../DataModels';
 import { HttpService } from '../HttPService/http.service';
 import { DatastreamingService } from 'src/app/services/datastream/datastreaming.service';
 import { doctorData } from 'src/app/model/doctorData';
@@ -12,6 +12,7 @@ import {Camera,CameraOptions, PictureSourceType} from'@ionic-native/camera/ngx';
 import { File ,FileEntry } from '@ionic-native/file/ngx';
 import {WebView} from'@ionic-native/ionic-webview/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
+import {NetworkService} from "../../services/Network/network.service";
 
 const STORAGE_KEY = 'my_images';
 
@@ -35,12 +36,13 @@ export class ChatComponent implements OnInit {
         private storage: Storage,
         private plt: Platform,
         private ref: ChangeDetectorRef,
-        private filePath: FilePath) {
+        private filePath: FilePath,private network:NetworkService) {
 
 
     }
     url:string;
-    images = [];
+    private images = [];
+    private img=new ImagePath();
     private newMessages : any[]=[];
     private tId:number;
     private newMsgs:any;
@@ -48,11 +50,12 @@ export class ChatComponent implements OnInit {
     private data :Reply;
     private docRow = new Array<doctorData>();
     private pId:number;
-    private thread: Iconvs;
+    private thread: any;
     private doctor:doctorData;
     private docname:string;
     private image:any;
     showSplash: boolean=false;
+    private thread_id:number;
 
 
 
@@ -85,24 +88,19 @@ export class ChatComponent implements OnInit {
             if(this.pId==undefined){reject('patient undefined');}
             else {resolve();}
 
-        }).then(()=>{
-            this.communication.getId.subscribe(
-                (thread)=>{
-                    this.thread=thread;
-                    console.log("id "+this.thread.thread_id)
-                });
-            this.docRow = this.datastream.getDoctorList();
-            console.log("chat doctor list ",this.docRow);
-
-            }
+        }
 
         ).then(()=>{
+            this.docRow = this.datastream.getDoctorList();
+            console.log("chat doctor list ",this.docRow);
             this.communication.msg.subscribe(
                 (massagesFromMessageOrConvList)=> {
                     console.log("replies in chat: " ,massagesFromMessageOrConvList);
-                    this.newMessages=massagesFromMessageOrConvList;
+                    this.newMessages=massagesFromMessageOrConvList.newMessages;
+                    this.thread=massagesFromMessageOrConvList.thread;
+                    this.thread_id=massagesFromMessageOrConvList.thread_id;
                     this.showSplash=true;
-                    console.log("tpe msg  "+this.newMessages);
+                    console.log("msg received  "+massagesFromMessageOrConvList);
                     this.setMessege();
                 });
 
@@ -137,7 +135,7 @@ export class ChatComponent implements OnInit {
 ////////////////////////////send msg reply//Only Text Msg/////////////////////
     sendReplyFun()
     {
-        this.sendReply(this.thread.thread_id );
+        this.sendReply(this.thread_id );
     }
     sendReply(threadId){
         console.log("this.thread.thread_id: ",threadId);
@@ -201,18 +199,36 @@ export class ChatComponent implements OnInit {
         };
 
         this.camera.getPicture(options).then(imagePath => {
+            if(this.network.NetworkStateGetter())
+        {
             if (this.plt.is('android') && sourceType === this.camera.PictureSourceType.PHOTOLIBRARY) {
                 this.filePath.resolveNativePath(imagePath)
                     .then(filePath => {
                         let correctPath = filePath.substr(0, filePath.lastIndexOf('/') + 1);
                         let currentName = imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.lastIndexOf('?'));
-                        this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
+                        this.img = {
+                            path: correctPath + currentName,
+                            currentName: currentName,
+                            correctPath: correctPath
+                        };
+                        this.startUpload(this.img.path);
+                        // this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
                     });
             } else {
                 var currentName = imagePath.substr(imagePath.lastIndexOf('/') + 1);
                 var correctPath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
-                this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
+                this.img = {
+                    path: correctPath + currentName,
+                    currentName: currentName,
+                    correctPath: correctPath
+                };
+                this.startUpload(this.img.path);
+                // this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
 
+            }
+        }
+            else {
+                alert("you are Offline");
             }
         });
 
@@ -261,29 +277,25 @@ export class ChatComponent implements OnInit {
                 filePath: filePath
             };
             console.log("newEntry"+newEntry);
-
-            this.startUpload(newEntry);
-
             this.images = [newEntry, ...this.images];
+            this.image={
+                sender_id:this.pId,
+                reciever_id:this.doctor.doctorId,
+                msg_body:"",
+                created_date:new Date().toLocaleString(),
+                thread_subject:this.thread.msg_subject,
+                fcm_token:this.doctor.fcmtoken,
+                media:resPath,
+            };
+            this.newMessages.push(this.image);
             this.ref.detectChanges();
         });
     }
     startUpload(imgEntry) {
-        console.log("upload"+JSON.stringify(imgEntry.path));
-        this.image={
-            sender_id:this.pId,
-            reciever_id:this.doctor.doctorId,
-            msg_body:"",
-            created_date:new Date().toLocaleString(),
-            thread_subject:this.thread.thread_id,
-            fcm_token:this.doctor.fcmtoken,
-            media:imgEntry.path,
-        };
-
-        this.newMessages.push(this.image);
+        console.log("upload"+JSON.stringify(imgEntry));
 
 
-        this.file.resolveLocalFilesystemUrl(imgEntry.filePath)
+        this.file.resolveLocalFilesystemUrl(imgEntry)
             .then(entry => {
                 ( < FileEntry > entry).file(file => this.readFile(file))
             })
@@ -294,7 +306,7 @@ export class ChatComponent implements OnInit {
     json()
     {
         return {
-            "thread_id":this.thread.thread_id,
+            "thread_id":this.thread_id,
             "sender_id":this.pId,
             "reciever_id":this.doctor.doctorId,
             "msg_body":"",
@@ -313,32 +325,20 @@ export class ChatComponent implements OnInit {
             console.log("blob"+JSON.stringify(imgBlob));
             formData.append('file', imgBlob, file.name);
             formData.append('data',  JSON.stringify(this.json()));
-
             this.http.bgrb(formData).subscribe(
                 (data)=>{
                     console.log(" allData ", data);
-
                     that.url = data.url;
-                    //  this.url="https://s3.ap-south-1.amazonaws.com/fortifyfitness/1588904766021-Photo_26042020_161941.jpg";
-
-                    //////////////////////////////////////////////////////////////////
-                    //     this.newMsgs={
-                    //     thread_id: this.thread.thread_id,
+                    // this.image={
                     //     sender_id:this.pId,
                     //     reciever_id:this.doctor.doctorId,
                     //     msg_body:"",
                     //     created_date:new Date().toLocaleString(),
+                    //     thread_subject:this.thread.thread.msg_subject,
+                    //     fcm_token:this.doctor.fcmtoken,
                     //     media:data.url,
-                    // }
-                    this.image={
-                        sender_id:this.pId,
-                        reciever_id:this.doctor.doctorId,
-                        msg_body:"",
-                        created_date:new Date().toLocaleString(),
-                        thread_subject:this.thread.thread_id,
-                        fcm_token:this.doctor.fcmtoken,
-                        media:data.url,
-                    };
+                    //
+                    // };
                     //   // this.http.postReply(this.data,this.thread.thread_id).subscribe((res)=>{
                     //   //   console.log("posted",res);
 
@@ -346,22 +346,21 @@ export class ChatComponent implements OnInit {
                     // });
                     this.showSplash=false;
                     console.log("Data Came: ", that.url );
-                    that.newMessages.push(this.image);
+                    // that.newMessages.push(this.image);
                     this.showSplash=true;
 
                     that.setMessege();
                     this.bigContent.scrollToBottom(500);
+                    this.copyFileToLocalDir(this.img.correctPath, this.img.currentName, this.createFileName());
 
 
                 },
                 (err)=>{
-                    console.log("ERROR Occured")
-                    console.log("Error Came: ", err);
+                    console.log("ERROR Occured will sending your msg");
                 },
                 ()=>
                 {
                     console.log("Completed");
-
                     console.log("Data Came3: ", that.newMessages );
                     console.log("Data Came:2 ", this.image);
 
