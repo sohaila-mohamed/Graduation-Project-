@@ -6,6 +6,7 @@ import { ActionSheetController} from '@ionic/angular';
 import { doctorData } from 'src/app/model/doctorData';
 import { DatastreamingService } from 'src/app/services/datastream/datastreaming.service';
 import {EventEmitterService} from "../../services/EventEmitterService/event-emitter.service";
+import {__await} from "tslib";
 
 
 @Component({
@@ -25,7 +26,8 @@ export class ConversationsComponent implements OnDestroy {
       console.log("conversations component constructor");
   }
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          private doctorRow = new Array<doctorData>();
-     private Reciever:string;
+     private Receiver:string;
+     private state:number=0;
 
 
 
@@ -45,12 +47,14 @@ export class ConversationsComponent implements OnDestroy {
 
  inbox(){
      console.log("inbox");
+     this.state=0;
      this.eventEmitterService.OnComponentCall(0);
      console.log("inbox button triggered the state Function");
 
 
  }
  sent(){
+     this.state=1;
    console.log("sent");
    this.eventEmitterService.OnComponentCall(1);
    console.log("sent button triggered the state Function ");
@@ -72,12 +76,12 @@ async CreateNew(){
       handler: () => {
 
           // this.Reciever="Dr.Mahmoud";
-         this.Reciever= dRow.name;
-         console.log("docM"+this.Reciever);
+         this.Receiver= dRow.name;
+         console.log("docM"+this.Receiver);
 
         this.intComp.sendDoctorNamefromconvtoMessage(dRow);
         console.log("dRow"+dRow);
-        this.navigation.navigateTo("home/message");
+        actionSheet.dismiss().then(()=>this.navigation.navigateTo("home/message"));
       }
   });
 }

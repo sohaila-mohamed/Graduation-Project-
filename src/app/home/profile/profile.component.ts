@@ -13,7 +13,7 @@ import {finalize} from "rxjs/operators";
 import {NetworkService} from "../../services/Network/network.service";
 
 
-const STORAGE_KEY = 'my_images';
+const STORAGE_KEY = 'my_image';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -72,7 +72,7 @@ export class ProfileComponent implements OnInit {
           {
               label:"Mobile",
               value:this.datastream.getPatientMobile(),
-              type:"number"}
+              type:"string"}
 
       ];
 

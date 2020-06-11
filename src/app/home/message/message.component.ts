@@ -7,6 +7,7 @@ import { HttpService } from '../HttPService/http.service';
 import { Reply } from '../DataModels';
 import { DatastreamingService } from 'src/app/services/datastream/datastreaming.service';
 import { doctorData } from 'src/app/model/doctorData';
+import {__await} from "tslib";
 
 @Component({
   selector: 'app-message',
@@ -90,19 +91,20 @@ export class MessageComponent  {
 
     await alert.present();
   }
-  send() {
+  async send() {
     // tslint:disable-next-line:triple-equals
     if (this.Reciever_from_dr_list == '' || this.Content_from_text_area == '' || this.Subject_from_input == '') {
         this.presentAlert('Can not send message', 'Make sure you typed your Subject, Message and choose your Doctor.');
     } else {
       this.thread = {
         sender_id:this.patientId,
-        reciever_id : this.doctorRow.doctorId,
+        receiver_id : this.doctorRow.doctorId,
         msg_subject : this.Subject_from_input,
         is_readed: 0,
         sender_name: this.patientName,
-        reciever_name: this.Reciever_from_dr_list,
+        receiver_name: this.Reciever_from_dr_list,
         msg_body: this.Content_from_text_area,
+        fcm_token: this.doctorRow.fcmtoken
 
        };
       this.newMessages.push(this.thread);
@@ -114,41 +116,41 @@ export class MessageComponent  {
 
 
   // post new message in database
-      this.data = {
-    sender_id: this.patientId,
-    reciever_id: this.thread.reciever_id,
-    msg_body: this.thread.msg_body,
-    thread_subject: this.Subject_from_input,
-    fcm_token: this.doctorRow.fcmtoken
-   };
+  //     this.data = {
+  //   sender_id: this.patientId,
+  //   receiver_id: this.thread.receiver_id,
+  //   msg_body: this.thread.msg_body,
+  //   thread_subject: this.Subject_from_input,
+  //   fcm_token: this.doctorRow.fcmtoken
+  //  };
 
 
-  //  console.log("tthread"+this.thread.reciever_name)
-  //  console.log("data"+this.data.sender_id)
-  this.httpService.postThread(this.thread,this.patientId).subscribe((res)=>{
-    console.log("new thread data",res);
+   console.log("thread_data to go",this.thread);
+  await this.httpService.postThread(this.thread,this.patientId).subscribe((res)=>{
+    console.log("post thread response ",res);
     this.thread_id=res.insertId;
-     console.log("hey tehre:", this.data);
-   this.httpService.postReply(this.data,res.insertId).subscribe((msg)=>{
-    console.log("heyyyyloo");
-    console.log("first thread message",msg);
-    console.log("NAVIGATIOM11");
+    console.log("thread id inserted",this.thread_id);
+    console.log("reply data to go", this.data);
+      let newThread={
+          newMessages:this.newMessages.reverse(),
+          thread:this.thread,
+          thread_id:this.thread_id
+      };
+      this.intComp.sendMSG(newThread);
+      this.navigation.navigateTo('home/chat');
 
-  this.navigation.navigateTo('home/chat');
-
-    });
+ // this.httpService.postReply(this.data,res.insertId).subscribe((msg)=>{
+ //    console.log("post first thread reply response ",msg);
+ //  this.navigation.navigateTo('home/chat');
+ //     //send message content to chat component
+ //
+ //
+ //    });
 
     
    });
 
-  //send message content to chat component
-      let newThread={
-        newMessages:this.newMessages,
-        thread:this.thread,
-        thread_id:this.thread_id
-      };
-  this.intComp.sendMSG(newThread);
-  console.log("NAVIGATIOM");
+
 
   }
  console.log(this.Content_from_text_area);

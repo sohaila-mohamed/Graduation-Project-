@@ -18,7 +18,7 @@ export class HomePage {
   val: string;
   // timer
   showSplash ;
-  private Reciever:string;
+  private Receiver:string;
   constructor(
     private navigation:NavigationService, 
     private datastream: DatastreamingService, 

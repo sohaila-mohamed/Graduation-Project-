@@ -12,7 +12,8 @@
                   <div class="wrapper">
                       <div class="profile-img-frame">
                           <div class="profile-img-holder">
-                              <img class="profile-img"  src="{{datastream.patient.profile_img}}"alt="profile image" (click)="NavigateMe('home/profile')">
+                              <img *ngIf="datastream.patient.profile_img" class="profile-img"  src="{{datastream.patient.profile_img}}"alt="profile image" (click)="NavigateMe('home/profile')">
+                              <img *ngIf="!datastream.patient.profile_img" src="assets/avatar.jpg" (click)="NavigateMe('home/profile')">
                           </div>
                       </div>
                   </div>

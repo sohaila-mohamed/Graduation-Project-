@@ -22,7 +22,7 @@ const STORAGE_KEY = 'my_images';
     styleUrls: ['./chat.component.scss'],
 })
 export class ChatComponent implements OnInit {
-    @ViewChild(IonContent, {static: false})   bigContent : IonContent
+    @ViewChild(IonContent, {static: false})   bigContent : IonContent;
     constructor(
         private navigation:NavigationService,
         private http:HttpService,
@@ -56,6 +56,9 @@ export class ChatComponent implements OnInit {
     private image:any;
     showSplash: boolean=false;
     private thread_id:number;
+    private loading:boolean=false;
+    private scrollingPosition:number=0;
+    private doctor_img:String='';
 
 
 
@@ -82,6 +85,7 @@ export class ChatComponent implements OnInit {
     }
 
     ionViewWillEnter() {
+        console.log('ion view of chat will enter');
 
         new Promise((resolve, reject) => {
             this.pId =this.datastream.getPatientId();
@@ -101,14 +105,26 @@ export class ChatComponent implements OnInit {
                     this.thread_id=massagesFromMessageOrConvList.thread_id;
                     this.showSplash=true;
                     console.log("msg received  "+massagesFromMessageOrConvList);
-                    this.setMessege();
                 });
+            return this.setMessege();
 
-        });
+        }).then(()=>console.log('doctor data',this.doctor));
+
+    }
+
+    ionViewDidEnter(){
+        console.log("ion view did enter");
+        this.ScrollToBottom();
+
+    }
+    ScrollToBottom(){
+        setTimeout(()=>{
+            this.bigContent.scrollToBottom(100);
+        },1000);
 
     }
 //////////////////////////moving from Create Msg component to chat
-    setMessege(){
+    async setMessege(){
         this.newMsgs=this.newMessages[0];
         if (this.newMsgs.sender_id==undefined){
             this.newMsgs.sender_id=this.pId;
@@ -121,11 +137,12 @@ export class ChatComponent implements OnInit {
         console.log("myMsgs",this.newMsgs.media);
         for(let dRow of this.docRow){
 
-            if(this.newMsgs.reciever_id==dRow.doctorId || this.newMsgs.sender_id==dRow.doctorId){
-                this.doctor=dRow;
+            if(this.newMsgs.receiver_id==dRow.doctorId || this.newMsgs.sender_id==dRow.doctorId){
+               await (this.doctor=dRow);
+               this.doctor=dRow;
                 this.docname=dRow.name;
+                this.doctor_img=dRow.user_image;
                 console.log("doctor.doctorId"+this.doctor.doctorId);
-
             }
         }
         console.log("newMsgs.sender_id"+this.newMsgs.sender_id);
@@ -145,7 +162,7 @@ export class ChatComponent implements OnInit {
         //////////////////////////////////
         this.data={
             sender_id:this.pId,
-            reciever_id:this.doctor.doctorId,
+            receiver_id:this.doctor.doctorId,
             msg_body:this.replyContent,
             thread_subject:this.thread.msg_subject,
             fcm_token:this.doctor.fcmtoken
@@ -158,7 +175,7 @@ export class ChatComponent implements OnInit {
         });
 
         this.replyContent="";
-        this.bigContent.scrollToBottom(200);
+        this.ScrollToBottom();
         ////////////////////////////////////////////////////////////////////////////////////
     }
 //////////////////////////////////////////////////////////////////////////////////
@@ -212,6 +229,17 @@ export class ChatComponent implements OnInit {
                             correctPath: correctPath
                         };
                         this.startUpload(this.img.path);
+                        this.image={
+                            sender_id:this.pId,
+                            receiver_id:this.doctor.doctorId,
+                            msg_body:"",
+                            fcm_token:this.doctor.fcmtoken,
+                            media:this.pathForImage(this.img.path),
+                        };
+                        this.newMessages.push(this.image);
+                        this.loading=true;
+                        this.ref.detectChanges();
+                        this.ScrollToBottom();
                         // this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
                     });
             } else {
@@ -223,6 +251,18 @@ export class ChatComponent implements OnInit {
                     correctPath: correctPath
                 };
                 this.startUpload(this.img.path);
+                this.image={
+                    sender_id:this.pId,
+                    receiver_id:this.doctor.doctorId,
+                    msg_body:"",
+                    fcm_token:this.doctor.fcmtoken,
+                    media:this.pathForImage(this.img.path)
+                };
+                this.newMessages.push(this.image);
+                this.loading=true;
+                this.ref.detectChanges();
+                this.ScrollToBottom();
+
                 // this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
 
             }
@@ -278,16 +318,8 @@ export class ChatComponent implements OnInit {
             };
             console.log("newEntry"+newEntry);
             this.images = [newEntry, ...this.images];
-            this.image={
-                sender_id:this.pId,
-                reciever_id:this.doctor.doctorId,
-                msg_body:"",
-                created_date:new Date().toLocaleString(),
-                thread_subject:this.thread.msg_subject,
-                fcm_token:this.doctor.fcmtoken,
-                media:resPath,
-            };
-            this.newMessages.push(this.image);
+            this.newMessages.find(msg=>msg.media==this.pathForImage(this.img.path)).media=resPath;
+            this.loading=false;
             this.ref.detectChanges();
         });
     }
@@ -308,7 +340,7 @@ export class ChatComponent implements OnInit {
         return {
             "thread_id":this.thread_id,
             "sender_id":this.pId,
-            "reciever_id":this.doctor.doctorId,
+            "receiver_id":this.doctor.doctorId,
             "msg_body":"",
             "fcm_token":this.doctor.fcmtoken
         };}
@@ -325,32 +357,14 @@ export class ChatComponent implements OnInit {
             console.log("blob"+JSON.stringify(imgBlob));
             formData.append('file', imgBlob, file.name);
             formData.append('data',  JSON.stringify(this.json()));
-            this.http.bgrb(formData).subscribe(
+            this.http.UplaodingMediaMsg(formData,this.thread_id).subscribe(
                 (data)=>{
                     console.log(" allData ", data);
                     that.url = data.url;
-                    // this.image={
-                    //     sender_id:this.pId,
-                    //     reciever_id:this.doctor.doctorId,
-                    //     msg_body:"",
-                    //     created_date:new Date().toLocaleString(),
-                    //     thread_subject:this.thread.thread.msg_subject,
-                    //     fcm_token:this.doctor.fcmtoken,
-                    //     media:data.url,
-                    //
-                    // };
-                    //   // this.http.postReply(this.data,this.thread.thread_id).subscribe((res)=>{
-                    //   //   console.log("posted",res);
-
-
-                    // });
                     this.showSplash=false;
                     console.log("Data Came: ", that.url );
-                    // that.newMessages.push(this.image);
-                    this.showSplash=true;
-
                     that.setMessege();
-                    this.bigContent.scrollToBottom(500);
+                    this.ScrollToBottom();
                     this.copyFileToLocalDir(this.img.correctPath, this.img.currentName, this.createFileName());
 
 
@@ -365,7 +379,7 @@ export class ChatComponent implements OnInit {
                     console.log("Data Came:2 ", this.image);
 
                 }
-            )
+            );
 
             console.log("form  "+JSON.stringify(formData.getAll('file')));
 
@@ -376,6 +390,30 @@ export class ChatComponent implements OnInit {
 
 
     }
+    doRefresh(event){
+        console.log("scrolling to top event",event);
+        this.scrollingPosition=this.scrollingPosition+10;
+        console.log("all msgs before refresh",this.newMessages);
+        this.http.getReplies(this.thread_id, this.scrollingPosition).subscribe((res) => {
+            let msgs=res.reverse();
+            console.log("msgs",msgs);
+            if(msgs.length){
+                this.newMessages=msgs.concat(this.newMessages);
+                console.log("all msgs",this.newMessages);
+                event.target.complete();
+                this.ref.detectChanges();
+                return;
+
+            }
+            event.target.complete();
+            this.ref.detectChanges();
+
+        });
+
+
+    }
+
+
     async presentToast(text) {
         const toast = await this.toastController.create({
             message: text,
@@ -389,31 +427,6 @@ export class ChatComponent implements OnInit {
     }
 
 
+
 }
 
-
-// <ion-row *ngIf="repliesAreHere">
-
-
-// <div class="skeleton" >
-//     <ion-skeleton-text animated style="width: 100%" ></ion-skeleton-text>
-//     <ion-skeleton-text animated style="width: 85%" ></ion-skeleton-text>
-//     <ion-skeleton-text animated style="width: 60%" ></ion-skeleton-text>
-//     <ion-skeleton-text animated style="width: 45%" ></ion-skeleton-text>
-//     <ion-skeleton-text animated style="width: 30%" ></ion-skeleton-text>
-// </div>
-// <div class="skeleton">
-//    <ion-skeleton-text animated style="width: 30%" ></ion-skeleton-text>
-//     <ion-skeleton-text animated style="width: 45%"></ion-skeleton-text>
-//     <ion-skeleton-text animated style="width: 60%" ></ion-skeleton-text>
-//     <ion-skeleton-text animated style="width: 85%" ></ion-skeleton-text>
-//     <ion-skeleton-text animated style="width: 100%" ></ion-skeleton-text>
-// </div>
-// <div class="skeleton">
-//     <ion-skeleton-text animated style="width: 100%" ></ion-skeleton-text>
-//     <ion-skeleton-text animated style="width: 85%" ></ion-skeleton-text>
-//     <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
-//     <ion-skeleton-text animated style="width: 45%" ></ion-skeleton-text>
-//     <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
-// </div>
-// </ion-row>

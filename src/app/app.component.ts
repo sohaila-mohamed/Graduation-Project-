@@ -48,7 +48,7 @@ export class AppComponent {
     {
       title : "Chat",
       url   : "home/profile",
-      icon  : "chatboxes"
+      icon  : "person"
     },
     {
       title : "Contacts",

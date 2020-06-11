@@ -6,8 +6,8 @@
                         <div class="wrapper">
                             <div class="profile-img-frame">
                                 <div class="profile-img-holder">
-                                    <img  class="profile-img" src="assets/doctor1.jpeg" alt="profile image">
-
+                                    <img  *ngIf="doctor_img" class="profile-img" [src]="doctor_img" alt="profile image">
+                                    <img  *ngIf="!doctor_img" class="profile-img" src="assets/avatar.jpg" alt="profile image">
                                 </div>
                             </div>
                         </div>
@@ -24,10 +24,17 @@
  </ion-header>
 
      <ion-content [scrollEvents]="true" class="cont">
+         <p class="ion-refresher">
+             <ion-refresher  slot="fixed"  pullFactor="0.5" pullMin="10" pullMax="20" (ionRefresh)="doRefresh($event)" >
+                 <ion-refresher-content pullingIcon="chevron-down-circle-outline"  padding-bottom margin-bottom ></ion-refresher-content>
+             </ion-refresher>
+         </p>
+
          <ion-grid>
      
-     <ion-row *ngFor="let newMsgs of newMessages">
+     <ion-row *ngFor="let newMsgs of newMessages;let i=index">
 <!--         //////////////Sender Part -->
+
 
          <ion-col offset="3" size="9" *ngIf="newMsgs.sender_id===pId ">
 
@@ -44,11 +51,12 @@
               </div>
              <!--         //////////////// Media Part-->
              <div *ngIf="newMsgs.media" class="media-wrapper">
-                 <img src="{{newMsgs.media}}" *ngIf="showSplash" class="profile-img"/>
-
+                 <img src="{{newMsgs.media}}"  class="profile-img"/>
              </div>
-
+             <ion-spinner  *ngIf="loading && i+1==newMessages.length " name="crescent" style="color: #02C39A;" ></ion-spinner>
           </ion-col>
+
+
 <!--         ////////////////////////////////////////-->
 
 <!--         ////////////////////Receiver Part -->
@@ -66,7 +74,7 @@
 
              <!--         //////////////// Media Part-->
              <div *ngIf="newMsgs.media" class="media-wrapper">
-                 <img src="{{newMsgs.media}}" *ngIf="showSplash" class="profile-img"/>
+                 <img src="{{newMsgs.media}}"  class="profile-img"/>
 
              </div>
 

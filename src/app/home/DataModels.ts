@@ -31,7 +31,7 @@ export class Ivitals{
 }
 export interface Iconvs{
     sender_id:number,
-    reciever_id:number,
+    receiver_id:number,
     thread_id:number,
     ​​msg_subject: string,
     created_date: string;
@@ -42,7 +42,7 @@ export interface Iconvs{
  }
 export interface Reply{
     sender_id: number,
-    reciever_id	:number,
+    receiver_id	:number,
     msg_body:string,
     thread_subject:string,
     fcm_token:string

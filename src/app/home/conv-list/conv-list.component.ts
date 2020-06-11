@@ -107,7 +107,7 @@ export class ConvListComponent implements OnInit, OnDestroy {
 
                 console.log("Get Inbox res",res)
             ;this.detectChange.detectChanges();},
-                    error1 => alert("http error get inbox"));}
+                    error1 => {alert("http error get inbox"+error1);console.log("error",error1)});}
 
          else if(state==1) {
             console.log('page', this.page);
@@ -211,7 +211,7 @@ export class ConvListComponent implements OnInit, OnDestroy {
        await this.httpService.getReplies(thread.thread_id, 0).subscribe((res) => {
 
                 let newThread={
-                    newMessages:res,
+                    newMessages:res.reverse(),
                     thread:thread,
                     thread_id:thread.thread_id
                 };
