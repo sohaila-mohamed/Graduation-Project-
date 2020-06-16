@@ -13,8 +13,8 @@ import { File ,FileEntry } from '@ionic-native/file/ngx';
 import {WebView} from'@ionic-native/ionic-webview/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import {NetworkService} from "../../services/Network/network.service";
+const STORAGE_KEY='my_images';
 
-const STORAGE_KEY = 'my_images';
 
 @Component({
     selector: 'app-chat',
@@ -62,6 +62,7 @@ export class ChatComponent implements OnInit {
 
 
 
+
     ngOnInit() {
         this.plt.ready().then(() => {
             this.loadStoredImages();
@@ -86,7 +87,6 @@ export class ChatComponent implements OnInit {
 
     ionViewWillEnter() {
         console.log('ion view of chat will enter');
-
         new Promise((resolve, reject) => {
             this.pId =this.datastream.getPatientId();
             if(this.pId==undefined){reject('patient undefined');}
@@ -163,6 +163,8 @@ export class ChatComponent implements OnInit {
         this.data={
             sender_id:this.pId,
             receiver_id:this.doctor.doctorId,
+            sender_name:this.datastream.patient.name,
+            receiver_name:this.doctor.name,
             msg_body:this.replyContent,
             thread_subject:this.thread.msg_subject,
             fcm_token:this.doctor.fcmtoken
@@ -341,6 +343,8 @@ export class ChatComponent implements OnInit {
             "thread_id":this.thread_id,
             "sender_id":this.pId,
             "receiver_id":this.doctor.doctorId,
+            'sender_name':this.datastream.patient.name,
+            'receiver_name':this.doctor.name,
             "msg_body":"",
             "fcm_token":this.doctor.fcmtoken
         };}

@@ -14,6 +14,7 @@ import {__await} from 'tslib';
 import {flatMap, map} from "rxjs/operators";
 import {pipe} from "rxjs";
 import {async} from "rxjs/internal/scheduler/async";
+import {isArray} from "rxjs/internal-compatibility";
 
 @Component({
     selector: 'app-conv-list',
@@ -22,7 +23,7 @@ import {async} from "rxjs/internal/scheduler/async";
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConvListComponent implements OnInit, OnDestroy {
-    private convList: any[];
+    private convList: any[]=[];
     private patientId: number;
     private page: number;
     private scrollPosition: number;
@@ -81,7 +82,9 @@ export class ConvListComponent implements OnInit, OnDestroy {
     }
     ngOnDestroy(){
         this.eventEmitterService.subscription=undefined;
+        this.convList=[];
         console.log(" list destroyed");
+
     }
 
     ionViewWillEnter() {
@@ -97,29 +100,49 @@ export class ConvListComponent implements OnInit, OnDestroy {
             console.log('page', this.page);
             console.log('interaction works');
             this.httpService.getInbox(this.patientId, this.page).subscribe(res=>{
-                if(res.length){
-                    this.convList=res;
+                    if (isArray(res)&&res.length==0){
+                        console.log('your inbox list is empty');
+                        this.convList=[];
+                    }
+                    else {
+                        if(res.length){
+                            console.log('should have length ', res.length);
+                            this.convList=res;
 
-                }else {
-                    this.convList=[res];
+                        }
+                        else {
+                            console.log('should not  have length ');
+                            this.convList=[res];
+                        }
 
-                }
+                    }
 
-                console.log("Get Inbox res",res)
+                    console.log('after length check conv list', this.convList);
+                    console.log("Get Inbox Back res",res)
             ;this.detectChange.detectChanges();},
                     error1 => {alert("http error get inbox"+error1);console.log("error",error1)});}
 
          else if(state==1) {
             console.log('page', this.page);
             this.httpService.getSent(this.patientId, this.page).subscribe(res=>{
-                if(res.length){
-                    this.convList=res;
+                    if (isArray(res)&&res.length==0){
+                        console.log('your inbox list is empty');
+                        this.convList=[];
+                    }
+                    else {
+                        if(res.length){
+                            console.log('should have length ', res.length);
+                            this.convList=res;
 
-                }
-                else {
-                    this.convList=[res];
-                }
+                        }
+                        else {
+                            console.log('should not  have length ');
+                            this.convList=[res];
+                        }
+
+                    }
                     console.log("Get sent res",res);
+
                    this.detectChange.detectChanges();}
              , error1 => this.presentAlert('http error get sent', error1.message));
         }

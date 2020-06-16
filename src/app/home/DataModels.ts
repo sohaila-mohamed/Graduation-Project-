@@ -43,6 +43,8 @@ export interface Iconvs{
 export interface Reply{
     sender_id: number,
     receiver_id	:number,
+    sender_name: String,
+    receiver_name	:string,
     msg_body:string,
     thread_subject:string,
     fcm_token:string

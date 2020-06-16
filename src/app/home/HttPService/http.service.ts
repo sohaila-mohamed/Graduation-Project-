@@ -1,14 +1,15 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {empty, from, Observable} from 'rxjs';
 import {Iconvs, Reply, UpVitals} from '../DataModels';
 import {newMessage} from 'src/app/model/newMessage';
-import {flatMap, map, reduce} from 'rxjs/operators';
+import {defaultIfEmpty, flatMap, isEmpty, map, reduce} from 'rxjs/operators';
 import {TokenClass} from 'src/app/model/token';
 import {DatastreamingService} from 'src/app/services/datastream/datastreaming.service';
 import {FCM} from '@ionic-native/fcm/ngx';
 import {doctorData} from 'src/app/model/doctorData';
 import {inboxThread} from "../../model/ConsultationModel";
+
 
 @Injectable({
   providedIn: 'root'
@@ -75,10 +76,11 @@ export class HttpService {
   const Url =this.Node_host+"api/users/threads/inbox/"+this.dataStream.getPatientId()+"/"+offset;
   console.log("URL",Url);
      return this.http.get<Iconvs[]>(Url, this.httpOptions).pipe(
-         flatMap((consult) => {console.log("consult",consult);return consult})
+         flatMap((consult) => {console.log("consult",consult);
+         return  consult;})
          ,map((consult)=>{
          console.log("map",consult);
-         console.log("doctors",this.dataStream.getDoctorList())
+         console.log("doctors",this.dataStream.getDoctorList());
          return new inboxThread(consult.sender_id, consult.receiver_id, consult.thread_id,
              consult.msg_subject, consult.created_date,consult.is_readed,consult.sender_name,consult.receiver_name,consult.msg_body,
              this.dataStream.getDoctorList().find(doctorData=>doctorData.doctorId==consult.sender_id).user_image)
@@ -92,7 +94,7 @@ export class HttpService {
 
              }
 
-         })
+         }), defaultIfEmpty([])
      )
 
  }

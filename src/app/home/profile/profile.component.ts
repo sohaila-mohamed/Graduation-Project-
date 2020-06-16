@@ -13,7 +13,7 @@ import {finalize} from "rxjs/operators";
 import {NetworkService} from "../../services/Network/network.service";
 
 
-const STORAGE_KEY = 'my_image';
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -28,6 +28,7 @@ export class ProfileComponent implements OnInit {
     // / hold image to render
     public image :any;
     private profileImage=new ImagePath();
+    private STORAGE_KEY = 'my_image';
   constructor(private navigation:NavigationService,
     private datastream: DatastreamingService,
     private editPatientService: HttpService,
@@ -39,6 +40,8 @@ export class ProfileComponent implements OnInit {
     ) { }
 
     ngOnInit(message?: any) {
+      this.STORAGE_KEY=this.STORAGE_KEY+this.datastream.getPatientId().toString();
+      console.log("Storage key",this.STORAGE_KEY);
         this.plt.ready().then(() => {
             this.loadStoredImages();
 
@@ -134,7 +137,7 @@ async save(){
     //Searching for image in our app storage first
     loadStoredImages() {
       console.log("load stored images");
-        this.storage.get(STORAGE_KEY).then(images => {
+        this.storage.get(this.STORAGE_KEY).then(images => {
             if (images) {
                 console.log('stored images',images);
                 const arr = JSON.parse(images);
@@ -254,10 +257,10 @@ async save(){
     updateStoredImages(name) {
         console.log("update stored image ");
         new Promise((resolve, reject) => {
-            this.storage.get(STORAGE_KEY).then(images => {
+            this.storage.get(this.STORAGE_KEY).then(images => {
                 let arr = JSON.parse(images);
                 let newImage = [name];
-                this.storage.set(STORAGE_KEY, JSON.stringify(newImage));
+                this.storage.set(this.STORAGE_KEY, JSON.stringify(newImage));
                 let filePath = this.file.dataDirectory + name;
                 let resPath = this.pathForImage(filePath);
                 // Data Object to hold new image data
