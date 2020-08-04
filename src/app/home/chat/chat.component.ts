@@ -13,6 +13,9 @@ import { File ,FileEntry } from '@ionic-native/file/ngx';
 import {WebView} from'@ionic-native/ionic-webview/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import {NetworkService} from "../../services/Network/network.service";
+import { MediaCapture, CaptureAudioOptions } from '@ionic-native/media-capture/ngx';
+import { Media, MediaObject } from '@ionic-native/media/ngx';
+import {MediaFile, CaptureError} from '@ionic-native/media-capture/ngx';
 const STORAGE_KEY='my_images';
 
 
@@ -36,7 +39,8 @@ export class ChatComponent implements OnInit {
         private storage: Storage,
         private plt: Platform,
         private ref: ChangeDetectorRef,
-        private filePath: FilePath,private network:NetworkService) {
+        private filePath: FilePath,private network:NetworkService,
+        private media: Media, private mediaCapture: MediaCapture) {
 
 
     }
@@ -200,6 +204,12 @@ export class ChatComponent implements OnInit {
                     }
                 },
                 {
+                    text: 'Capture Audio',
+                    handler: () => {
+                        this.captureAudio();
+                    }
+                },
+                {
                     text: 'Cancel',
                     role: 'cancel'
                 }
@@ -327,8 +337,6 @@ export class ChatComponent implements OnInit {
     }
     startUpload(imgEntry) {
         console.log("upload"+JSON.stringify(imgEntry));
-
-
         this.file.resolveLocalFilesystemUrl(imgEntry)
             .then(entry => {
                 ( < FileEntry > entry).file(file => this.readFile(file))
@@ -416,7 +424,21 @@ export class ChatComponent implements OnInit {
 
 
     }
+    captureAudio() {
+        this.mediaCapture.captureAudio().then(res => {
+            console.log("audio  "+res[0].name );
+            this.updateStoredImages(res);
+            console.log("audio0000  "+res[0].name )
+        }, (err: CaptureError) => console.error(err));
+    }
 
+    play(myFile) {
+        if (myFile.name.indexOf('.m4a'||'.mp3' ||'.oog'||'.wav') > -1) {
+            const audioFile: MediaObject = this.media.create(myFile.localURL);
+            audioFile.play();
+        }
+
+    }
 
     async presentToast(text) {
         const toast = await this.toastController.create({

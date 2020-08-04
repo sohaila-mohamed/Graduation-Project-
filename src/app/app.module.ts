@@ -19,7 +19,8 @@ import {FilePath} from '@ionic-native/file-path/ngx';
 import {WebView} from '@ionic-native/ionic-webview/ngx';
 import { Network } from '@ionic-native/network/ngx';
 import {NetworkService} from "./services/Network/network.service";
-
+import {Media} from '@ionic-native/media/ngx';
+import {MediaCapture} from "@ionic-native/media-capture/ngx";
 
 
 @NgModule({
@@ -42,6 +43,9 @@ import {NetworkService} from "./services/Network/network.service";
     FilePath,
       WebView,
       Network,
+      Media,
+    MediaCapture,
+
 
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
