@@ -48,6 +48,7 @@ export class DoctorListComponent implements OnInit {
                      this.doctorRow = this.datastream.getDoctorList();
                      this.doctorArrayList = this.doctorRow;
                      this.datastream.saveDoctorListToDataStore();
+                     console.log(JSON.stringify(this.datastream.getDoctorList()));
                      console.log('HTTP request completed.');
                  }
              );
