@@ -428,24 +428,29 @@ export class ChatComponent implements OnInit {
         this.mediaCapture.captureAudio().then(res => {
             console.log("audio  "+res[0].name );
             console.log("audio res",res[0]);
+            // this.updateStoredImages(res);
             this.image={
                 sender_id:this.pId,
                 receiver_id:this.doctor.doctorId,
                 msg_body:"",
                 fcm_token:this.doctor.fcmtoken,
-                media:res[0].localURL,
+                media:"https://s3.ap-south-1.amazonaws.com/fortifyfitness/userUploads/456.ogg"
+                    ,
             };
             this.newMessages.push(this.image);
-            this.updateStoredImages(res[0]);
+
             console.log("audio0000  "+res[0].name )
         }, (err: CaptureError) => console.error(err));
     }
 
     play(myFile) {
-        if (myFile.name.indexOf('.m4a'||'.mp3' ||'.oog'||'.wav') > -1) {
-            const audioFile: MediaObject = this.media.create(myFile.localURL);
-            audioFile.play();
-        }
+        // if (myFile.name.indexOf('.m4a'||'.mp3' ||'.oog'||'.wav') > -1) {
+        //     const audioFile: MediaObject = this.media.create(myFile.localURL);
+        //     audioFile.play();
+        // }
+        var audio1 = new Audio("https://s3.ap-south-1.amazonaws.com/fortifyfitness/userUploads/456.ogg");
+        audio1.load();
+        audio1.play().then(()=>console.log("played"));
 
     }
 
