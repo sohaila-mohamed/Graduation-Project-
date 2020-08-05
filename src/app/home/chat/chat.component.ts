@@ -328,7 +328,7 @@ export class ChatComponent implements OnInit {
                 path: resPath,
                 filePath: filePath
             };
-            console.log("newEntry"+newEntry);
+            console.log("newEntry"+arr);
             this.images = [newEntry, ...this.images];
             this.newMessages.find(msg=>msg.media==this.pathForImage(this.img.path)).media=resPath;
             this.loading=false;
@@ -427,7 +427,16 @@ export class ChatComponent implements OnInit {
     captureAudio() {
         this.mediaCapture.captureAudio().then(res => {
             console.log("audio  "+res[0].name );
-            this.updateStoredImages(res);
+            console.log("audio res",res[0]);
+            this.image={
+                sender_id:this.pId,
+                receiver_id:this.doctor.doctorId,
+                msg_body:"",
+                fcm_token:this.doctor.fcmtoken,
+                media:res[0].localURL,
+            };
+            this.newMessages.push(this.image);
+            this.updateStoredImages(res[0]);
             console.log("audio0000  "+res[0].name )
         }, (err: CaptureError) => console.error(err));
     }
