@@ -328,7 +328,7 @@ export class ChatComponent implements OnInit {
                 {
                     console.log("Completed");
                     console.log("Data Came3: ", that.newMessages );
-                    console.log("Data Came:2 ", this.image);
+                    console.log("Data Came:2 ", this.audio);
 
                 }
             );
@@ -338,7 +338,7 @@ export class ChatComponent implements OnInit {
         };
         reader.readAsArrayBuffer(file);
         console.log("Data Came:2 ", that.url );
-        console.log("Data Came:2 ", this.image);
+        console.log("Data Came:2 ", this.audio);
 
 
     }
