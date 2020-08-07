@@ -240,6 +240,11 @@ export class ChatComponent implements OnInit {
                             currentName: currentName,
                             correctPath: correctPath
                         };
+                        console.log("file path",filePath);
+                        console.log("correct path",correctPath);
+                        console.log("current name",currentName);
+                        console.log("path",this.img.path);
+
                         this.startUpload(this.img.path);
                         this.image={
                             sender_id:this.pId,
