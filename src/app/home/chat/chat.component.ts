@@ -17,6 +17,7 @@ import { MediaCapture, CaptureAudioOptions } from '@ionic-native/media-capture/n
 import { Media, MediaObject } from '@ionic-native/media/ngx';
 import {MediaFile, CaptureError} from '@ionic-native/media-capture/ngx';
 const STORAGE_KEY='my_images';
+const AUDIO_FILES_KEY = 'audioFiles';
 
 
 @Component({
@@ -58,11 +59,14 @@ export class ChatComponent implements OnInit {
     private doctor:doctorData;
     private docname:string;
     private image:any;
+    private audio: any;
     showSplash: boolean=false;
     private thread_id:number;
     private loading:boolean=false;
     private scrollingPosition:number=0;
     private doctor_img:String='';
+    audioFiles = [];
+    private aud=new ImagePath();
 
 
 
@@ -121,6 +125,11 @@ export class ChatComponent implements OnInit {
         this.ScrollToBottom();
 
     }
+    ionViewDidLoad() {
+        this.storage.get(AUDIO_FILES_KEY).then(res => {
+          this.audioFiles = JSON.parse(res) || [];
+        })
+      }
     ScrollToBottom(){
         setTimeout(()=>{
             this.bigContent.scrollToBottom(100);
@@ -188,7 +197,7 @@ export class ChatComponent implements OnInit {
 
 
 
-    async selectImage() {
+    async selectMedia() {
         const actionSheet = await this.actionSheetController.create({
             header: "Select Image source",
             buttons: [{
@@ -217,6 +226,136 @@ export class ChatComponent implements OnInit {
         });
         await actionSheet.present();
     }
+    ///////////////////audiooooooooooooooooooooo
+      ////////////////////////////////////////////////audiooooooooooooooooooooooooooooooooooooo
+      ////////////////////////////////////////////////audiooooooooooooooooooooooooooooooooooooo
+      ////////////////////////////////////////////////audiooooooooooooooooooooooooooooooooooooo
+      ////////////////////////////////////////////////audiooooooooooooooooooooooooooooooooooooo
+      ////////////////////////////////////////////////audiooooooooooooooooooooooooooooooooooooo
+      ////////////////////////////////////////////////audiooooooooooooooooooooooooooooooooooooo
+      ////////////////////////////////////////////////audiooooooooooooooooooooooooooooooooooooo
+
+    captureAudio() {
+        this.mediaCapture.captureAudio().then(res => {
+          console.log("audio  "+res[0].name )
+          this.storeAudioFiles(res);
+          console.log("audio0000  "+res[0].name )
+          this.filePath.resolveNativePath(res[0].localURL)
+                    .then(filePath => {
+                        let correctPath = filePath.substr(0, filePath.lastIndexOf('/') + 1);
+                        let currentName = res[0].localURL.substring(res[0].localURL.lastIndexOf('/') + 1, res[0].localURL.lastIndexOf('?'));
+                        this.aud = {
+                            path: correctPath + currentName,
+                            currentName: currentName,
+                            correctPath: correctPath
+                        };
+                        this.uploadAudio(this.aud.path);
+                        this.audio={
+                            sender_id:this.pId,
+                            receiver_id:this.doctor.doctorId,
+                            msg_body:"",
+                            fcm_token:this.doctor.fcmtoken,
+                            media:this.pathForImage(this.aud.path),
+                        };
+                        this.newMessages.push(this.audio);
+                        this.loading=true;
+                        this.ref.detectChanges();
+                        this.ScrollToBottom();
+                    });
+        }, (err: CaptureError) => console.error(err));
+      }
+      createAudioName() {
+        var d = new Date(),
+            n = d.getTime(),
+            newFileName = n + ".m4a";
+        return newFileName;
+      }
+      storeAudioFiles(files) {
+        this.storage.get(AUDIO_FILES_KEY).then(res => {
+          if (res) {
+            let arr = JSON.parse(res);
+            arr = arr.concat(files);
+            this.storage.set(AUDIO_FILES_KEY, JSON.stringify(arr));
+          } else {
+            this.storage.set(AUDIO_FILES_KEY, JSON.stringify(files))
+          }
+          this.audioFiles = this.audioFiles.concat(files);
+        })
+      }
+      uploadAudio(nPa){
+        console.log("upload"+nPa);
+      
+      
+              this.file.resolveLocalFilesystemUrl(nPa)
+                  .then(entry => {
+                      ( < FileEntry > entry).file(file => this.readAudio(file))
+                  })
+                  .catch(err => {
+                      console.log('Error while reading file.');
+                  });
+        } 
+        readAudio(file: any) {
+          const that = this;
+          const reader = new FileReader();
+      
+          reader.onloadend = () => {
+      
+              console.log("ressssssss"+reader.result);
+              const formData = new FormData();
+              const blob = new Blob([reader.result], {type: file.type });
+              console.log("blob"+file.name);
+              file.name=this.createAudioName();
+              console.log("blobbbbbbbbbb"+file.name);
+      
+              formData.append('file', blob, file.name);
+              formData.append('data',  JSON.stringify(this.json()));
+              this.http.UplaodingMediaMsg(formData,this.thread_id).subscribe(
+                  (data)=>{
+                    console.log(" allData ", data);
+                    that.url = data.url;
+                    this.showSplash=false;
+                    console.log("Data Came: ", that.url );
+                    that.setMessege();
+                    this.ScrollToBottom();
+                    this.copyFileToLocalDir(this.aud.correctPath, this.aud.currentName, this.createAudioName());
+
+
+                },
+                (err)=>{
+                    console.log("ERROR Occured will sending your msg");
+                },
+                ()=>
+                {
+                    console.log("Completed");
+                    console.log("Data Came3: ", that.newMessages );
+                    console.log("Data Came:2 ", this.image);
+
+                }
+            );
+
+            console.log("form  "+JSON.stringify(formData.getAll('file')));
+
+        };
+        reader.readAsArrayBuffer(file);
+        console.log("Data Came:2 ", that.url );
+        console.log("Data Came:2 ", this.image);
+
+
+    }
+
+      ////////////////////////////////////////////////audiooooooooooooooooooooooooooooooooooooo
+      ////////////////////////////////////////////////audiooooooooooooooooooooooooooooooooooooo
+      ////////////////////////////////////////////////audiooooooooooooooooooooooooooooooooooooo
+      ////////////////////////////////////////////////audiooooooooooooooooooooooooooooooooooooo
+      ////////////////////////////////////////////////audiooooooooooooooooooooooooooooooooooooo
+      ////////////////////////////////////////////////audiooooooooooooooooooooooooooooooooooooo
+      ////////////////////////////////////////////////audiooooooooooooooooooooooooooooooooooooo
+      ////////////////////////////////////////////////audiooooooooooooooooooooooooooooooooooooo
+
+
+
+
+
 
     takePicture(sourceType: PictureSourceType) {
 
@@ -424,36 +563,10 @@ export class ChatComponent implements OnInit {
 
 
     }
-    captureAudio() {
-        this.mediaCapture.captureAudio().then(res => {
-            console.log("audio  "+res[0].name );
-            console.log("audio res",res[0]);
-            // this.updateStoredImages(res);
-            this.image={
-                sender_id:this.pId,
-                receiver_id:this.doctor.doctorId,
-                msg_body:"",
-                fcm_token:this.doctor.fcmtoken,
-                media:"https://s3.ap-south-1.amazonaws.com/fortifyfitness/userUploads/456.ogg"
-                    ,
-            };
-            this.newMessages.push(this.image);
+   
+/////////////////////////////////////////////////Audioooooooooooooooooooo
 
-            console.log("audio0000  "+res[0].name )
-        }, (err: CaptureError) => console.error(err));
-    }
-
-    play(myFile) {
-        // if (myFile.name.indexOf('.m4a'||'.mp3' ||'.oog'||'.wav') > -1) {
-        //     const audioFile: MediaObject = this.media.create(myFile.localURL);
-        //     audioFile.play();
-        // }
-        var audio1 = new Audio("https://s3.ap-south-1.amazonaws.com/fortifyfitness/userUploads/456.ogg");
-        audio1.load();
-        audio1.play().then(()=>console.log("played"));
-
-    }
-
+/////////////////////////////////////////////////////////////////////
     async presentToast(text) {
         const toast = await this.toastController.create({
             message: text,
