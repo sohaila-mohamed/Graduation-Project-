@@ -60,9 +60,9 @@
                      {{newMsgs.media.name}}
 <!--                     <ion-button small full (click)="startUpload(newMsgs.media.localURL)">Upload </ion-button >-->
 <!--                     <ion-button small full (click)="play(newMsgs.media)">play</ion-button >-->
-                     <audio controls autoplay (play)="play(newMsgs.media)" >
-                       <source src="newMsgs.media" type="audio/ogg">
-                       <source src="newMsgs.media" type="audio/mpeg">
+
+                     <audio [controls]="true" [src]="newMsgs.media" (play)="play(newMsgs.media)" (pause)="pause()"  preload="metadata" [autoplay]="false"  >
+
                      </audio>
                  </ion-item>
 
@@ -95,12 +95,12 @@
                  </div>
 
                  <!--             ///////////////////// Audio-->
-                 <div *ngIf="newMsgs.media.endsWith('mp4')" class="media-wrapper">
+                 <div *ngIf="newMsgs.media.endsWith('mp3')||newMsgs.media.endsWith('ogg')" class="media-wrapper">
                      <ion-item  text-wrap>
                          {{newMsgs.media.name}}
-                         <p>MB</p>
-                         <ion-button small full (click)="startUpload(newMsgs.media.localURL)">Upload </ion-button >
-                         <ion-button small full (click)="play(newMsgs.media)">play</ion-button >
+                         <audio [controls]="true" [src]="newMsgs.media" (play)="play(newMsgs.media)" (pause)="pause()"  preload="metadata" [autoplay]="false"  >
+                         </audio>
+
                      </ion-item>
 
                  </div>
@@ -133,7 +133,7 @@
                          <ion-button class="ion-button" (click)="sendReplyFun()"> <ion-icon name="send">
 
                          </ion-icon> </ion-button>
-                         <ion-button class="ion-button"  style=" margin-left: 5px; margin-right: 10px" (click)="selectImage()">
+                         <ion-button class="ion-button"  style=" margin-left: 5px; margin-right: 10px" (click)="selectMedia()">
                              <ion-icon name="attach">
 
                          </ion-icon>  </ion-button>

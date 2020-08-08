@@ -17,6 +17,7 @@ import { MediaCapture, CaptureAudioOptions } from '@ionic-native/media-capture/n
 import { Media, MediaObject } from '@ionic-native/media/ngx';
 import {MediaFile, CaptureError} from '@ionic-native/media-capture/ngx';
 const STORAGE_KEY='my_images';
+const AUDIO_FILES_KEY = 'audioFiles';
 
 
 @Component({
@@ -46,7 +47,7 @@ export class ChatComponent implements OnInit {
     }
     url:string;
     private images = [];
-    private img=new ImagePath();
+    private med=new ImagePath();
     private newMessages : any[]=[];
     private tId:number;
     private newMsgs:any;
@@ -58,11 +59,15 @@ export class ChatComponent implements OnInit {
     private doctor:doctorData;
     private docname:string;
     private image:any;
+    private audio: any;
     showSplash: boolean=false;
     private thread_id:number;
     private loading:boolean=false;
     private scrollingPosition:number=0;
     private doctor_img:String='';
+    audioFiles = [];
+    private audio1 =new Audio();
+
 
 
 
@@ -121,6 +126,11 @@ export class ChatComponent implements OnInit {
         this.ScrollToBottom();
 
     }
+    ionViewDidLoad() {
+        this.storage.get(AUDIO_FILES_KEY).then(res => {
+          this.audioFiles = JSON.parse(res) || [];
+        })
+      }
     ScrollToBottom(){
         setTimeout(()=>{
             this.bigContent.scrollToBottom(100);
@@ -188,7 +198,7 @@ export class ChatComponent implements OnInit {
 
 
 
-    async selectImage() {
+    async selectMedia() {
         const actionSheet = await this.actionSheetController.create({
             header: "Select Image source",
             buttons: [{
@@ -217,6 +227,163 @@ export class ChatComponent implements OnInit {
         });
         await actionSheet.present();
     }
+    ///////////////////audiooooooooooooooooooooo
+      ////////////////////////////////////////////////audiooooooooooooooooooooooooooooooooooooo
+      ////////////////////////////////////////////////audiooooooooooooooooooooooooooooooooooooo
+      ////////////////////////////////////////////////audiooooooooooooooooooooooooooooooooooooo
+      ////////////////////////////////////////////////audiooooooooooooooooooooooooooooooooooooo
+      ////////////////////////////////////////////////audiooooooooooooooooooooooooooooooooooooo
+      ////////////////////////////////////////////////audiooooooooooooooooooooooooooooooooooooo
+      ////////////////////////////////////////////////audiooooooooooooooooooooooooooooooooooooo
+
+    captureAudio() {
+        this.mediaCapture.captureAudio().then(res => {
+          console.log("audio  "+res[0].length );
+          console.log("audio0000  "+res[0].name );
+          console.log('Audio response',res[0].fullPath);
+          this.filePath.resolveNativePath(res[0].fullPath)
+                    .then(filePath => {
+                        console.log("Audio file path",filePath);
+                        let correctPath = filePath.substr(0, filePath.lastIndexOf('/') + 1);
+                        let currentName = res[0].name;
+                        console.log("Audio correct path",correctPath);
+                        console.log("Audio current name",currentName);
+                        this.med = {
+                            path: correctPath + currentName,
+                            currentName: currentName,
+                            correctPath: correctPath
+                        };
+                        this.uploadAudio(this.med.path);
+                        this.audio={
+                            sender_id:this.pId,
+                            receiver_id:this.doctor.doctorId,
+                            msg_body:"",
+                            fcm_token:this.doctor.fcmtoken,
+                            media:this.pathForImage(this.med.path),
+                        };
+                        console.log("Audio object",this.med);
+                        this.newMessages.push(this.audio);
+                        this.loading=true;
+                        this.ref.detectChanges();
+                        this.ScrollToBottom();
+                    });
+        }, (err: CaptureError) => console.error(err));
+      }
+      createAudioName() {
+        var d = new Date(),
+            n = d.getTime(),
+            newFileName = n + ".mp3";
+        return newFileName;
+      }
+      // storeAudioFiles(files) {
+      //   this.storage.get(AUDIO_FILES_KEY).then(res => {
+      //     if (res) {
+      //       let arr = JSON.parse(res);
+      //       arr = arr.concat(files);
+      //       this.storage.set(AUDIO_FILES_KEY, JSON.stringify(arr));
+      //     } else {
+      //       this.storage.set(AUDIO_FILES_KEY, JSON.stringify(files))
+      //     }
+      //     this.audioFiles = this.audioFiles.concat(files);
+      //   })
+      // }
+      uploadAudio(nPa){
+        console.log("upload"+nPa);
+              this.file.resolveLocalFilesystemUrl(nPa)
+                  .then(entry => {
+                      ( < FileEntry > entry).file(file => this.readAudio(file))
+                  })
+                  .catch(err => {
+                      console.log('Error while reading file.');
+                  });
+        } 
+        readAudio(file: any) {
+          const that = this;
+          const reader = new FileReader();
+      
+          reader.onloadend = () => {
+      
+              console.log("ressssssss"+reader.result);
+              const formData = new FormData();
+              const blob = new Blob([reader.result], {type: file.type });
+              console.log("blob"+file.name);
+              file.name=this.createAudioName();
+              console.log("blobbbbbbbbbb"+file.name);
+      
+              formData.append('file', blob, file.name);
+              formData.append('data',  JSON.stringify(this.json()));
+              this.http.UplaodingMediaMsg(formData,this.thread_id).subscribe(
+                  (data)=>{
+                    console.log(" allData ", data);
+                    that.url = data.url;
+                    this.showSplash=false;
+                    console.log("Data Came: ", that.url );
+                    that.setMessege();
+                    this.ScrollToBottom();
+                    this.copyFileToLocalDir(this.med.correctPath, this.med.currentName, this.createAudioName());
+
+
+                },
+                (err)=>{
+                    console.log("ERROR Occured will sending your msg");
+                },
+                ()=>
+                {
+                    console.log("Completed");
+                    console.log("Data Came3: ", that.newMessages );
+                    console.log("Data Came:2 ", this.audio);
+
+                }
+            );
+
+            console.log("form  "+JSON.stringify(formData.getAll('file')));
+
+        };
+        reader.readAsArrayBuffer(file);
+        console.log("Data Came:2 ", that.url );
+        console.log("Data Came:2 ", this.audio);
+
+
+    }
+    play(myFile) {
+        // if (myFile.name.indexOf('.m4a'||'.mp3' ||'.oog'||'.wav') > -1) {
+        //     const audioFile: MediaObject = this.media.create(myFile.localURL);
+        //     audioFile.play();
+        // }
+        this.audio1 = new Audio(myFile);
+        this.audio1.controls=true;
+        this.audio1.load();
+        this.audio1.addEventListener('loadedmetadata',function(){
+            this.setAttribute('duration',this.duration.toString());
+            console.log('duration metadata',this.duration)
+        },true);
+        this.audio1.addEventListener('loadeddata', function(ev){console.log("Current time", this.currentTime);
+        console.log("duration",this.duration);
+
+        });
+        this.audio1.play().then(()=>console.log("played"));
+
+
+    }
+    pause(){
+        this.audio1.pause();
+    }
+
+
+
+      ////////////////////////////////////////////////audiooooooooooooooooooooooooooooooooooooo
+      ////////////////////////////////////////////////audiooooooooooooooooooooooooooooooooooooo
+      ////////////////////////////////////////////////audiooooooooooooooooooooooooooooooooooooo
+      ////////////////////////////////////////////////audiooooooooooooooooooooooooooooooooooooo
+      ////////////////////////////////////////////////audiooooooooooooooooooooooooooooooooooooo
+      ////////////////////////////////////////////////audiooooooooooooooooooooooooooooooooooooo
+      ////////////////////////////////////////////////audiooooooooooooooooooooooooooooooooooooo
+      ////////////////////////////////////////////////audiooooooooooooooooooooooooooooooooooooo
+
+
+
+
+
 
     takePicture(sourceType: PictureSourceType) {
 
@@ -233,25 +400,21 @@ export class ChatComponent implements OnInit {
             if (this.plt.is('android') && sourceType === this.camera.PictureSourceType.PHOTOLIBRARY) {
                 this.filePath.resolveNativePath(imagePath)
                     .then(filePath => {
+                        console.log("Image file path",filePath);
                         let correctPath = filePath.substr(0, filePath.lastIndexOf('/') + 1);
                         let currentName = imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.lastIndexOf('?'));
-                        this.img = {
+                        this.med = {
                             path: correctPath + currentName,
                             currentName: currentName,
                             correctPath: correctPath
                         };
-                        console.log("file path",filePath);
-                        console.log("correct path",correctPath);
-                        console.log("current name",currentName);
-                        console.log("path",this.img.path);
-
-                        this.startUpload(this.img.path);
+                        this.startUpload(this.med.path);
                         this.image={
                             sender_id:this.pId,
                             receiver_id:this.doctor.doctorId,
                             msg_body:"",
                             fcm_token:this.doctor.fcmtoken,
-                            media:this.pathForImage(this.img.path),
+                            media:this.pathForImage(this.med.path),
                         };
                         this.newMessages.push(this.image);
                         this.loading=true;
@@ -262,18 +425,18 @@ export class ChatComponent implements OnInit {
             } else {
                 var currentName = imagePath.substr(imagePath.lastIndexOf('/') + 1);
                 var correctPath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
-                this.img = {
+                this.med = {
                     path: correctPath + currentName,
                     currentName: currentName,
                     correctPath: correctPath
                 };
-                this.startUpload(this.img.path);
+                this.startUpload(this.med.path);
                 this.image={
                     sender_id:this.pId,
                     receiver_id:this.doctor.doctorId,
                     msg_body:"",
                     fcm_token:this.doctor.fcmtoken,
-                    media:this.pathForImage(this.img.path)
+                    media:this.pathForImage(this.med.path)
                 };
                 this.newMessages.push(this.image);
                 this.loading=true;
@@ -308,6 +471,7 @@ export class ChatComponent implements OnInit {
 
     copyFileToLocalDir(namePath, currentName, newFileName) {
         this.file.copyFile(namePath, currentName, this.file.dataDirectory, newFileName).then(success => {
+            console.log("new audio name",newFileName);
             this.updateStoredImages(newFileName);
         }, error => {
             this.presentToast('Error while storing file.');
@@ -327,6 +491,9 @@ export class ChatComponent implements OnInit {
 
             let filePath = this.file.dataDirectory + name;
             let resPath = this.pathForImage(filePath);
+            console.log("file path in app directory",filePath);
+            console.log("resPath",resPath);
+
 
             let newEntry = {
                 name: name,
@@ -335,7 +502,7 @@ export class ChatComponent implements OnInit {
             };
             console.log("newEntry"+arr);
             this.images = [newEntry, ...this.images];
-            this.newMessages.find(msg=>msg.media==this.pathForImage(this.img.path)).media=resPath;
+            this.newMessages.find(msg=>msg.media==this.pathForImage(this.med.path)).media=resPath;
             this.loading=false;
             this.ref.detectChanges();
         });
@@ -382,7 +549,7 @@ export class ChatComponent implements OnInit {
                     console.log("Data Came: ", that.url );
                     that.setMessege();
                     this.ScrollToBottom();
-                    this.copyFileToLocalDir(this.img.correctPath, this.img.currentName, this.createFileName());
+                    this.copyFileToLocalDir(this.med.correctPath, this.med.currentName, this.createFileName());
 
 
                 },
@@ -429,36 +596,10 @@ export class ChatComponent implements OnInit {
 
 
     }
-    captureAudio() {
-        this.mediaCapture.captureAudio().then(res => {
-            console.log("audio  "+res[0].name );
-            console.log("audio res",res[0]);
-            // this.updateStoredImages(res);
-            this.image={
-                sender_id:this.pId,
-                receiver_id:this.doctor.doctorId,
-                msg_body:"",
-                fcm_token:this.doctor.fcmtoken,
-                media:"https://s3.ap-south-1.amazonaws.com/fortifyfitness/userUploads/456.ogg"
-                    ,
-            };
-            this.newMessages.push(this.image);
+   
+/////////////////////////////////////////////////Audioooooooooooooooooooo
 
-            console.log("audio0000  "+res[0].name )
-        }, (err: CaptureError) => console.error(err));
-    }
-
-    play(myFile) {
-        // if (myFile.name.indexOf('.m4a'||'.mp3' ||'.oog'||'.wav') > -1) {
-        //     const audioFile: MediaObject = this.media.create(myFile.localURL);
-        //     audioFile.play();
-        // }
-        var audio1 = new Audio("https://s3.ap-south-1.amazonaws.com/fortifyfitness/userUploads/456.ogg");
-        audio1.load();
-        audio1.play().then(()=>console.log("played"));
-
-    }
-
+/////////////////////////////////////////////////////////////////////
     async presentToast(text) {
         const toast = await this.toastController.create({
             message: text,
