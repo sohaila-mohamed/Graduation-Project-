@@ -1,0 +1,36 @@
+.header{
+  --background:  #02C39A;
+   color: white;
+   font-weight: bold;
+   font-size: large;
+text-align: center;
+}
+ion-avatar{
+  width: 4vh;height: 4vh;
+  margin-left: 1vh;
+  margin-right: 1vh;
+
+
+}
+.new{
+  height: 100%;
+  width: 100%;
+}
+ion-icon{
+  padding: 1vh;
+}
+
+.fixedbutton {
+  position: fixed;
+  bottom: 0px;
+    // z-index: 1;
+
+  // right: 0px; 
+  // background-color: #02C39A;color: white;font-weight: bold;text-align: center;
+}
+
+.bold
+{
+  color: #4a4a4a;
+  font-weight: bold;
+}

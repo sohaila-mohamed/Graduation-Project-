@@ -1,14 +1,16 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {empty, from, Observable} from 'rxjs';
+import {Observable} from 'rxjs';
 import {Iconvs, Reply, UpVitals} from '../DataModels';
 import {newMessage} from 'src/app/model/newMessage';
-import {defaultIfEmpty, flatMap, isEmpty, map, reduce} from 'rxjs/operators';
+import {defaultIfEmpty, flatMap, map, reduce} from 'rxjs/operators';
 import {TokenClass} from 'src/app/model/token';
 import {DatastreamingService} from 'src/app/services/datastream/datastreaming.service';
 import {FCM} from '@ionic-native/fcm/ngx';
 import {doctorData} from 'src/app/model/doctorData';
 import {inboxThread} from "../../model/ConsultationModel";
+import { patient_appointment } from 'src/app/model/myAppointmentModel';
+import { DateFormatService } from 'src/app/services/dateFormatService/date-format.service';
 
 
 @Injectable({
@@ -23,7 +25,8 @@ export class HttpService {
 
   constructor(private http:HttpClient,
     private dataStream: DatastreamingService,
-        private fcm: FCM,) {
+        private fcm: FCM,
+        private format: DateFormatService) {
   }
 
 
@@ -261,7 +264,80 @@ httpGetTokenOptions(accessToken) {
         return this.http.post<any>(Url, image,auth);
 
     }
+//appointments
 
+getPatientAppointments()
+{
+  let url = "http://ec2-3-87-1-35.compute-1.amazonaws.com:3000/api/users/patient/schedule/"+this.dataStream.patient.patient_id;
+    return this.http.get<any>(url).pipe(
+      flatMap(appointments => appointments),
+      map((data:patient_appointment)=>
+      {
+          
+          let doctorIndex = this.dataStream.doctorList.findIndex((x)=>x.doctorId ===data.doctor_id);
+          data = JSON.parse(JSON.stringify(data));
+          data.date= this.format.formateJSONDateToDayMonthYear(data.date);
+          // app.appointment.time = this.format.formatJSONTimetoRemoveSeconds(app.appointment.time);
+          return new patient_appointment(
+            data.appointment_id,
+            data.schedule_id,
+            data.doctor_id,
+              data.patient_id,
+              data.date,
+              data.start_time,
+              data.end_time,
+              this.dataStream.doctorList[doctorIndex],
+              data.slot_duration                    
+            ); 
+        
+        
+      })
+    );
+  
+}
+
+
+
+// public getapp(myappointment)
+// {
+//   return new appointment(myappointment.Id,myappointment.doctorId,myappointment.patientId,myappointment.booked
+//     ,myappointment.appointment, myappointment.duration, null); 
+// }
+
+getMyDoctorFreeSlotsAppointments(date:string,doctor:doctorData)
+{
+  // let url = "http://ec2-3-87-1-35.compute-1.amazonaws.com:3000/api/users/doctor/day/slots/"+doctor.doctorId;
+//     let obj = {date:"2020-06-07"};
+
+ let url = 'assets/post.json';
+// return this.http.post<any>(url,obj,this.httpOptions).
+  return this.http.get<any>(url,this.httpOptions).pipe(
+      flatMap(appointments => appointments),
+      map((appointment:patient_appointment)=>
+      {
+
+        let app = JSON.parse(JSON.stringify(appointment));
+        app.date = this.format.formateJSONDateToDayMonthYear(app.date);
+        if(app.doctor_id==doctor.doctorId) app.doctor = doctor;
+        else alert("Errror");
+        return app;
+      })
+    );
+}
+setappointment(app)
+{
+  let url = "http://ec2-3-87-1-35.compute-1.amazonaws.com:3000/api/user/patient/appointment/"+ this.dataStream.patient.patient_id;
+
+  // let appointment = JSON.parse(JSON.stringify(app));
+  // appointment.date = this.format.formateDateToJSON(appointment.date);
+  // appointment.time = this.format.formatTimetoJSONADDSeconds(appointment.start_time);     
+  let obj = {
+    slot_id: app.appointment_id
+  }
+
+  return this.http.put<any>(url,obj,this.httpOptions);
+
+}
 }
 
 

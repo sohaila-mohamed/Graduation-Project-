@@ -1,0 +1,161 @@
+<ion-header *ngIf="!spinnerState" >
+  <ion-toolbar class="header">
+
+       <ion-buttons style="position: absolute;right:0;top:1vh;">
+        <ion-button slot="start" class="new" (click)="Close()" size="small" style="font-size: xx-small; color:white;" text-center   >
+            <div class="wrapper">
+              <ion-icon size="large" name="close-circle"></ion-icon>
+            </div>
+        </ion-button>
+      </ion-buttons>
+
+  
+  </ion-toolbar>
+    
+</ion-header>
+
+<div *ngIf="spinnerState" class="myBackground">
+        <div>
+          <img src="/assets/giphy.gif">
+        </div>
+</div>
+
+
+<ion-content *ngIf="!spinnerState" style="
+border-width: 5vh;
+border-style: solid;
+border-color: #31f0c6;
+border-top: none;" class="contentDiv">
+
+      <div class="contentDiv" style="position: absolute;
+      top:1vh;left: 3vh;right: 3vh;font-family: 'Open Sans', sans-serif;">
+              
+        <ion-grid>
+          <ion-row>
+            <div  style="text-align: center;">
+              <ion-text>
+                      <h1 class="bold" style="font-size: 33px;">Appointment</h1>
+              </ion-text>
+              
+            <ion-icon style="
+              color: #4cad49;" name="checkbox"></ion-icon>
+            <ion-label>
+              Your appointment has been sent SUCCESSFULLY
+            </ion-label>
+            </div>
+            <br>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-label class="bold">
+                Patient Name:
+              </ion-label>
+            </ion-col>
+            <ion-col>
+              <ion-label>
+                  {{patient.name}}
+              </ion-label>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-label class="bold">
+                Mobile:
+              </ion-label>
+            </ion-col>
+            <ion-col>
+              <ion-label>
+                  {{patient.mobile}}
+              </ion-label>
+            </ion-col>
+          </ion-row>
+          <br>
+          <ion-row>
+            <ion-col>
+              <ion-label class="bold">
+                Your Next Appointment is:
+              </ion-label>
+            </ion-col>
+          </ion-row>
+
+
+          <ion-row>
+            <ion-col>
+              <ion-label class="bold">
+                On:
+              </ion-label>
+            </ion-col>
+            <ion-col>
+              <ion-label>
+                  {{appointment.date}}
+              </ion-label>
+            </ion-col>
+          </ion-row>
+
+
+          <ion-row>
+            <ion-col>
+              <ion-label class="bold">
+                At:
+              </ion-label>
+            </ion-col>
+            <ion-col>
+              <ion-label>
+                  {{appointment.start_time}}
+              </ion-label>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-label class="bold">
+                For:
+              </ion-label>
+            </ion-col>
+            <ion-col>
+              <ion-label>
+                  {{appointment.slot_duration}} minutes
+              </ion-label>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+          </ion-row>
+
+          <br> 
+          <ion-row>
+            <ion-col>
+              <ion-label class="bold">
+                Doctor:
+              </ion-label>
+            </ion-col>
+            <ion-col>
+              <ion-label>
+                Dr. {{appointment.doctor.name}} 
+              </ion-label>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-label class="bold">
+                Mobile:
+              </ion-label>
+            </ion-col>
+            <ion-col>
+              <ion-label>
+                {{appointment.doctor.mobile}} 
+              </ion-label>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+              <img class="centerImage" src="/assets/02 (1).png"/>
+          </ion-row>
+        </ion-grid>
+        
+
+      </div>
+      
+</ion-content> 

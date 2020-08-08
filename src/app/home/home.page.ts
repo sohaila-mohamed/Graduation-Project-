@@ -3,6 +3,7 @@ import {Component, OnInit, OnChanges, OnDestroy, ChangeDetectorRef} from '@angul
 import { NavigationService } from './NavService/navigation.service';
 import { DatastreamingService } from '../services/datastream/datastreaming.service';
 import { AlertController, ActionSheetController} from '@ionic/angular';
+import { InteractionService } from '../services/datacommunication/interaction.service';
 
 
 
@@ -22,8 +23,9 @@ export class HomePage {
   constructor(
     private navigation:NavigationService, 
     private datastream: DatastreamingService, 
-    private addController : AlertController,
+    private actionSheetController : ActionSheetController,
     private ref: ChangeDetectorRef,
+    private comm: InteractionService,
     ) {
       this.patientName =this.datastream.patient.name;
       this.profileImg=this.datastream.patient.profile_img;
@@ -86,6 +88,31 @@ export class HomePage {
     conv(){
       this.navigation.navigateTo("home/conversation");
 
+    }
+    async CreateNew(){
+      let actionSheetButtons = [];
+    
+      for(let dRow of this.datastream.doctorList){
+      actionSheetButtons.push({
+          text: 'Dr. '+ dRow.name, //get doctor list
+          icon: 'person',
+          handler: () => {
+            this.comm.sendDoctorForBookedAppointment(dRow);
+            actionSheet.dismiss().then(()=>this.navigation.navigateTo("/home/patient-book-appointment"));
+          }
+      });
+    }
+    
+    
+      const actionSheet = await this.actionSheetController.create({
+        header: 'You want to send message to:',
+    
+         buttons:  actionSheetButtons
+    
+    
+    
+      });
+      await actionSheet.present();
     }
 
 }
