@@ -47,7 +47,7 @@ export class ChatComponent implements OnInit {
     }
     url:string;
     private images = [];
-    private img=new ImagePath();
+    private med=new ImagePath();
     private newMessages : any[]=[];
     private tId:number;
     private newMsgs:any;
@@ -66,7 +66,8 @@ export class ChatComponent implements OnInit {
     private scrollingPosition:number=0;
     private doctor_img:String='';
     audioFiles = [];
-    private aud=new ImagePath();
+    private audio1 =new Audio();
+
 
 
 
@@ -237,26 +238,30 @@ export class ChatComponent implements OnInit {
 
     captureAudio() {
         this.mediaCapture.captureAudio().then(res => {
-          console.log("audio  "+res[0].name )
-          this.storeAudioFiles(res);
-          console.log("audio0000  "+res[0].name )
-          this.filePath.resolveNativePath(res[0].localURL)
+          console.log("audio  "+res[0].length );
+          console.log("audio0000  "+res[0].name );
+          console.log('Audio response',res[0].fullPath);
+          this.filePath.resolveNativePath(res[0].fullPath)
                     .then(filePath => {
+                        console.log("Audio file path",filePath);
                         let correctPath = filePath.substr(0, filePath.lastIndexOf('/') + 1);
-                        let currentName = res[0].localURL.substring(res[0].localURL.lastIndexOf('/') + 1, res[0].localURL.lastIndexOf('?'));
-                        this.aud = {
+                        let currentName = res[0].name;
+                        console.log("Audio correct path",correctPath);
+                        console.log("Audio current name",currentName);
+                        this.med = {
                             path: correctPath + currentName,
                             currentName: currentName,
                             correctPath: correctPath
                         };
-                        this.uploadAudio(this.aud.path);
+                        this.uploadAudio(this.med.path);
                         this.audio={
                             sender_id:this.pId,
                             receiver_id:this.doctor.doctorId,
                             msg_body:"",
                             fcm_token:this.doctor.fcmtoken,
-                            media:this.pathForImage(this.aud.path),
+                            media:this.pathForImage(this.med.path),
                         };
+                        console.log("Audio object",this.med);
                         this.newMessages.push(this.audio);
                         this.loading=true;
                         this.ref.detectChanges();
@@ -267,25 +272,23 @@ export class ChatComponent implements OnInit {
       createAudioName() {
         var d = new Date(),
             n = d.getTime(),
-            newFileName = n + ".m4a";
+            newFileName = n + ".mp3";
         return newFileName;
       }
-      storeAudioFiles(files) {
-        this.storage.get(AUDIO_FILES_KEY).then(res => {
-          if (res) {
-            let arr = JSON.parse(res);
-            arr = arr.concat(files);
-            this.storage.set(AUDIO_FILES_KEY, JSON.stringify(arr));
-          } else {
-            this.storage.set(AUDIO_FILES_KEY, JSON.stringify(files))
-          }
-          this.audioFiles = this.audioFiles.concat(files);
-        })
-      }
+      // storeAudioFiles(files) {
+      //   this.storage.get(AUDIO_FILES_KEY).then(res => {
+      //     if (res) {
+      //       let arr = JSON.parse(res);
+      //       arr = arr.concat(files);
+      //       this.storage.set(AUDIO_FILES_KEY, JSON.stringify(arr));
+      //     } else {
+      //       this.storage.set(AUDIO_FILES_KEY, JSON.stringify(files))
+      //     }
+      //     this.audioFiles = this.audioFiles.concat(files);
+      //   })
+      // }
       uploadAudio(nPa){
         console.log("upload"+nPa);
-      
-      
               this.file.resolveLocalFilesystemUrl(nPa)
                   .then(entry => {
                       ( < FileEntry > entry).file(file => this.readAudio(file))
@@ -317,7 +320,7 @@ export class ChatComponent implements OnInit {
                     console.log("Data Came: ", that.url );
                     that.setMessege();
                     this.ScrollToBottom();
-                    this.copyFileToLocalDir(this.aud.correctPath, this.aud.currentName, this.createAudioName());
+                    this.copyFileToLocalDir(this.med.correctPath, this.med.currentName, this.createAudioName());
 
 
                 },
@@ -342,6 +345,31 @@ export class ChatComponent implements OnInit {
 
 
     }
+    play(myFile) {
+        // if (myFile.name.indexOf('.m4a'||'.mp3' ||'.oog'||'.wav') > -1) {
+        //     const audioFile: MediaObject = this.media.create(myFile.localURL);
+        //     audioFile.play();
+        // }
+        this.audio1 = new Audio(myFile);
+        this.audio1.controls=true;
+        this.audio1.load();
+        this.audio1.addEventListener('loadedmetadata',function(){
+            this.setAttribute('duration',this.duration.toString());
+            console.log('duration metadata',this.duration)
+        },true);
+        this.audio1.addEventListener('loadeddata', function(ev){console.log("Current time", this.currentTime);
+        console.log("duration",this.duration);
+
+        });
+        this.audio1.play().then(()=>console.log("played"));
+
+
+    }
+    pause(){
+        this.audio1.pause();
+    }
+
+
 
       ////////////////////////////////////////////////audiooooooooooooooooooooooooooooooooooooo
       ////////////////////////////////////////////////audiooooooooooooooooooooooooooooooooooooo
@@ -372,20 +400,21 @@ export class ChatComponent implements OnInit {
             if (this.plt.is('android') && sourceType === this.camera.PictureSourceType.PHOTOLIBRARY) {
                 this.filePath.resolveNativePath(imagePath)
                     .then(filePath => {
+                        console.log("Image file path",filePath);
                         let correctPath = filePath.substr(0, filePath.lastIndexOf('/') + 1);
                         let currentName = imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.lastIndexOf('?'));
-                        this.img = {
+                        this.med = {
                             path: correctPath + currentName,
                             currentName: currentName,
                             correctPath: correctPath
                         };
-                        this.startUpload(this.img.path);
+                        this.startUpload(this.med.path);
                         this.image={
                             sender_id:this.pId,
                             receiver_id:this.doctor.doctorId,
                             msg_body:"",
                             fcm_token:this.doctor.fcmtoken,
-                            media:this.pathForImage(this.img.path),
+                            media:this.pathForImage(this.med.path),
                         };
                         this.newMessages.push(this.image);
                         this.loading=true;
@@ -396,18 +425,18 @@ export class ChatComponent implements OnInit {
             } else {
                 var currentName = imagePath.substr(imagePath.lastIndexOf('/') + 1);
                 var correctPath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
-                this.img = {
+                this.med = {
                     path: correctPath + currentName,
                     currentName: currentName,
                     correctPath: correctPath
                 };
-                this.startUpload(this.img.path);
+                this.startUpload(this.med.path);
                 this.image={
                     sender_id:this.pId,
                     receiver_id:this.doctor.doctorId,
                     msg_body:"",
                     fcm_token:this.doctor.fcmtoken,
-                    media:this.pathForImage(this.img.path)
+                    media:this.pathForImage(this.med.path)
                 };
                 this.newMessages.push(this.image);
                 this.loading=true;
@@ -442,6 +471,7 @@ export class ChatComponent implements OnInit {
 
     copyFileToLocalDir(namePath, currentName, newFileName) {
         this.file.copyFile(namePath, currentName, this.file.dataDirectory, newFileName).then(success => {
+            console.log("new audio name",newFileName);
             this.updateStoredImages(newFileName);
         }, error => {
             this.presentToast('Error while storing file.');
@@ -461,6 +491,9 @@ export class ChatComponent implements OnInit {
 
             let filePath = this.file.dataDirectory + name;
             let resPath = this.pathForImage(filePath);
+            console.log("file path in app directory",filePath);
+            console.log("resPath",resPath);
+
 
             let newEntry = {
                 name: name,
@@ -469,7 +502,7 @@ export class ChatComponent implements OnInit {
             };
             console.log("newEntry"+arr);
             this.images = [newEntry, ...this.images];
-            this.newMessages.find(msg=>msg.media==this.pathForImage(this.img.path)).media=resPath;
+            this.newMessages.find(msg=>msg.media==this.pathForImage(this.med.path)).media=resPath;
             this.loading=false;
             this.ref.detectChanges();
         });
@@ -516,7 +549,7 @@ export class ChatComponent implements OnInit {
                     console.log("Data Came: ", that.url );
                     that.setMessege();
                     this.ScrollToBottom();
-                    this.copyFileToLocalDir(this.img.correctPath, this.img.currentName, this.createFileName());
+                    this.copyFileToLocalDir(this.med.correctPath, this.med.currentName, this.createFileName());
 
 
                 },
