@@ -16,6 +16,7 @@ export class DatastreamingService {
    constructor(
      private dataStore: DatastorageService,){}
 
+  
   clearDoctorList()
   {
     this.doctorList=[];
@@ -32,6 +33,7 @@ export class DatastreamingService {
     doctor.years_experience = element[4];
     doctor.relationid=element[5];
     doctor.user_image=element[6];
+    doctor.sessionId = element[7];
     this.doctorList.push(doctor);
   }
   changePatientData(name,age,address)

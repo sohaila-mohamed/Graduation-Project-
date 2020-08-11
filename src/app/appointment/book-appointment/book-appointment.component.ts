@@ -13,7 +13,8 @@ import { doctorData } from 'src/app/model/doctorData';
   styleUrls: ['./book-appointment.component.scss'],
 })
 export class BookAppointmentComponent  {
-
+  showSplash=true;
+  slots=false;
   constructor(
     private http: HttpService,
     private dataCom : InteractionService,
@@ -40,7 +41,7 @@ export class BookAppointmentComponent  {
   ionChange(value)
   {
     let date = value.slice(0,10);
-    console.log(date);
+    // console.log(date);
     let that = this;
     this.http.getMyDoctorFreeSlotsAppointments(date,this.doctor).subscribe(
       (appointment)=>{
@@ -61,17 +62,35 @@ export class BookAppointmentComponent  {
     this.navigate.navigateTo('/home/patient-schedule');
   }
 
+
   ionViewDidEnter() {    
     
-    this.today= new Date().toJSON();    
-
+    
+    this.today= new Date().toJSON();    this.showSplash=true;
+    let array =[];
     let that = this;
     this.dataCom.observableForBookAppointment.subscribe((doctor)=>{
       that.doctor=doctor;
+      this.http.getDoctorSlot(that.doctor.doctorId).subscribe(
+        (appointment)=>{
+          console.log("appointment inside book: ",appointment);
+          array.push(appointment);
+        },
+        (error)=>{
+            console.log("Error", error);
+        }, 
+        ()=>
+        {
+          that.appointments = array;
+          this.showSplash=false;
+        }
+      )
     });
+    console.log("appointments");
+    console.log(this.appointments);
 
-    this.appointments=[];
-    this.openStart();
+    // this.appointments=[];
+    // this.openStart();
 
   }
 

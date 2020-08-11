@@ -1,3 +1,10 @@
+<div *ngIf="showSplash" class="myBackground">
+  <div>
+  <img src="/assets/giphy.gif">
+</div> 
+</div> 
+<div *ngIf="!showSplash">
+
 <ion-header >
   <ion-toolbar class="header">
     <ion-buttons slot="start">
@@ -32,16 +39,16 @@
 
 
 <ion-content >
-
-
-<ion-item><ion-label>  _ {{date}} _ </ion-label></ion-item>
-
     <ion-card *ngFor="let app of appointments" (click)="chooseAppointment(app)"
     style="margin-bottom: 10%;padding-bottom: 10%;  z-index: 0;" >
-    <ion-card-header>
-      <ion-label> From {{app.start_time}} to {{app.end_time}}</ion-label>
+    <ion-card-header>      
+        <ion-label>  {{app.date}}  </ion-label>
     </ion-card-header>
     <ion-card-content>      
+      <ion-item>     
+      <ion-icon name="alarm"></ion-icon> 
+      <ion-label> From {{app.start_time}} to {{app.end_time}}</ion-label>
+      </ion-item>
       <ion-item>
       <ion-icon style="position: absolute;right: 3%;color: #343a40;" name="arrow-forward"></ion-icon>
 
@@ -56,3 +63,4 @@
     </ion-card> 
 
 </ion-content>
+</div>

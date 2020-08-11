@@ -11,6 +11,7 @@ import {doctorData} from 'src/app/model/doctorData';
 import {inboxThread} from "../../model/ConsultationModel";
 import { patient_appointment } from 'src/app/model/myAppointmentModel';
 import { DateFormatService } from 'src/app/services/dateFormatService/date-format.service';
+import { slots } from 'src/app/model/slooots';
 
 
 @Injectable({
@@ -130,7 +131,45 @@ export class HttpService {
 
 
  //----------------------------------------------------------------------------------------------
+ public getDoctorSlot(doctorId){
 
+  let url="http://ec2-3-87-1-35.compute-1.amazonaws.com:3000/api/users/doctor/schedule/"+ doctorId;
+  
+  return this.http.get<any>(url, this.httpOptions).pipe(
+    flatMap(appointments => appointments),
+    map((appointment:slots)=>
+    {
+      if(this.format.compareDate(appointment.date, new Date().toJSON().slice(0,10))!=-1)
+      {
+        let app = JSON.parse(JSON.stringify(appointment));
+        // console.log(app);
+        app.date = this.format.formateJSONDateToDayMonthYear(app.date);
+        // console.log(app);
+        return app; 
+      }
+      
+      
+    })
+  );
+}
+
+getSessionToken(sessionId, time)
+{
+
+  let url ="http://ec2-3-87-1-35.compute-1.amazonaws.com:3000/token"
+  let obj = {
+      "sessionId": sessionId,
+       "expireTime": time
+      
+      };
+  console.log("Object: ", obj);
+  return this.http.post<any>(url,obj, this.httpOptions).pipe(
+    map((token: TokenClass)=>{
+      console.log(token.token);
+      return token;
+    })
+  );
+}
 
 
  createPatient(newPatient):Observable<any>

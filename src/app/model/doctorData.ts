@@ -8,9 +8,12 @@ export class doctorData{
     years_experience: number;
     relationid: number;
     user_image:String;
+    sessionId:String;
       
   
-    constructor(doctorId?: number,
+    constructor(
+      sessionId?:String,
+      doctorId?: number,
       name?: string,
       fcmtoken?: string,
       mobile?: string,
@@ -19,6 +22,7 @@ export class doctorData{
                 user_image?:String
     )
     {
+      this.sessionId = sessionId;
       this.doctorId= doctorId;
       this.name= name;
       this.fcmtoken= fcmtoken;

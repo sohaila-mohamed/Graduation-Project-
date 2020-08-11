@@ -32,10 +32,13 @@ export class PatientAppointmentComponent {
 
     video()
     {
+      this.communication.sendAppointment(this.appointment);
+
       this.router.navigate(['home/video', 1]);
     }
     audio()
     {
+      this.communication.sendAppointment(this.appointment);
       this.router.navigate(['home/video', 2]);
     }
 
