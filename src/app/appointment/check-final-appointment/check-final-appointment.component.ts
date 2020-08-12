@@ -35,10 +35,12 @@ ionViewDidEnter()
 {
   let that = this;
     this.patient = this.data.patient;
+    console.log(this.patient);
 
     this.communication.observableForAppointment.subscribe(
       (app)=> { 
       that.appointment = app;
+console.log(app);
            this.gotIt=true;
 
 

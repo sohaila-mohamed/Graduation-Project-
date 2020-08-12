@@ -34,6 +34,8 @@ export class DoctorListComponent implements OnInit {
          this.http.getDoctorList()
              .subscribe(
                  (doctor)=>{
+                   console.log("doctor");
+                   console.log(doctor);
 
                      this.datastream.doctorList.push(doctor);
 

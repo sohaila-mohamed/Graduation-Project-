@@ -12,7 +12,7 @@ import { doctorData } from 'src/app/model/doctorData';
   templateUrl: './book-appointment.component.html',
   styleUrls: ['./book-appointment.component.scss'],
 })
-export class BookAppointmentComponent  {
+export class BookAppointmentComponent  implements OnInit{
   showSplash=true;
   slots=false;
   constructor(
@@ -40,15 +40,17 @@ export class BookAppointmentComponent  {
  
   ionChange(value)
   {
+    // console.log(this.appointments);
     let date = value.slice(0,10);
     // console.log(date);
     let that = this;
     this.http.getMyDoctorFreeSlotsAppointments(date,this.doctor).subscribe(
       (appointment)=>{
+        
         that.appointments.push(appointment);
       }, 
       (error)=>{
-          console.log(error);
+          console.log("erre: in ionChange:" , error);
       },
       ()=>{
         this.date = date;
@@ -62,35 +64,47 @@ export class BookAppointmentComponent  {
     this.navigate.navigateTo('/home/patient-schedule');
   }
 
+  array:Array<any>=[];
+  ngOnInit() {    
+    
+    this.appointments=[];
 
-  ionViewDidEnter() {    
+    this.today= new Date().toJSON();    
     
-    
-    this.today= new Date().toJSON();    this.showSplash=true;
-    let array =[];
+    this.showSplash=false;
+    this.array =[];
     let that = this;
-    this.dataCom.observableForBookAppointment.subscribe((doctor)=>{
+    console.log("entered");
+    this.dataCom.observableForBookAppointment.subscribe( (doctor)=>{
       that.doctor=doctor;
-      this.http.getDoctorSlot(that.doctor.doctorId).subscribe(
+      console.log("Got Doctor", doctor);
+
+      console.log("docotr came: ", that.doctor.name);
+
+       that.http.getDoctorSlot(that.doctor.doctorId).subscribe(
         (appointment)=>{
-          console.log("appointment inside book: ",appointment);
-          array.push(appointment);
+          // console.log("appointment inside book: ",appointment);
+          if(appointment) 
+          {that.array.push(appointment);
+          console.log(appointment);
+          }
         },
         (error)=>{
             console.log("Error", error);
         }, 
         ()=>
         {
-          that.appointments = array;
-          this.showSplash=false;
+          that.appointments = that.array; 
+          console.log("appointments");
+          console.log(that.appointments);
+          that.showSplash=false;
         }
-      )
+      );
     });
-    console.log("appointments");
-    console.log(this.appointments);
 
-    // this.appointments=[];
-    // this.openStart();
+   
+
+
 
   }
 

@@ -12,14 +12,15 @@ export class doctorData{
       
   
     constructor(
-      sessionId?:String,
       doctorId?: number,
       name?: string,
       fcmtoken?: string,
       mobile?: string,
       years_experience?: number,
       relationid?: number,
-                user_image?:String
+                user_image?:String,
+                sessionId?:String
+
     )
     {
       this.sessionId = sessionId;

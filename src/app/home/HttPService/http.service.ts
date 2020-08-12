@@ -227,7 +227,7 @@ httpGetTokenOptions(accessToken) {
        {
          console.log("doctor inside http: ", doctor);
          return new doctorData(doctor[0], doctor[1], doctor[2],
-           doctor[3], doctor[4],doctor[5],doctor[6]);
+           doctor[3], doctor[4],doctor[5],doctor[6], doctor[7]);
        })
      );
   }
