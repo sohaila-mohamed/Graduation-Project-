@@ -1,0 +1,45 @@
+.header{
+    --background:  #02C39A;
+     color: white;
+     font-weight: bold;
+     font-size: large;
+text-align: center;
+}
+.new{
+  height: 100%;
+  width: 100%;
+}
+.colorGrey{
+  color: #383838;
+}
+
+.wrapper{
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  width: fit-content;
+  height: fit-content;
+  padding: 15%;
+  margin: 7%;
+  background: linear-gradient(145deg, #02d1a5, #02b08b);
+  box-shadow:  -3px -3px 2px #029e7d,
+  3px 3px 2px #02e8b7;
+  z-index: 3;
+
+}
+
+ion-row {
+    border: 2px solid #02C39A;
+    border-radius: 10%;
+    text-align: center;
+    font-size: smaller;
+  }
+
+  .border{
+    border: 2px solid #02C39A;
+    border-top: 2px;
+    border-bottom: 2px;
+  }
+  

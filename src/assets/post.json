@@ -1,0 +1,11 @@
+[
+    {
+        "appointment_id": 40,
+        "schedule_id": 7,
+        "doctor_id": 86,
+        "date": "2021-06-13",
+        "start_time": "11:00 AM",
+        "end_time": "11:15 AM",
+        "slot_duration": 15
+    }
+]

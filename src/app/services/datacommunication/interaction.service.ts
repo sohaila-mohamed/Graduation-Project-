@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Subject, BehaviorSubject } from 'rxjs';
-import { newMessage } from 'src/app/model/newMessage';
-import { Iconvs } from 'src/app/home/DataModels';
-import {last, takeLast} from "rxjs/operators";
+import { BehaviorSubject } from 'rxjs';
 import {doctorData} from '../../model/doctorData';
+import { patient_appointment } from 'src/app/model/myAppointmentModel';
 
 @Injectable({
   providedIn: 'root'
@@ -51,4 +49,21 @@ export class InteractionService {
   getDoctorData():doctorData{
      return  this.DoctorData.getValue();
   }
+
+
+
+  //appointment
+  private behavioralsubjForAppointment= new BehaviorSubject<any>(new patient_appointment);
+observableForAppointment =this.behavioralsubjForAppointment.asObservable();
+
+sendAppointment(app: patient_appointment){
+ this.behavioralsubjForAppointment.next( app);
+ }
+   
+private behavioralsubjForBookAppointment= new BehaviorSubject<any>(new doctorData);
+observableForBookAppointment =this.behavioralsubjForBookAppointment.asObservable();
+
+ sendDoctorForBookedAppointment(doc: doctorData){
+ this.behavioralsubjForBookAppointment.next( doc);
+ }
 }

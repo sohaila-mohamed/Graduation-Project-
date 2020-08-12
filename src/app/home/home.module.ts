@@ -1,6 +1,6 @@
 import { NgModule, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ActionSheetController } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HomePage } from './home.page';
@@ -20,6 +20,15 @@ import { ScheduleComponent } from './schedule/schedule.component';
 import { AutosizeModule } from 'ngx-autosize';
 import {DoctorProfileComponent} from './doctor-profile/doctor-profile.component';
 import {NetworkService} from "../services/Network/network.service";
+import { VideoComponent } from '../appointment/video/video.component';
+import { PatientScheduleComponent } from '../appointment/patient-schedule/patient-schedule.component';
+import { BookAppointmentComponent } from '../appointment/book-appointment/book-appointment.component';
+import { CreatedAppointmentComponent } from '../appointment/created-appointment/created-appointment.component';
+import { CheckFinalAppointmentComponent } from '../appointment/check-final-appointment/check-final-appointment.component';
+import { PatientAppointmentComponent } from '../appointment/patient-appointment/patient-appointment.component';
+import { InteractionService } from '../services/datacommunication/interaction.service';
+import { DatePicker } from '@ionic-native/date-picker/ngx';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 
 
 
@@ -83,6 +92,31 @@ import {NetworkService} from "../services/Network/network.service";
             component: ConvListComponent
           }
          ]  
+      },
+      {
+        path:'video/:id', 
+        component:VideoComponent
+      },
+     
+      {
+        path:'patient-schedule',
+        component: PatientScheduleComponent
+      },
+      {
+        path:'patient-book-appointment',
+        component: BookAppointmentComponent
+      },
+      {
+        path:'created-appointment',
+        component: CreatedAppointmentComponent
+      },
+      {
+        path:'check-final-appointment',
+        component: CheckFinalAppointmentComponent
+      },
+      {
+        path:'patient-appointment',
+        component: PatientAppointmentComponent
       }
       
       
@@ -92,6 +126,10 @@ import {NetworkService} from "../services/Network/network.service";
     NavigationService,
     HttpService,
     NetworkService,
+    InteractionService,
+    DatePicker,
+    ActionSheetController,
+    AndroidPermissions
   ],
   declarations: [HomePage,
     VitalsComponent,
@@ -104,7 +142,13 @@ import {NetworkService} from "../services/Network/network.service";
     ConversationsComponent,
     ConvListComponent,
     ScheduleComponent,
-    DoctorProfileComponent
+    DoctorProfileComponent,
+    PatientScheduleComponent,
+    CheckFinalAppointmentComponent,
+    CreatedAppointmentComponent,
+    VideoComponent,
+    BookAppointmentComponent,
+    PatientAppointmentComponent
   ]
 })
 export class HomePageModule {}
