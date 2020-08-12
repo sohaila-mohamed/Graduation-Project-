@@ -111,7 +111,9 @@ export class BookAppointmentComponent  implements OnInit{
 
   chooseAppointment(appointment)
   {
-    
+    console.log(this.doctor);
+    appointment.doctor= this.doctor;
+    console.log("APPOINTMENT: ", appointment);
     this.dataCom.sendAppointment(appointment);
     this.navigate.navigateTo('/home/check-final-appointment');
   }
