@@ -15,35 +15,29 @@ import { DatastreamingService } from 'src/app/services/datastream/datastreaming.
 export class CheckFinalAppointmentComponent {
 
   appointment : patient_appointment;
- 
   doctor: doctorData;
- 
   patient;
-
   
   constructor(
     private actionSheetController: ActionSheetController,
     private communication: InteractionService, 
     private navigate: NavigationService, 
-    private data: DatastreamingService, 
-    
-     
-  ) { 
+    private data: DatastreamingService) { 
   }
   gotIt=false;
+
 ionViewDidEnter()
 {
   let that = this;
     this.patient = this.data.patient;
+
     console.log(this.patient);
 
     this.communication.observableForAppointment.subscribe(
       (app)=> { 
-      that.appointment = app;
-console.log(app);
-           this.gotIt=true;
-
-
+          that.appointment = app;
+          console.log(app);
+          this.gotIt=true;
     });
   }
 
