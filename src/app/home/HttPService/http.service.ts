@@ -131,45 +131,8 @@ export class HttpService {
 
 
  //----------------------------------------------------------------------------------------------
- public getDoctorSlot(doctorId){
 
-  let url="http://ec2-3-87-1-35.compute-1.amazonaws.com:3000/api/users/doctor/schedule/"+ doctorId;
-  
-  return this.http.get<any>(url, this.httpOptions).pipe(
-    flatMap(appointments => appointments),
-    map((appointment:slots)=>
-    {
-      if(this.format.compareDate(appointment.date, new Date().toJSON().slice(0,10))!=-1)
-      {
-        let app = JSON.parse(JSON.stringify(appointment));
-        // console.log(app);
-        app.date = this.format.formateJSONDateToDayMonthYear(app.date);
-        // console.log(app);
-        return app; 
-      }
-      
-      
-    })
-  );
-}
 
-getSessionToken(sessionId, time)
-{
-
-  let url ="http://ec2-3-87-1-35.compute-1.amazonaws.com:3000/token"
-  let obj = {
-      "sessionId": sessionId,
-       "expireTime": time
-      
-      };
-  console.log("Object: ", obj);
-  return this.http.post<any>(url,obj, this.httpOptions).pipe(
-    map((token: TokenClass)=>{
-      console.log(token.token);
-      return token;
-    })
-  );
-}
 
 
  createPatient(newPatient):Observable<any>
@@ -345,12 +308,12 @@ getPatientAppointments()
 
 getMyDoctorFreeSlotsAppointments(date:string,doctor:doctorData)
 {
-  // let url = "http://ec2-3-87-1-35.compute-1.amazonaws.com:3000/api/users/doctor/day/slots/"+doctor.doctorId;
-//     let obj = {date:"2020-06-07"};
+  let url = "http://ec2-3-87-1-35.compute-1.amazonaws.com:3000/api/users/doctor/day/slots/"+doctor.doctorId;
+    let obj = {date:date};
 
- let url = 'assets/post.json';
+//  let url = 'assets/post.json';
 // return this.http.post<any>(url,obj,this.httpOptions).
-  return this.http.get<any>(url,this.httpOptions).pipe(
+  return this.http.post<any>(url,obj,this.httpOptions).pipe(
       flatMap(appointments => appointments),
       map((appointment:patient_appointment)=>
       {
@@ -365,17 +328,62 @@ getMyDoctorFreeSlotsAppointments(date:string,doctor:doctorData)
 }
 setappointment(app)
 {
-  let url = "http://ec2-3-87-1-35.compute-1.amazonaws.com:3000/api/user/patient/appointment/"+ this.dataStream.patient.patient_id;
+  let url = "http://ec2-3-87-1-35.compute-1.amazonaws.com:3000/api/user/patient/appointment/"+
+   this.dataStream.patient.patient_id;
 
   // let appointment = JSON.parse(JSON.stringify(app));
   // appointment.date = this.format.formateDateToJSON(appointment.date);
   // appointment.time = this.format.formatTimetoJSONADDSeconds(appointment.start_time);     
   let obj = {
-    slot_id: app.appointment_id
+    slot_id: app.slot_id
   }
 
+  console.log("Object: ", obj);
   return this.http.put<any>(url,obj,this.httpOptions);
 
+}
+public getDoctorSlot(doctorId){
+
+  let url="http://ec2-3-87-1-35.compute-1.amazonaws.com:3000/api/users/doctor/free/slots/"+ 
+  doctorId;
+  
+  return this.http.get<any>(url, this.httpOptions).pipe(
+    flatMap(appointments => appointments),
+    map((appointment:slots)=>
+    {
+      console.log("mapping slot");
+      console.log(appointment);
+      console.log(" ");
+      if(this.format.compareDate(appointment.date, new Date().toJSON().slice(0,10))!=-1)
+      {
+        let app = JSON.parse(JSON.stringify(appointment));
+        // console.log(app);
+        app.date = this.format.formateJSONDateToDayMonthYear(app.date);
+        // console.log(app);
+        return app; 
+      }
+      
+      
+    })
+  );
+}
+
+getSessionToken(sessionId, time)
+{
+
+  let url ="http://ec2-3-87-1-35.compute-1.amazonaws.com:3000/token"
+  let obj = {
+      "sessionId": sessionId,
+       "expireTime": time
+      
+      };
+  console.log("Object: ", obj);
+  return this.http.post<any>(url,obj, this.httpOptions).pipe(
+    map((token: TokenClass)=>{
+      console.log(token.token);
+      return token;
+    })
+  );
 }
 }
 

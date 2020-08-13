@@ -48,13 +48,17 @@
     </ion-card-header>
     <ion-card-content>      
       <ion-item>     
-      <ion-icon name="alarm">   </ion-icon> 
-      <ion-label> From {{app.start_time}} to {{app.end_time}}</ion-label>
+      <ion-icon name="stopwatch" size="large">   </ion-icon> 
+      <ion-label> From:  {{app.start_time}} </ion-label>
       </ion-item>
+      <ion-item>     
+        <ion-icon name="timer" size="large">   </ion-icon> 
+        <ion-label> To: {{app.end_time}}</ion-label>
+        </ion-item>
       <ion-item> 
       <ion-icon style="position: absolute;right: 3%;color: #343a40;" name="arrow-forward"></ion-icon> 
-      <ion-icon name="hourglass"></ion-icon>      
-      <ion-label>    For: {{app.slot_duration}} minutes</ion-label>
+      <ion-icon name="hourglass" size="large"></ion-icon>      
+      <ion-label> For: {{app.slot_duration}} minutes</ion-label>
       </ion-item>
     </ion-card-content>
         

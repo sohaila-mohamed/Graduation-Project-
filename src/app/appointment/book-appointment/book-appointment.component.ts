@@ -86,7 +86,6 @@ export class BookAppointmentComponent  implements OnInit{
           // console.log("appointment inside book: ",appointment);
           if(appointment) 
           {that.array.push(appointment);
-          console.log(appointment);
           }
         },
         (error)=>{
@@ -95,14 +94,14 @@ export class BookAppointmentComponent  implements OnInit{
         ()=>
         {
           that.appointments = that.array; 
-          console.log("appointments");
-          console.log(that.appointments);
+      
           that.showSplash=false;
         }
       );
     });
 
-   
+       console.log("appointments");
+          console.log(that.appointments);
 
 
 
