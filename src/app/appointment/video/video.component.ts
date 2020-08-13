@@ -189,15 +189,15 @@ console.log("onDestroy");
 
 
     this.publisher = OT.initPublisher('publisher', this.publishOptions);
-    // this.publisher.on({
-    //   accessDialogOpened: function (event) {
-    //     console.log("The Allow/Deny dialog box is opened");
+    this.publisher.on({
+      accessDialogOpened: function (event) {
+        console.log("The Allow/Deny dialog box is opened");
         
-    //   },
-    //   accessDialogClosed: function (event) {
-    //     console.log("The Allow/Deny dialog box is closed.");
-    //   }
-    // });
+      },
+      accessDialogClosed: function (event) {
+        console.log("The Allow/Deny dialog box is closed.");
+      }
+    });
     let that = this;
 
     // this.myCondition=false;

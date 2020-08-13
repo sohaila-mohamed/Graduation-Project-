@@ -6,9 +6,11 @@
 </div> 
   <ion-grid class="background">
       <ion-row>
-          <ion-col size="3" sizeLg="3" sizeSm="1" sizeMd="2" sizeXs="2"></ion-col>
+          <ion-col size="3" sizeLg="3" sizeSm="1" sizeMd="2" sizeXs="2">
+          </ion-col>
           <ion-col size="6" sizeLg="6" sizeMd="8" sizeSm="10" sizeXs="8">
-              <ion-toolbar text-center>
+              <ion-toolbar >
+                  <img class="logo" src="assets/011.png">
                   <div class="wrapper">
                       <div class="profile-img-frame">
                           <div class="profile-img-holder">
@@ -17,7 +19,7 @@
                           </div>
                       </div>
                   </div>
-                  <h1 class="middle-text user-name">{{datastream.patient.name}}</h1>
+                  <h1 class="middle-text user-name" text-uppercase>{{datastream.patient.name}}</h1>
 
               </ion-toolbar>
 
@@ -42,11 +44,11 @@
   </ion-grid >
   <ion-row class="main-card">
     <ion-grid>
-      <ion-row>
-          <ion-col col-6 >
+      <ion-row >
+          <ion-col size="6"  >
               <div class="mini-card" (click)="NavigateMe('home/vitals')" >
                 <div class="center" >
-                    <img class="icon" src="assets/vitals2.png">
+                    <img class="icon" src="assets/vitals3.png">
 
                 </div>
                 
@@ -57,36 +59,26 @@
                   
               </div>
             </ion-col>
-            <ion-col col-6 >
-              <div class="mini-card" (click)="NavigateMe('home/doctorList')" >
-                <div class="center" >
-                      <img class="icon" src="assets/clock.png">
-  
-                  </div>
-                  
-                  <div class="middle-text">
-                     Schedule
-                  </div>
-              </div>
-            </ion-col>
-      </ion-row>
-      <ion-row>
-          <ion-col col-6 >
+
+          <ion-col size="6" >
               <div class="mini-card" (click)="conv()">
                   <div class="center" >
-                      <img class="icon" src="assets/message.png">
-  
+                      <img class="icon" src="assets/chat3.png">
+
                   </div>
-                  
+
                   <div class="middle-text">
-                     Conversations
+                      Conversations
                   </div>
               </div>
-            </ion-col>
-            <ion-col col-6 >
+          </ion-col>
+      </ion-row>
+      <ion-row>
+
+            <ion-col size="6" >
               <div  class="mini-card" (click)="newMessage()" >
                   <div class="center" >
-                      <img class="icon" src="assets/list.png">
+                      <img class="icon" src="assets/list3.png">
   
                   </div>
                   
@@ -95,13 +87,25 @@
                   </div>
               </div>
             </ion-col>
+          <ion-col size="6"  >
+              <div class="mini-card"  >
+                  <div class="center" >
+                      <img class="icon" src="assets/trainer3.png">
+
+                  </div>
+
+                  <div class="middle-text">
+                      Trainers List
+                  </div>
+              </div>
+          </ion-col>
 
       </ion-row>
       <ion-row>
-        <ion-col col-6 >
+        <ion-col size="6" >
             <div class="mini-card" (click)="NavigateMe('home/patient-schedule')">
                 <div class="center" >
-                    <img class="icon" src="assets/schedule.png">
+                    <img class="icon" src="assets/scheule3.png">
 
                 </div>
                 
@@ -110,10 +114,10 @@
                 </div>
             </div>
           </ion-col>
-          <ion-col col-6 >
+          <ion-col size="6" >
             <div  class="mini-card" (click)="CreateNew()" >
                 <div class="center" >
-                    <img class="icon" src="assets/add_appointment.png">
+                    <img class="icon" src="assets/appoint3.png">
 
                 </div>
                 
@@ -127,7 +131,7 @@
     </ion-grid>
   </ion-row>
 
-   <app-fab></app-fab>
+<!--   <app-fab></app-fab>-->
 
 
 
