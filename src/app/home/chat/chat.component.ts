@@ -535,7 +535,6 @@ export class ChatComponent implements OnInit {
 
         reader.onloadend = () => {
 
-            console.log("ressssssss"+reader.result);
             const formData = new FormData();
             const imgBlob = new Blob([reader.result], {type: file.type });
             console.log("blob"+JSON.stringify(imgBlob));
